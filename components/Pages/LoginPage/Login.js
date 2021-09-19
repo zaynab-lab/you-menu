@@ -3,7 +3,7 @@ import { styles } from "../../../public/js/styles";
 import Button from "../../Button";
 import Phone from "./Phone";
 
-export default function () {
+export default function ({ setAuth }) {
   const [waiting, setwaiting] = useState(false);
   const [msg, setMsg] = useState();
   const [phone, setPhone] = useState("");
@@ -42,6 +42,7 @@ export default function () {
             } else {
               if (verification.length === 5) {
                 setMsg("loging in ..... ");
+                setAuth(true);
               } else {
                 setMsg("wrong verification code");
               }

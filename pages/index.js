@@ -1,8 +1,10 @@
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import LoginPage from "../components/Pages/LoginPage";
-import StorePage from "../components/Pages/StorePage";
+
+const StorePage = dynamic(() => import("../components/Pages/StorePage"));
 
 export default function () {
-  const [auth, setAuth] = useState(true);
-  return <>{auth ? <LoginPage /> : <StorePage />}</>;
+  const [auth, setAuth] = useState(false);
+  return <>{auth ? <StorePage /> : <LoginPage setAuth={setAuth} />}</>;
 }
