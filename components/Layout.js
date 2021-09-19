@@ -16,6 +16,10 @@ const Layout = ({ children }) => {
       <div className="app">{children}</div>
 
       <style jsx global>{`
+        .app {
+          height: 100vh;
+          overflow: hidden;
+        }
         * {
           margin: 0;
           padding: 0;

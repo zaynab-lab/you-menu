@@ -13,9 +13,9 @@ export default function () {
       .logo-bar{
         color:white;
         background: ${styles.lineargradeint};
-        font-size:4.2rem;
+        font-size:5rem;
         padding:1rem 0 2rem 0;
-        line-height:2.7rem;
+        line-height:3.4rem;
         display:flex;
         align-items:center;
         flex-direction:column;
@@ -24,9 +24,9 @@ export default function () {
         
     .you{
         color:black;
-        -webkit-transform:translateX(-2rem);
-        -ms-transform:translateX(-2rem);
-        transform:translateX(-2rem);
+        -webkit-transform:translateX(-2.4rem);
+        -ms-transform:translateX(-2.4rem);
+        transform:translateX(-2.4rem);
         }
     .line{
         height:.5rem;

@@ -19,6 +19,7 @@ export default function () {
             <div className="input-container">
               <input
                 className="input"
+                type="number"
                 value={verification}
                 onChange={(e) => setVerification(e.target.value)}
               />
