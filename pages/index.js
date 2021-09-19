@@ -1,11 +1,8 @@
-import Login from "../components/Login";
-import LogoBar from "../components/LogoBar";
+import { useState } from "react";
+import LoginPage from "../components/Pages/LoginPage";
+import StorePage from "../components/Pages/StorePage";
 
 export default function () {
-  return (
-    <>
-      <LogoBar />
-      <Login />
-    </>
-  );
+  const [auth, setAuth] = useState(true);
+  return <>{auth ? <LoginPage /> : <StorePage />}</>;
 }

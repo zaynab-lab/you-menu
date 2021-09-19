@@ -3,7 +3,8 @@ export const styles = {
   lineargradeint: "linear-gradient(45deg,#FF4588,#F96465,#F38640)",
   primaryColor: "#F38640",
   secondaryColor: "#F96465",
-  thirdColor: "#FF4588"
+  thirdColor: "#FF4588",
+  grey: "#8f8f8f"
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",
