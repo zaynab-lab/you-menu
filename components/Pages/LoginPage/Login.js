@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { styles } from "../public/js/styles";
-import Button from "./Button";
-import Phone from "./form/Phone";
+import { styles } from "../../../public/js/styles";
+import Button from "../../Button";
+import Phone from "./Phone";
 
 export default function () {
   const [waiting, setwaiting] = useState(false);
   const [msg, setMsg] = useState();
   const [phone, setPhone] = useState("");
   const [verification, setVerification] = useState("");
+
   return (
     <>
       <div className="form">
@@ -26,6 +27,7 @@ export default function () {
             </div>
           </>
         )}
+
         <div className="msg">{msg}</div>
         <Button
           content={"confirm"}
@@ -47,18 +49,19 @@ export default function () {
           }}
         />
       </div>
+
       <style>{`
       .form{
         padding:3rem 1rem;
-        display:-webkit-box; 
-        display:-ms-flexbox; 
-        display:flex; 
-        -webkit-box-orient:vertical; 
-        -webkit-box-direction:normal; 
-        -ms-flex-direction:column; 
-        flex-direction:column; 
-        -webkit-box-align:center; 
-        -ms-flex-align:center; 
+        display:-webkit-box;
+        display:-ms-flexbox;
+        display:flex;
+        -webkit-box-orient:vertical;
+        -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+        flex-direction:column;
+        -webkit-box-align:center;
+        -ms-flex-align:center;
         align-items:center;
         max-width:100vw;
         position:relative;
@@ -70,18 +73,14 @@ export default function () {
         min-height:100%;
         width:100%;
         z-index:-1;
-        }
-        
-        
+      }
       .label{
         font-size:1.2rem;
         margin:.5rem 0 .2rem 0;
         width:100%;
         align-text:left;
         max-width:25rem;
-        }
-        
-        
+      }
       .input-container{
         -webkit-box-shadow: 0 0px 8px 0 grey;
         box-shadow: 0 0px 8px 0 grey;

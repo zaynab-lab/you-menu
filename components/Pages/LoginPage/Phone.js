@@ -26,8 +26,7 @@ export default function ({ waiting, phone, setPhone }) {
         width:100%;
         align-text:left;
         max-width:25rem;
-        }
-        
+      }
       .main-container{
         display:flex;
         align-items:center;
@@ -48,7 +47,7 @@ export default function ({ waiting, phone, setPhone }) {
         height:-moz-fit-content;
         height:fit-content;
         border-radius:.5rem;
-        }
+      }
       .input{
         border:none;
         border-radius:.5rem;
@@ -56,9 +55,8 @@ export default function ({ waiting, phone, setPhone }) {
         max-width:100%;
         width:100%;
         padding: 0 .5rem;
-        
-        }  
-        `}</style>
+      }
+      `}</style>
     </>
   );
 }
