@@ -1,3 +1,5 @@
+import { styles } from "../../../public/js/styles";
+
 export default function ({ waiting, phone, setPhone }) {
   return (
     <>
@@ -28,8 +30,7 @@ export default function ({ waiting, phone, setPhone }) {
         max-width:25rem;
       }
       .main-container{
-        display:flex;
-        align-items:center;
+        ${styles.flexAligncenter}
         gap:.5rem;
         max-width:25rem;
       }
@@ -41,11 +42,8 @@ export default function ({ waiting, phone, setPhone }) {
         border-radius:.5rem;
       }
       .input-container{
-        -webkit-box-shadow: 0 0px 8px 0 grey;
-        box-shadow: 0 0px 8px 0 grey;
-        height:-webkit-fit-content;
-        height:-moz-fit-content;
-        height:fit-content;
+        ${styles.boxshadow}
+        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
         border-radius:.5rem;
       }
       .input{

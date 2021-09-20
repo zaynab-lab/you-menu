@@ -4,7 +4,13 @@ export const styles = {
   primaryColor: "#F38640",
   secondaryColor: "#F96465",
   thirdColor: "#FF4588",
-  grey: "#8f8f8f"
+  grey: "#8f8f8f",
+  boxshadow:
+    "-webkit-box-shadow: 0 0px 8px 0 grey;box-shadow: 0 0px 8px 0 grey;",
+  flexAligncenter:
+    "display:-webkit-box; display:-ms-flexbox; display:flex; -webkit-box-align:center; -ms-flex-align:center; align-items:center;",
+  flexJustifycenter:
+    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;"
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",

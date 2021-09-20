@@ -7,7 +7,7 @@ import Orders from "./Orders";
 const Add = dynamic(() => import("./Add"));
 const More = dynamic(() => import("./More"));
 
-export default function () {
+export default function Index() {
   const [selected, setSelected] = useState("Orders");
   return (
     <>

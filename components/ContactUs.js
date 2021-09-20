@@ -14,6 +14,7 @@ export default function () {
       text-align:center;
       position:absolute;
       bottom:0;
+      cursor:pointer
     }
     `}</style>
     </>

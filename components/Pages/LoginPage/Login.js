@@ -3,7 +3,7 @@ import { styles } from "../../../public/js/styles";
 import Button from "../../Button";
 import Phone from "./Phone";
 
-export default function ({ setAuth }) {
+export default function Login({ setAuth }) {
   const [waiting, setwaiting] = useState(false);
   const [msg, setMsg] = useState();
   const [phone, setPhone] = useState("");
@@ -12,7 +12,7 @@ export default function ({ setAuth }) {
   return (
     <>
       <div className="form">
-        <img className="img" src="/img/pattern.png" alt="pattern" />
+        <img className="img" src="/img/ptrn.png" alt="pattern" />
         <Phone waiting={waiting} phone={phone} setPhone={setPhone} />
         {waiting && (
           <>
@@ -54,24 +54,17 @@ export default function ({ setAuth }) {
       <style>{`
       .form{
         padding:3rem 1rem;
-        display:-webkit-box;
-        display:-ms-flexbox;
-        display:flex;
-        -webkit-box-orient:vertical;
-        -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-        flex-direction:column;
-        -webkit-box-align:center;
-        -ms-flex-align:center;
-        align-items:center;
+        ${styles.flexAligncenter}
+        -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
         max-width:100vw;
         position:relative;
       }
       .img{
-        opacity:.04;
+        opacity:.03;
         position:absolute;
         top:0;
-        min-height:100%;
+        min-height:100vh;
+        min-width:100vw;
         width:100%;
         z-index:-1;
       }
@@ -83,11 +76,8 @@ export default function ({ setAuth }) {
         max-width:25rem;
       }
       .input-container{
-        -webkit-box-shadow: 0 0px 8px 0 grey;
-        box-shadow: 0 0px 8px 0 grey;
-        height:-webkit-fit-content;
-        height:-moz-fit-content;
-        height:fit-content;
+        ${styles.boxshadow}
+        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
         border-radius:.5rem;
       }
       .input{

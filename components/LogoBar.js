@@ -16,17 +16,14 @@ export default function () {
         font-size:5rem;
         padding:1rem 0 2rem 0;
         line-height:3.4rem;
-        display:flex;
-        align-items:center;
-        flex-direction:column;
+        ${styles.flexAligncenter}
+        -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
         border-radius: 0 0 .5rem .5rem;
         }
         
     .you{
         color:black;
-        -webkit-transform:translateX(-2.4rem);
-        -ms-transform:translateX(-2.4rem);
-        transform:translateX(-2.4rem);
+        -webkit-transform:translateX(-2.4rem);-ms-transform:translateX(-2.4rem);transform:translateX(-2.4rem);
         }
     .line{
         height:.5rem;

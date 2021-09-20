@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styles } from "../../../public/js/styles";
 import Add from "../../icons/Add";
 import More from "../../icons/More";
@@ -15,15 +14,17 @@ export default function ({ selected, setSelected }) {
         </div>
         <div onClick={() => setSelected("Orders")} className="icon">
           <Orders
-            color={selected === "Orders" ? styles.primaryColor : styles.grey}
+            color={selected === "Orders" ? styles.secondaryColor : styles.grey}
           />
         </div>
         <div onClick={() => setSelected("Add")} className="icon add">
-          <Add color={selected === "Add" ? styles.primaryColor : styles.grey} />
+          <Add
+            color={selected === "Add" ? styles.secondaryColor : styles.grey}
+          />
         </div>
         <div onClick={() => setSelected("More")} className="icon">
           <More
-            color={selected === "More" ? styles.primaryColor : styles.grey}
+            color={selected === "More" ? styles.secondaryColor : styles.grey}
           />
         </div>
       </div>
@@ -33,8 +34,7 @@ export default function ({ selected, setSelected }) {
         width:100vw;
         position:absolute;
         bottom:0;
-        display:flex;
-        align-items:center;
+        ${styles.flexAligncenter}
         z-index:1;
       }
       .mouth{
@@ -43,23 +43,19 @@ export default function ({ selected, setSelected }) {
         width:100vw;
         height:100% ;
         z-index:-1;
-        display:flex;
-        -webkit-box-pack:center;
-        -ms-flex-pack:center;
-        justify-content:center;
+        ${styles.flexJustifycenter}
       }
       .center{
         background: white;
         width:6rem;
         border-radius:0 0 6rem 6rem;
-        border:1px solid #dd6b4d;
+        border:1px solid ${styles.secondaryColor};
         border-top:0;
         bottom:0;
         margin-bottom:.6rem;
       }
       .center:before{
         content:'';
-        background: #dd6b4d;
         display:block;
         position: absolute;
         right:0;
@@ -68,13 +64,12 @@ export default function ({ selected, setSelected }) {
         width:calc(50vw - 3rem + 2px);
         height:30%;
         border-radius:100rem 0 0 0 ;
-        border:solid #dd6b4d;
+        border:solid ${styles.secondaryColor};
         border-width: 1px 0 0 1px;
       }
     
       .center:after{
         content:'';
-        background: #dd6b4d;
         display:block;
         position: absolute;
         left:0;
@@ -83,14 +78,14 @@ export default function ({ selected, setSelected }) {
         width:calc(50vw - 3rem + 2.5px);
         height:30%;
         border-radius:0 100rem 0 0 ;
-        border:solid #dd6b4d;
+        border:solid ${styles.secondaryColor};
         border-width: 1px 1px 0 0;
          }
         .center div{
           background:white;
           width:calc(6rem + 3px);
           height:20%;
-          transform:translateX(-4px)
+          -webkit-transform:translateX(-4px);-ms-transform:translateX(-4px);transform:translateX(-4px)
         }
   
       .icon{
@@ -100,7 +95,7 @@ export default function ({ selected, setSelected }) {
         cursor:pointer;
       }
       .add{
-        transform:translateY(-1rem);
+        -webkit-transform:translateY(-1rem);-ms-transform:translateY(-1rem);transform:translateY(-1rem);
       }
       `}
       </style>

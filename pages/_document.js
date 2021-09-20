@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
-const APP_NAME = "قسائم البنزين قضاء النبطية";
+const APP_NAME = "you menu";
 const APP_DESCRIPTION = "";
 
 export default class extends Document {

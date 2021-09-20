@@ -1,3 +1,10 @@
+import Accept from "./Accept";
+
 export default function () {
-  return <>I am orders</>;
+  return (
+    <>
+      <Accept />
+      <div>orders steps</div>
+    </>
+  );
 }
