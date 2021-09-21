@@ -14,7 +14,7 @@ export default function ContuctUs() {
       text-align:center;
       position:absolute;
       bottom:0;
-      cursor:pointer
+      cursor:pointer;
     }
     `}</style>
     </>

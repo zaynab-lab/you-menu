@@ -35,7 +35,8 @@ export default function MenuBar({ selected, setSelected }) {
         position:absolute;
         bottom:0;
         ${styles.flexAligncenter}
-        z-index:1;
+        z-index:3;
+        background:white;
       }
       .mouth{
         position:absolute;

@@ -58,6 +58,7 @@ export default function Login({ setAuth }) {
         -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
         max-width:100vw;
         position:relative;
+        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
       }
       .img{
         opacity:.03;
