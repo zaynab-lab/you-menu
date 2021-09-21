@@ -1,13 +1,12 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 const APP_NAME = "you menu";
-const APP_DESCRIPTION = "";
+const APP_DESCRIPTION = "menu for every store";
 
 export default class extends Document {
   static async getInitialProps(ctx) {
     return await Document.getInitialProps(ctx);
   }
-
   render() {
     return (
       <Html lang="en" dir="ltr">

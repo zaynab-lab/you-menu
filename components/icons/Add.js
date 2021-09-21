@@ -1,4 +1,4 @@
-export default function ({ color }) {
+export default function Add({ color }) {
   return (
     <>
       <svg

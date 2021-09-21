@@ -1,6 +1,6 @@
 import { styles } from "../public/js/styles";
 
-export default function () {
+export default function LogoBar() {
   return (
     <>
       <div className="logo-bar">

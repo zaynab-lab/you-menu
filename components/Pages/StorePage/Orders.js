@@ -1,6 +1,6 @@
 import Accept from "./Accept";
 
-export default function () {
+export default function Orders() {
   return (
     <>
       <Accept />

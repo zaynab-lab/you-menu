@@ -3,7 +3,7 @@ import Add from "../../icons/Add";
 import More from "../../icons/More";
 import Orders from "../../icons/Orders";
 
-export default function ({ selected, setSelected }) {
+export default function MenuBar({ selected, setSelected }) {
   return (
     <>
       <div className="menu-container">

@@ -1,6 +1,6 @@
 import { styles } from "../public/js/styles";
 
-export default function () {
+export default function Line() {
   return (
     <>
       <div className="line"></div>

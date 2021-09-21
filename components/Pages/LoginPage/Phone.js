@@ -1,6 +1,6 @@
 import { styles } from "../../../public/js/styles";
 
-export default function ({ waiting, phone, setPhone }) {
+export default function Phone({ waiting, phone, setPhone }) {
   return (
     <>
       <div className="label">phone number</div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from "../../../public/js/styles";
 
-export default function () {
+export default function Accept() {
   const [on, setOn] = useState(true);
   return (
     <>
