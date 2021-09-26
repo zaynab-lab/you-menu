@@ -1,4 +1,4 @@
-import { styles } from "../../../public/js/styles";
+import { styles } from "@/public/js/styles";
 
 export default function OrdersSteps({ steps, currentStep, setCurrentStep }) {
   return (
@@ -26,7 +26,7 @@ export default function OrdersSteps({ steps, currentStep, setCurrentStep }) {
           white-space:nowrap;
           padding:.1rem .3rem .2rem .3rem;
           margin:0 .3rem;
-          corsur:pointer;
+          cursor:pointer;
           ${styles.flexAligncenter}
           -webkit-box-shadow: 0 0px 5px 0 grey;box-shadow: 0 0px 5px 0 grey;
         }

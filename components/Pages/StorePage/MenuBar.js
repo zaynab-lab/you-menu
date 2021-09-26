@@ -1,7 +1,7 @@
-import { styles } from "../../../public/js/styles";
-import Add from "../../icons/Add";
-import More from "../../icons/More";
-import Orders from "../../icons/Orders";
+import { styles } from "@/public/js/styles";
+import Add from "@/components/icons/Add";
+import More from "@/components/icons/More";
+import Orders from "@/components/icons/Orders";
 
 export default function MenuBar({ selected, setSelected }) {
   return (

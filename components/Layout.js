@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
       <style jsx global>{`
         .app {
           height: 100vh;
-          overflow: hidden;
+          overflow-x: hidden;
         }
         * {
           margin: 0;

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Line from "../../Line";
+import Line from "@/components/Line";
 import MenuBar from "./MenuBar";
 import Orders from "./Orders";
 

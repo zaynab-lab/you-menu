@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import LoginPage from "../components/Pages/LoginPage";
+import LoginPage from "@/components/Pages/LoginPage";
 
 const StorePage = dynamic(() => import("../components/Pages/StorePage"));
 

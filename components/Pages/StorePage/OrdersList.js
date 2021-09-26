@@ -1,6 +1,4 @@
-import { styles } from "../../../public/js/styles";
-import Button from "../../Button";
-
+import OrderCard from "./OrderCard";
 export default function OrdersList({ steps, currentStep, orders }) {
   return (
     <>
@@ -15,7 +13,7 @@ export default function OrdersList({ steps, currentStep, orders }) {
       {currentStep === "waiting to confirm" && (
         <div className="orderList">
           {orders.map((order, i) => (
-            <Order key={i} order={order} />
+            <OrderCard key={i} order={order} />
           ))}
         </div>
       )}
@@ -25,28 +23,10 @@ export default function OrdersList({ steps, currentStep, orders }) {
       }
       .orderList{
         padding:0 .5rem;
+        overflow:scroll;
+        height:calc(100vh - 13rem);
       }
       `}</style>
-    </>
-  );
-}
-export function Order({ order }) {
-  return (
-    <>
-      <div className="orderCard">
-        <div>{order.type}</div>
-        <div>
-          <Button content={"confirm"} />
-        </div>
-      </div>
-      <style>{`
-    .orderCard{
-      border-radius:.5rem;
-      ${styles.boxshadow}
-      padding:.5rem;
-      margin:.8rem;
-    }
-    `}</style>
     </>
   );
 }

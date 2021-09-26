@@ -1,5 +1,5 @@
-import ContactUs from "../../ContactUs";
-import LogoBar from "../../LogoBar";
+import ContactUs from "@/components/ContactUs";
+import LogoBar from "@/components/LogoBar";
 import Login from "./Login";
 export default function LoginPage({ setAuth }) {
   return (

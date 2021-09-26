@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { styles } from "../../../public/js/styles";
-import Button from "../../Button";
+import { styles } from "@/public/js/styles";
+import Button from "@/components/Button";
 import Phone from "./Phone";
 
 export default function Login({ setAuth }) {

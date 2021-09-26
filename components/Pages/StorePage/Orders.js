@@ -22,19 +22,26 @@ const steps = [
 ];
 const orderfromdb = [
   {
-    items: [{ name: "milkshack" }],
+    items: [
+      { name: "milkshack" },
+      { name: "hot choclate" },
+      { name: "ice tee" }
+    ],
     type: "delivery",
-    state: "waiting to confirm"
+    state: "waiting to confirm",
+    total: 50
   },
   {
     items: [{ name: "milkshack" }],
     type: "table 5",
-    state: "waiting to confirm"
+    state: "waiting to confirm",
+    total: 20
   },
   {
     items: [{ name: "milkshack" }],
     type: "table 8",
-    state: "waiting to confirm"
+    state: "waiting to confirm",
+    total: 30
   }
 ];
 

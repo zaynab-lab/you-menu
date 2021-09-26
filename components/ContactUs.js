@@ -1,4 +1,4 @@
-import { styles } from "../public/js/styles";
+import { styles } from "@/public/js/styles";
 import Link from "next/link";
 
 export default function ContuctUs() {

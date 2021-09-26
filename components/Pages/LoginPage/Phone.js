@@ -1,4 +1,4 @@
-import { styles } from "../../../public/js/styles";
+import { styles } from "@/public/js/styles";
 
 export default function Phone({ waiting, phone, setPhone }) {
   return (
@@ -8,6 +8,7 @@ export default function Phone({ waiting, phone, setPhone }) {
         <div className="input-container">
           <select className="select" disabled={waiting}>
             <option>{"🇱🇧 +961"}</option>
+            <option>{"🇦🇪 +971"}</option>
             <option>{"🇨🇦 +1"}</option>
           </select>
         </div>

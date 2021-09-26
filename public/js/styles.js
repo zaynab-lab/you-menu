@@ -10,7 +10,10 @@ export const styles = {
   flexAligncenter:
     "display:-webkit-box; display:-ms-flexbox; display:flex; -webkit-box-align:center; -ms-flex-align:center; align-items:center;",
   flexJustifycenter:
-    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;"
+    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;",
+  flexBothcenter:
+    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center; -ms-flex-align:center; align-items:center;"
+
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",
