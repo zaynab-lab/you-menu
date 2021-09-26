@@ -3,7 +3,7 @@ export default function OrdersList({ steps, currentStep, orders }) {
   return (
     <>
       <div className="inform">
-        {steps.map(
+        {steps?.map(
           (step) =>
             step.name === currentStep &&
             (step.count > 0 ? step.count + " orders" : " no order")
@@ -12,7 +12,7 @@ export default function OrdersList({ steps, currentStep, orders }) {
       </div>
       {currentStep === "waiting to confirm" && (
         <div className="orderList">
-          {orders.map((order, i) => (
+          {orders?.map((order, i) => (
             <OrderCard key={i} order={order} />
           ))}
         </div>

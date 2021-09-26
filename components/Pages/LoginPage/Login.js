@@ -2,6 +2,7 @@ import { useState } from "react";
 import { styles } from "@/public/js/styles";
 import Button from "@/components/Button";
 import Phone from "./Phone";
+import Input from "@/components/Input";
 
 export default function Login({ setAuth }) {
   const [waiting, setwaiting] = useState(false);
@@ -17,14 +18,11 @@ export default function Login({ setAuth }) {
         {waiting && (
           <>
             <div className="label">verification code</div>
-            <div className="input-container">
-              <input
-                className="input"
-                type="number"
-                value={verification}
-                onChange={(e) => setVerification(e.target.value)}
-              />
-            </div>
+            <Input
+              value={verification}
+              onchange={(e) => setVerification(e.target.value)}
+              type={"number"}
+            />
           </>
         )}
 
@@ -76,19 +74,7 @@ export default function Login({ setAuth }) {
         align-text:left;
         max-width:25rem;
       }
-      .input-container{
-        ${styles.boxshadow}
-        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
-        border-radius:.5rem;
-      }
-      .input{
-        border:none;
-        border-radius:.5rem;
-        font-size:2rem;
-        max-width:25rem;
-        width:100%;
-        padding: 0 .5rem;
-      }
+      
       .msg{
         font-size:.8rem;
         color:${styles.secondaryColor};
