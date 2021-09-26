@@ -11,6 +11,7 @@ export default function Line() {
     background:${styles.lineargradeint};
     position:sticky;
     top:0;
+    z-index:100;
   }
   `}</style>
     </>

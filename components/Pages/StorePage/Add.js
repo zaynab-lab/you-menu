@@ -10,14 +10,42 @@ const categories = [
         name: "milkshake",
         price: "2",
         default: "banana,milk",
-        toAdd: [{ banana: "" }, { suger: 2 }],
+        toAdd: [
+          { name: "banana", level: 2 },
+          { name: "suger", level: 2 }
+        ],
         options: [{ colors: [] }, { size: [] }]
       },
       {
         name: "choclate shake",
         price: "2",
         default: "choclate,banana,milk",
-        toAdd: [{ banana: "" }, { suger: 2 }],
+        toAdd: [
+          { name: "banana", level: 2 },
+          { name: "suger", level: 2 }
+        ],
+        options: [{ colors: [] }, { size: [] }]
+      },
+      {
+        name: "milkshake",
+        price: "2",
+        default: "banana,milk",
+        toAdd: [
+          { name: "banana", level: 3 },
+          { name: "suger", level: 2 }
+        ],
+
+        options: [{ colors: [] }, { size: [] }]
+      },
+      {
+        name: "choclate shake",
+        price: "2",
+        default: "choclate,banana,milk",
+        toAdd: [
+          { name: "banana", level: 4 },
+          { name: "suger", level: 2 }
+        ],
+
         options: [{ colors: [] }, { size: [] }]
       }
     ],
@@ -25,8 +53,6 @@ const categories = [
   },
   { name: "cakes", itemsCount: 0 },
   { name: "cocktails", itemsCount: 0 },
-  { name: "mocktails", itemsCount: 0 },
-  { name: "mocktails", itemsCount: 0 },
   { name: "mocktails", itemsCount: 0 }
 ];
 
@@ -36,11 +62,12 @@ export default function Add() {
     <>
       <div className="addPage">
         <div className="addCategory">
-          <div className="label">new category</div>
           <div className="inputplus">
             <Input
               value={category}
               onchange={(e) => setCategory(e.target.value)}
+              placeholder="new category"
+              font="1.4rem"
             />
           </div>
         </div>
@@ -48,7 +75,6 @@ export default function Add() {
       </div>
       <style>{`
         .addPage{
-          overflow:scroll;
           padding-bottom:1rem;
         }
         .addCategory{
@@ -56,17 +82,10 @@ export default function Add() {
           border-bottom:1px solid ${styles.secondaryColor}
         }
         .inputplus{
-          ${styles.flexAligncenter};
+          ${styles.flexBothcenter};
           position:relative;
-        }
-        .label{
-          font-size:1.2rem;
-          margin:.2rem;
-          margin-top:0;
           width:100%;
-          align-text:left;
-          max-width:25rem;
-          }
+        }
         .inputplus:after{
           content:'+';
           width:2rem;

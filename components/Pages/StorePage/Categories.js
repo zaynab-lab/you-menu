@@ -1,70 +1,115 @@
+import { FaImage, FaTrashAlt } from "react-icons/fa";
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
-import { FaImage } from "react-icons/fa";
 
 export default function Categories({ categories }) {
+  const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);
+  const [categoryItems, setCategoryItems] = useState(categories?.[0]?.items);
   return (
     <>
-      {categories?.map((category) => (
-        <Category category={category} />
-      ))}
+      <div className="categoryBar">
+        {categories?.map((category) => (
+          <div
+            onClick={() => {
+              setCurrentCat(category.name);
+              setCategoryItems(category.items);
+            }}
+            className={`categoryContainer ${
+              currentCat === category.name && "active"
+            }`}
+          >
+            <div>{category.name}</div>
+            <div className="count">{category.itemsCount}</div>
+          </div>
+        ))}
+      </div>
+      <Category categoryItems={categoryItems} currentCat={currentCat} />
+      <style>{`
+      .categoryBar{
+        position:sticky;position: -webkit-sticky;
+        top:.3rem;
+        padding:.6rem;
+        overflow:auto;
+        background:white;
+        ${styles.flexAligncenter}
+      }
+      .categoryContainer{
+        border-radius:5rem;
+        white-space:nowrap;
+        padding:.1rem .5rem;
+        margin:0 .3rem;
+        cursor:pointer;
+        ${styles.flexAligncenter}
+        gap:.5rem;
+        -webkit-box-shadow: 0 0px 5px 0 grey;box-shadow: 0 0px 5px 0 grey;
+      }
+      .count{
+        width:1.2rem;
+        height:1.2rem;
+        border-radius:20rem;
+        color:white;
+        margin:0 .2rem;
+        font-size:.8rem;
+        background:${styles.secondaryColor};
+        -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
+        ${styles.flexAligncenter}
+        }
+      .active{
+        -webkit-box-shadow: 0 0px 5px 0 ${styles.secondaryColor};box-shadow: 0 0px 5px 0 ${styles.secondaryColor};
+        }
+          
+      `}</style>
     </>
   );
 }
-export function Category({ category }) {
-  const [shown, setShown] = useState(false);
+
+export function Category({ categoryItems, currentCat }) {
   return (
     <>
-      <div className="categoryList">
-        <div className="category">
-          <div onClick={() => setShown(!shown)} className="category-details">
-            <div>{category.name}</div>
-            <div>{category.itemsCount}</div>
-          </div>
-          <div className="remove">remove</div>
-        </div>
-        {shown && (
-          <div className="items">
-            {category.items?.map((item) => (
-              <div className="item">
-                <div>
-                  <div>{item.name}</div>
-                  <div>price: {item.price}$</div>
-                  <div>{item.default}</div>
-                </div>
-                <div>
-                  <div className="item-img">
-                    <FaImage />
+      {currentCat && (
+        <>
+          <div className="categoryList">
+            <div className="items">
+              {categoryItems?.map((item) => (
+                <div className="item">
+                  <div>
+                    <div className="namePrice">
+                      <div className="name">{item.name}</div>
+                      <div>{item.price}$</div>
+                    </div>
+                    <div>default: {item.default}</div>
+                    <div className="toAdd">
+                      add:{" "}
+                      {item.toAdd?.map((add) => (
+                        <div>{add.name}</div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="remove">edit</div>
+                  <div>
+                    <div className="item-img">
+                      <FaImage />
+                    </div>
+                    <div>edit</div>
+                  </div>
                 </div>
+              ))}
+              <div className="addNewItem">
+                <input className="newItem-input" placeholder="new item" />
               </div>
-            ))}
-            <div className="addNewItem">
-              <input className="newItem-input" placeholder="add new item" />
             </div>
           </div>
-        )}
-      </div>
+          <div className="remove">
+            <div className="trash">
+              <FaTrashAlt />
+            </div>
+            <div>remove category</div>
+          </div>
+        </>
+      )}
       <style>{`
       .categoryList{
         border-bottom:1px solid ${styles.secondaryColor};
         overflow-x:hidden;
-      }
-      .category{
-        padding:.8rem .5rem;
-        justify-content:space-between;
-        font-size:1.2rem;
-        ${styles.flexAligncenter}
-      }
-      .category-details{
-        ${styles.flexAligncenter}
-        gap:2rem;
-        cursor:pointer;
-      }
-      .remove{
-        color:${styles.secondaryColor};
-        cursor:pointer;
       }
       .items{
         padding:.5rem;
@@ -72,9 +117,10 @@ export function Category({ category }) {
       }
       .newItem-input{
         border:none;
-        padding:.2rem;
+        padding:.5rem;
+        font-size:1.1rem;
       }
-      
+
       .addNewItem:after{
         content:'add';
         font-size:1rem;
@@ -83,16 +129,38 @@ export function Category({ category }) {
         cursor:pointer;
         color:${styles.secondaryColor};
         }
-        
+
       .item{
         ${styles.flexAligncenter}
         -webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;
-        border:solid lightgrey;
-        border-width:1px 0;
+        border-bottom:1px solid lightgrey;
         padding:.2rem;
+      }
+      .name{
+        font-size:1.2rem;
+      }
+      .namePrice{
+        ${styles.flexAligncenter}
+        gap:.4rem;
+        color:${styles.secondaryColor}
       }
       .item-img{
         font-size:3rem;
+        color:grey;
+      }
+      .remove{
+        color:${styles.secondaryColor};
+        padding-bottom:5rem;
+        cursor:pointer;
+        ${styles.flexBothcenter}
+        gap:.6rem
+      }
+      .trash{
+        padding-top:.3rem;
+      }
+      .toAdd{
+        ${styles.flexAligncenter}
+        gap:.2rem;
       }
       `}</style>
     </>

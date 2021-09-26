@@ -1,6 +1,6 @@
 import { styles } from "@/public/js/styles";
 
-export default function Input({ value, onchange, type }) {
+export default function Input({ value, onchange, type, placeholder, font }) {
   return (
     <>
       <div className="input-container">
@@ -9,6 +9,7 @@ export default function Input({ value, onchange, type }) {
           type={type}
           value={value}
           onChange={onchange}
+          placeholder={placeholder}
         />
       </div>
       <style>
@@ -21,7 +22,7 @@ export default function Input({ value, onchange, type }) {
           .input{
           border:none;
           border-radius:.5rem;
-          font-size:2rem;
+          font-size:${font ? font : "2rem"};
           max-width:25rem;
           width:100%;
           padding: 0 .5rem;

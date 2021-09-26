@@ -32,7 +32,7 @@ export default function MenuBar({ selected, setSelected }) {
         {`
       .menu-container{
         width:100vw;
-        position:absolute;
+        position:fixed;
         bottom:0;
         ${styles.flexAligncenter}
         z-index:3;
