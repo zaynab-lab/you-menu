@@ -12,7 +12,7 @@ export default function ContuctUs() {
       color:${styles.secondaryColor};
       width:100vw;
       text-align:center;
-      position:absolute;
+      position:fixed;
       bottom:0;
       cursor:pointer;
     }

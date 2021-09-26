@@ -112,7 +112,6 @@ export function Category({ categoryItems, currentCat }) {
         overflow-x:hidden;
       }
       .items{
-        padding:.5rem;
         padding-top:0;
       }
       .newItem-input{
@@ -134,7 +133,7 @@ export function Category({ categoryItems, currentCat }) {
         ${styles.flexAligncenter}
         -webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;
         border-bottom:1px solid lightgrey;
-        padding:.2rem;
+        padding:.2rem 1rem;
       }
       .name{
         font-size:1.2rem;

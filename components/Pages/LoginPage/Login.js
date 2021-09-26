@@ -62,7 +62,7 @@ export default function Login({ setAuth }) {
         opacity:.03;
         position:absolute;
         top:0;
-        min-height:100vh;
+        max-height:85vh;
         min-width:100vw;
         width:100%;
         z-index:-1;
