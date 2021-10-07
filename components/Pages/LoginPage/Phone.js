@@ -1,21 +1,44 @@
 import { styles } from "@/public/js/styles";
+import { countries } from "@/util/countryCode";
 
-export default function Phone({ waiting, phone, setPhone }) {
+export default function Phone({
+  waiting,
+  phone,
+  setPhone,
+  setMsg,
+  label = "phone number",
+  setCcode
+}) {
+  const handleChange = (e) => {
+    setMsg(" ");
+    if (phone === "") {
+      e.target.value !== "0" && setPhone(e.target.value);
+      e.target.value === "0" && setMsg("start number whithout zero");
+    } else {
+      setPhone(e.target.value);
+    }
+  };
   return (
     <>
-      <div className="label">phone number</div>
+      <div className="label">{label}</div>
       <div className="main-container">
         <div className="input-container">
-          <select className="select" disabled={waiting}>
-            <option>{"🇱🇧 +961"}</option>
-            <option>{"🇦🇪 +971"}</option>
-            <option>{"🇨🇦 +1"}</option>
+          <select
+            className="select"
+            onChange={(e) => setCcode(e.target.value)}
+            disabled={waiting}
+          >
+            {countries.map((country, i) => (
+              <option key={i} value={country.code}>
+                {country.flag + " " + country.shownCode}
+              </option>
+            ))}
           </select>
         </div>
         <div className="input-container">
           <input
             type="number"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => handleChange(e)}
             value={phone}
             className="input"
             disabled={waiting}

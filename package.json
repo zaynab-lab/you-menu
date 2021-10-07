@@ -10,9 +10,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "3.4.11",
     "@fontsource/reem-kufi": "4.5.0",
-    "axios": "0.21.1",
+    "@saeris/apollo-server-vercel": "0.4.0",
+    "axios": "0.22.0",
     "cookie": "0.4.1",
+    "graphql": "15.5.3",
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.11.16",
     "next": "11.1.2",

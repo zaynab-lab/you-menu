@@ -25,9 +25,7 @@ export default async function Auth(req, res) {
           JSON.stringify({
             name: user.name,
             number: user.number,
-            roles: user.roles,
-            cars: user.cars,
-            coupons: user.coupons
+            roles: user.roles
           })
         );
       } else {

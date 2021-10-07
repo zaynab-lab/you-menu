@@ -3,17 +3,20 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     name: { type: String },
-    number: { type: String, require: true },
-    date: { type: Date, default: Date.now },
+    number: { type: String, require: true, unique: true },
+    role: { type: String },
+    ccode: { type: String },
+    businessBlocked: { type: Boolean },
+    businessId: { type: String },
+    logDates: { type: [Date] },
     signDate: { type: Date, default: Date.now },
-    otptimes: { type: Number },
-    workingtimes: { type: Number, default: 1 },
     otp: { type: String },
-    pages: { type: [String], default: [] },
+    otptimes: { type: Number },
+    ordertimes: { type: Number },
     jwt: { type: String },
     credit: { type: Number, default: 0 },
-    roles: { type: [String], default: ["customer"] },
     mail: { type: String },
+    workingtimes: { type: Number, default: 1 },
     addresses: [
       {
         content: { type: String },
@@ -21,27 +24,20 @@ const userSchema = new mongoose.Schema(
         lat: { type: Number }
       }
     ],
-    cars: [
+    birth: { type: Date },
+    promoCode: { type: String },
+    invitedBy: { type: String },
+    invintions: { type: Number },
+    activeInvintions: { type: Number },
+    byQr: { type: Boolean },
+    messages: [
       {
-        plateNumber: { type: String },
-        plateType: { type: String, default: "p" },
-        model: { type: Number },
-        brand: { type: Number },
-        logo: { type: String },
-        valid: { type: Boolean }
+        reciverNumber: { type: String },
+        content: { type: String },
+        date: { type: Date, default: Date.now }
       }
-    ],
-    coupons: [
-      {
-        code: { type: String },
-        validation: { type: Number },
-        date: { type: Date },
-        used: { type: Date }
-      }
-    ],
-    birth: { type: Date }
+    ]
   },
-
   { collection: "users" }
 );
 

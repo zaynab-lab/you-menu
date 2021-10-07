@@ -1,31 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styles } from "@/public/js/styles";
 import Button from "@/components/Button";
-import Phone from "./Phone";
+import Phone from "@/components/Pages/LoginPage/Phone";
 import Input from "@/components/Input";
 import axios from "axios";
 import timer from "@/util/timer";
-import { countries } from "@/util/countryCode";
 
-export default function Login({ setAuth }) {
+export default function SignBusiness() {
   const [waiting, setWaiting] = useState(false);
   const [msg, setMsg] = useState();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verification, setVerification] = useState("");
   const [time, setTime] = useState("02:00");
-  const [ccode, setCcode] = useState("961");
 
   const checkNumber = (action) => {
     setMsg(" ");
-    const parfixList = countries.filter((country) => country.code === ccode)[0]
-      .parafix;
-    if (parfixList.includes(phoneNumber.length)) {
-      setMsg(`wait to recieve the code using SMS`);
-      action();
-    } else {
+    if (!(phoneNumber.length === 7 || phoneNumber.length === 8)) {
       setMsg("check the phone number");
       return;
+    } else {
+      setMsg("wait to recieve the code using SMS");
     }
+    action();
   };
 
   const requestOTP = () => {
@@ -34,7 +30,7 @@ export default function Login({ setAuth }) {
       axios
         .post(
           "/api/auth/Sign",
-          { phoneNumber, ccode },
+          { phoneNumber },
           { "content-type": "application/json" }
         )
         .then((res) => {
@@ -42,35 +38,23 @@ export default function Login({ setAuth }) {
             setWaiting(true);
             timer(119, setTime);
             setMsg(`the SMS has been sent wait for it`);
-            axios
-              .post(
-                "/api/auth/SignBusiness",
-                { phoneNumber },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                setMsg(res.data);
-              });
           } else {
             setMsg(res.data);
           }
         });
     });
   };
-
-  const login = () => {
+  const signbusiness = () => {
     axios
       .post(
-        "/api/auth/Login",
-        { phoneNumber, ccode, oTP: verification },
+        "/api/auth/SignBusiness",
+        { phoneNumber, oTP: verification },
         { "content-type": "application/json" }
       )
       .then((res) => {
-        res.data === "done" && setAuth(true);
         res.data !== "done" && setMsg(res.data);
       });
   };
-
   return (
     <>
       <div className="form">
@@ -80,7 +64,7 @@ export default function Login({ setAuth }) {
           phone={phoneNumber}
           setPhone={setPhoneNumber}
           setMsg={setMsg}
-          setCcode={setCcode}
+          label={"business owner number"}
         />
         {waiting && (
           <>
@@ -98,42 +82,45 @@ export default function Login({ setAuth }) {
         </div>
         <Button
           content={"confirm"}
-          onclick={() => (!waiting ? requestOTP() : login())}
+          onclick={() => (!waiting ? requestOTP() : signbusiness())}
         />
       </div>
-
-      <style>{`
-      .form{
-        padding:3rem 1rem;
-        ${styles.flexAligncenter}
-        -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
-        max-width:100vw;
-        position:relative;
-        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
-      }
-      .img{
-        opacity:.03;
-        position:absolute;
-        top:0;
-        max-height:85vh;
-        min-width:100vw;
-        width:100%;
-        z-index:-1;
-      }
-      .label{
-        font-size:1.2rem;
-        margin:.5rem 0 .2rem 0;
-        width:100%;
-        align-text:left;
-        max-width:25rem;
-      }
-      
-      .msg{
-        font-size:.8rem;
-        color:${styles.secondaryColor};
-        text-align:center;
-        padding-top:.3rem;
-      }
+      <style jsx>{`
+        .form {
+          padding: 0rem 2rem;
+          ${styles.flexAligncenter}
+          -webkit-box-orient:vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          max-width: 100vw;
+          position: relative;
+          height: -webkit-fit-content;
+          height: -moz-fit-content;
+          height: fit-content;
+        }
+        .img {
+          opacity: 0.03;
+          position: absolute;
+          top: 0;
+          max-height: 85vh;
+          min-width: 100vw;
+          width: 100%;
+          z-index: -1;
+        }
+        .label {
+          font-size: 1.2rem;
+          margin: 0.5rem 0 0.2rem 0;
+          width: 100%;
+          align-text: left;
+          max-width: 25rem;
+        }
+        .msg {
+          font-size: 0.8rem;
+          color: ${styles.secondaryColor};
+          text-align: center;
+          padding-top: 0.3rem;
+        }
       `}</style>
     </>
   );

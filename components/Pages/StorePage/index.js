@@ -9,9 +9,11 @@ const More = dynamic(() => import("./More"));
 
 export default function StorePage() {
   const [selected, setSelected] = useState("Orders");
+
   return (
     <>
       <Line />
+
       {selected === "Orders" && <Orders />}
       {selected === "Add" && <Add />}
       {selected === "More" && <More />}

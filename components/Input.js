@@ -12,22 +12,24 @@ export default function Input({ value, onchange, type, placeholder, font }) {
           placeholder={placeholder}
         />
       </div>
-      <style>
+      <style jsx>
         {`
-        .input-container{
-          ${styles.boxshadow}
-          height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
-          border-radius:.5rem;
+          .input-container {
+            ${styles.boxshadow}
+            height:-webkit-fit-content;
+            height: -moz-fit-content;
+            height: fit-content;
+            border-radius: 0.5rem;
           }
-          .input{
-          border:none;
-          border-radius:.5rem;
-          font-size:${font ? font : "2rem"};
-          max-width:25rem;
-          width:100%;
-          padding: 0 .5rem;
+          .input {
+            border: none;
+            border-radius: 0.5rem;
+            font-size: ${font ? font : "2rem"};
+            max-width: 25rem;
+            width: 100%;
+            padding: 0 0.5rem;
           }
-          `}
+        `}
       </style>
     </>
   );

@@ -1,10 +1,31 @@
-import dynamic from "next/dynamic";
-import { useState } from "react";
-import LoginPage from "@/components/Pages/LoginPage";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-const StorePage = dynamic(() => import("@/components/Pages/StorePage"));
+export default function Index({ users }) {
+  return (
+    <>
+      {/* {users?.map((user) => (
+        <>{user.emoji}</>
+      ))} */}
+      Pending
+    </>
+  );
+}
+export async function getServerSideProps() {
+  const client = new ApolloClient({
+    // uri: "https://royo3.sse.codesandbox.io/api/graphql",
+    uri: "https://countries.trevorblades.com",
+    cache: new InMemoryCache()
+  });
 
-export default function Index() {
-  const [auth, setAuth] = useState(false);
-  return <>{auth ? <StorePage /> : <LoginPage setAuth={setAuth} />}</>;
+  const { data } = await client.query({
+    query: gql`
+      query Countries {
+        countries {
+          emoji
+        }
+      }
+    `
+  });
+
+  return { props: { users: data.countries.slice(0, 10) } };
 }

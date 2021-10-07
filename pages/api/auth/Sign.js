@@ -1,7 +1,8 @@
-import dbConnection from "../../../util/dbConnection";
-import User from "../../../models/user";
-import { OTPGenerator } from "../../../util/codeGenerator";
+import dbConnection from "@/util/dbConnection";
+import User from "@/models/user";
+import { codeGenerator, OTPGenerator } from "@/util/codeGenerator";
 import axios from "axios";
+import { countries } from "@/util/countryCode";
 
 dbConnection();
 
@@ -10,11 +11,14 @@ export default async (req, res) => {
 
   if (method === "POST") {
     const { body } = req;
-
     try {
-      if (body.phoneNumber.length === 7 || body.phoneNumber.length === 8) {
+      const parfixList = countries.filter(
+        (country) => country.code === body.ccode
+      )[0].parafix;
+
+      if (parfixList.includes(body.phoneNumber.length)) {
         const otp = OTPGenerator();
-        const code = OTPGenerator();
+        const code = codeGenerator();
         const d = Date.now();
         const user = await User.findOne({
           number: body.phoneNumber
@@ -23,7 +27,7 @@ export default async (req, res) => {
           const min = 2 - (d - user.date) / 60000;
           if (min < 2 && min > 0) {
             var mins = Math.ceil(min);
-            return res.end(`حاول الدخول بعد ${mins} دقيقة.`);
+            return res.end(`please retry in ${mins} min.`);
           } else {
             await User.findByIdAndUpdate(
               user._id,
@@ -40,25 +44,20 @@ export default async (req, res) => {
             number: body.phoneNumber,
             otp,
             otptimes: 1,
-            coupons: [
-              {
-                date: new Date(),
-                validation: 10,
-                code
-              }
-            ]
+            promoCode: code,
+            ccode: body.ccode
           });
           createdUser.save().catch((err) => console.log(err));
         }
 
-        const receptor = "961" + body.phoneNumber;
+        const receptor = body.ccode + body.phoneNumber;
         await axios.get(
           process.env.SMS_URL +
             "to=" +
             receptor +
-            "&message=Your OTP is : " +
+            "&message=your activation code is : " +
             otp +
-            " (Nabatieh Municipality)"
+            " (you menu)"
         );
 
         // .then((response) => {
@@ -67,14 +66,14 @@ export default async (req, res) => {
 
         return res.end("done");
       } else {
-        res.end("الرجاء التأكد من الرقم");
+        res.end("please check the phone number");
       }
     } catch (err) {
       console.log(err);
 
-      return res.end("هناك خطأ في النظام يرجى المحاولة لاحقا");
+      return res.end("system error retry later");
     }
   }
 
-  return res.end("هناك خطأ في النظام يرجى المحاولة لاحقا");
+  return res.end("system error retry later");
 };

@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 const APP_NAME = "you menu";
-const APP_DESCRIPTION = "menu for every store";
+const APP_DESCRIPTION = "menu for every business";
 
 export default class extends Document {
   static async getInitialProps(ctx) {
