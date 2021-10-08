@@ -4,15 +4,17 @@ import LogoBar from "@/components/LogoBar";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import { QRCode } from "react-qr-svg";
-
 export default function Qr({ setSelected }) {
   const [tableNumber, setTableNumber] = useState(1);
   const [tables, setTables] = useState([1]);
+
   useEffect(() => {
     const t = Array.from({ length: tableNumber }, (_, i) => i + 1);
     setTables(t);
   }, [tableNumber]);
+
   const domain = "https://mogetee.vercel.app";
+
   return (
     <>
       <BackButton setSelected={setSelected} />
@@ -87,6 +89,7 @@ export default function Qr({ setSelected }) {
         .download {
           color: ${styles.secondaryColor};
           font-size: 1.2rem;
+          cursor: pointer;
         }
         .qrCardContainer {
           ${styles.flexBothcenter}

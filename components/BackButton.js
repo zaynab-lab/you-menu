@@ -22,6 +22,7 @@ export default function BackButton({ setSelected }) {
           ${styles.boxshadow};
           ${styles.flexBothcenter}
           background:white;
+          cursor: pointer;
         }
       `}</style>
     </>
