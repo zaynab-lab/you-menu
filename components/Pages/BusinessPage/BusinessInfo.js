@@ -3,8 +3,12 @@ import Logo from "@/components/Logo";
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
+import { useState } from "react";
 
 export default function BusinessInfo({ setSelected }) {
+  const [brand, setBrand] = useState("");
+  const [ownerNumber, setOwnerNumber] = useState("");
+  const [fullAddress, setFullAddress] = useState("");
   return (
     <>
       <BackButton setSelected={setSelected} />
@@ -13,9 +17,20 @@ export default function BusinessInfo({ setSelected }) {
           <Logo />
         </div>
         <Label title={"brand"} />
-        <Input />
+        <Input value={brand} onchange={(e) => setBrand(e.target.value)} />
         <Label title={"owner number"} />
-        <Input type="number" />
+        <Input
+          type={"number"}
+          value={ownerNumber}
+          onchange={(e) => setOwnerNumber(e.target.value)}
+        />
+        <Label title={"full address"} />
+        <Input
+          value={fullAddress}
+          onchange={(e) => setFullAddress(e.target.value)}
+        />
+
+        <Label title={"location"} />
       </div>
       <style jsx>{`
         .form {

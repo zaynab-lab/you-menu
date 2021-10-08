@@ -13,14 +13,15 @@ export default function Index() {
   useEffect(
     () =>
       axios.get("/api/auth").then((res) => {
-        res?.data?.number &&
-          res?.data?.role === "BusinessOwner" &&
-          setAuth(true);
+        res?.data?.number && res?.data?.role === "BusinessOwner"
+          ? setAuth(true)
+          : setAuth(false);
+        res?.data?.role === "BusinessOwner" && setRole("BusinessOwner");
         res?.data.number &&
           setAlertmsg(`you can login her to create a business`);
         setLoading(false);
       }),
-    [auth]
+    []
   );
   return (
     <>
