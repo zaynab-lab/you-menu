@@ -3,10 +3,30 @@ import Input from "@/components/Input";
 import LogoBar from "@/components/LogoBar";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
-import { QRCode } from "react-qr-svg";
+import { toPng } from "html-to-image";
+import { saveAs } from "@/util/extraFunctions";
+// import jsPDF from "jspdf";
+import { FaDownload } from "react-icons/fa";
+import QrCode from "@/components/QrCode";
+
 export default function Qr({ setSelected }) {
   const [tableNumber, setTableNumber] = useState(1);
   const [tables, setTables] = useState([1]);
+
+  const exportPdf = () => {
+    // const pdf = new jsPDF("p", "mm", "a5");
+    // tables.map((number) =>
+    //   toPng(document.getElementById("table" + number)).then((dataUrl) => {
+    //     pdf.loadFile(dataUrl);
+    //   })
+    // );
+    // pdf.save("Tables.pdf");
+  };
+  const exportImg = (number) => {
+    toPng(document.getElementById("table" + number)).then((dataUrl) => {
+      saveAs(dataUrl, `table${number}.png`);
+    });
+  };
 
   useEffect(() => {
     const t = Array.from({ length: tableNumber }, (_, i) => i + 1);
@@ -34,26 +54,35 @@ export default function Qr({ setSelected }) {
               />
             </div>
           </div>
-          <div className="download">download as pdf</div>
-          {tables.map((obj) => (
-            <div className="qrCardContainer">
-              <div className="qrCard">
-                <div className="qrTitle">
-                  <div className="qrTitle-table">table</div>
-                  <div className="qrTitle-number">{obj}</div>
+          <div onClick={() => exportPdf()} className="download">
+            download all as pdf
+          </div>
+          <div className="qrCardList">
+            {tables.map((obj) => (
+              <div className="qrCardListChild">
+                <div className="qrCardContainer" id={`table${obj}`}>
+                  <div className="qrCard">
+                    <div className="qrTitle">
+                      <div className="qrTitle-table">table</div>
+                      <div className="qrTitle-number">{obj}</div>
+                    </div>
+                    <div className="qrCodeContainer">
+                      <QrCode
+                        value={`${domain}/menu/businessCode?table=${obj}`}
+                        width={"200"}
+                      />
+                    </div>
+                    <div className="LogoContainer">
+                      <LogoBar />
+                    </div>
+                  </div>
                 </div>
-                <div className="qrCodeContainer">
-                  <QRCode
-                    value={`${domain}/menu/businessCode?table=${obj}`}
-                    width={"200"}
-                  />
-                </div>
-                <div className="LogoContainer">
-                  <LogoBar />
+                <div className="fadownload" onClick={() => exportImg(obj)}>
+                  <FaDownload /> {"   "} table {obj}
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       <style jsx>{`
@@ -72,7 +101,7 @@ export default function Qr({ setSelected }) {
         }
 
         .qrCountainer {
-          padding-top: 3.5rem;
+          padding: 3.5rem 0;
         }
         .setTables {
           ${styles.flexAligncenter}
@@ -91,10 +120,18 @@ export default function Qr({ setSelected }) {
           font-size: 1.2rem;
           cursor: pointer;
         }
+        .qrCardList {
+          flex-wrap: wrap;
+          ${styles.flexAligncenter}
+        }
+        .qrCardListChild {
+          flex: 1 1 10%;
+        }
         .qrCardContainer {
           ${styles.flexBothcenter}
           overflow:hidden;
-          padding: 2rem 0.5rem;
+          padding: 2rem;
+          background: white;
         }
         .qrCard {
           border: 4px solid ${styles.secondaryColor};
@@ -131,11 +168,18 @@ export default function Qr({ setSelected }) {
           border-radius: 2rem;
           ${styles.boxshadow};
           margin: 2rem;
+          background: white;
         }
 
         .LogoContainer {
           max-width: 22rem;
           padding-bottom: 2rem;
+        }
+        .fadownload {
+          color: ${styles.secondaryColor};
+          font-size: 1.2rem;
+          text-align: center;
+          cursor: pointer;
         }
       `}</style>
     </>

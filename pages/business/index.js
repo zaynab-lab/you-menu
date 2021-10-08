@@ -25,17 +25,24 @@ export default function Index() {
   );
   return (
     <>
-      {loading ? (
-        "Loading..."
-      ) : auth ? (
-        <BusinessPage role={role} />
-      ) : (
-        <LoginPage
-          setAuth={setAuth}
-          Loginfrom={"business"}
-          alertMsg={alertMsg}
-        />
-      )}
+      <div className="page">
+        {loading ? (
+          "Loading..."
+        ) : auth ? (
+          <BusinessPage setAuth={setAuth} role={role} />
+        ) : (
+          <LoginPage
+            setAuth={setAuth}
+            Loginfrom={"business"}
+            alertMsg={alertMsg}
+          />
+        )}
+      </div>
+      <style jsx>{`
+        .page {
+          height: calc(100vh - 8rem);
+        }
+      `}</style>
     </>
   );
 }

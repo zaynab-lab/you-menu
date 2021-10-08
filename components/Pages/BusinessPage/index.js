@@ -11,7 +11,7 @@ const Qr = dynamic(() => import("./Qr"));
 const Time = dynamic(() => import("./Time"));
 const History = dynamic(() => import("./History"));
 
-export default function BusinessPage() {
+export default function BusinessPage({ setAuth }) {
   const [selected, setSelected] = useState("Orders");
   const [toggleMenu, setToggleMenu] = useState(true);
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function BusinessPage() {
       {selected === "More" && <More setSelected={setSelected} />}
       {toggleMenu && <MenuBar selected={selected} setSelected={setSelected} />}
       {selected === "BusinessInfo" && (
-        <BusinessInfo setSelected={setSelected} />
+        <BusinessInfo setAuth={setAuth} setSelected={setSelected} />
       )}
       {selected === "Qr" && <Qr setSelected={setSelected} />}
       {selected === "Time" && <Time setSelected={setSelected} />}

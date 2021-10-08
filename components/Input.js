@@ -24,7 +24,7 @@ export default function Input({ value, onchange, type, placeholder, font }) {
           .input {
             border: none;
             border-radius: 0.5rem;
-            font-size: ${font ? font : "2rem"};
+            font-size: ${font ? font : "1.8rem"};
             max-width: 25rem;
             width: 100%;
             padding: 0 0.5rem;

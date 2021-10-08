@@ -10,8 +10,9 @@ export default async (req, res) => {
     if (method === "POST") {
       const { body } = req;
       const businessExist = await Business.findOne({
-        number: body.phoneNumber
+        ownerNumber: body.phoneNumber
       }).exec();
+
       if (businessExist) {
         return res.status(200).end("your all done");
       } else {
