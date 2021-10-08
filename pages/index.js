@@ -12,7 +12,7 @@ export default function Index({ users }) {
 }
 export async function getServerSideProps() {
   const client = new ApolloClient({
-    // uri: "https://royo3.sse.codesandbox.io/api/graphql",
+    // uri: "https://lz03d.sse.codesandbox.io/api/graphql",
     uri: "https://countries.trevorblades.com",
     cache: new InMemoryCache()
   });

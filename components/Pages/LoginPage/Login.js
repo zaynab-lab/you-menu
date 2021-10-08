@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styles } from "@/public/js/styles";
 import Button from "@/components/Button";
 import Phone from "./Phone";
@@ -6,8 +6,9 @@ import Input from "@/components/Input";
 import axios from "axios";
 import timer from "@/util/timer";
 import { countries } from "@/util/countryCode";
+import { Label } from "@/components/Label";
 
-export default function Login({ setAuth }) {
+export default function Login({ setAuth, Loginfrom, alertMsg }) {
   const [waiting, setWaiting] = useState(false);
   const [msg, setMsg] = useState();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -42,15 +43,16 @@ export default function Login({ setAuth }) {
             setWaiting(true);
             timer(119, setTime);
             setMsg(`the SMS has been sent wait for it`);
-            axios
-              .post(
-                "/api/auth/SignBusiness",
-                { phoneNumber },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                setMsg(res.data);
-              });
+            Loginfrom === "business" &&
+              axios
+                .post(
+                  "/api/auth/SignBusiness",
+                  { phoneNumber },
+                  { "content-type": "application/json" }
+                )
+                .then((res) => {
+                  setMsg(res.data);
+                });
           } else {
             setMsg(res.data);
           }
@@ -74,6 +76,7 @@ export default function Login({ setAuth }) {
   return (
     <>
       <div className="form">
+        <div className="msg">{alertMsg}</div>
         <img className="img" src="/img/ptrn.png" alt="pattern" />
         <Phone
           waiting={waiting}
@@ -84,7 +87,7 @@ export default function Login({ setAuth }) {
         />
         {waiting && (
           <>
-            <div className="label">verification code</div>
+            <Label title={"verification code"} />
             <Input
               value={verification}
               onchange={(e) => setVerification(e.target.value)}
@@ -120,14 +123,7 @@ export default function Login({ setAuth }) {
         width:100%;
         z-index:-1;
       }
-      .label{
-        font-size:1.2rem;
-        margin:.5rem 0 .2rem 0;
-        width:100%;
-        align-text:left;
-        max-width:25rem;
-      }
-      
+   
       .msg{
         font-size:.8rem;
         color:${styles.secondaryColor};

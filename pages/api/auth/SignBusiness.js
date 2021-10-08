@@ -6,21 +6,31 @@ dbConnection();
 
 export default async (req, res) => {
   const { method } = req;
+  try {
+    if (method === "POST") {
+      const { body } = req;
+      const businessExist = await Business.findOne({
+        number: body.phoneNumber
+      }).exec();
+      if (businessExist) {
+        return res.status(200).end("your all done");
+      } else {
+        const business = new Business({
+          ownerNumber: body.phoneNumber
+        });
+        business.save().catch((err) => console.log(err));
 
-  if (method === "POST") {
-    const { body } = req;
-    const business = new Business({
-      number: body.phoneNumber
-    });
-    business.save().catch((err) => console.log(err));
+        await User.findOneAndUpdate(
+          { number: body.phoneNumber },
+          { role: "BusinessOwner" },
+          { returnOriginal: false },
+          (err) => console.log(err)
+        );
 
-    await User.findAndUpdate(
-      { number: body.phoneNumber },
-      { businessId: business._id, role: "BusinessOwner" },
-      { returnOriginal: false },
-      (err) => console.log(err)
-    );
-
-    return res.status(200).end("business creation done");
-  } else return res.status(200).end("an error in creating business");
+        return res.status(200).end("your all done");
+      }
+    } else return res.status(200).end("an error in creating business");
+  } catch {
+    return res.status(200).end("system error");
+  }
 };

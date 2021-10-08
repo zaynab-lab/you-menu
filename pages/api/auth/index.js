@@ -1,5 +1,5 @@
-import dbConnection from "../../../util/dbConnection";
-import User from "../../../models/user";
+import dbConnection from "@/util/dbConnection";
+import User from "@/models/user";
 import jwt from "jsonwebtoken";
 
 dbConnection();
@@ -9,10 +9,10 @@ export default async function Auth(req, res) {
 
   if (method === "GET") {
     const token = req.cookies.jwt;
-    if (!token) return res.end("noToken");
+    if (!token) return res.status(200).end("noToken");
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
       console.log(token);
-      if (err) return res.end("invalid");
+      if (err) return res.status(200).end("invalid");
       const user = await User.findById(decoded.id).exec();
       if (user) {
         User.findByIdAndUpdate(
@@ -21,18 +21,18 @@ export default async function Auth(req, res) {
           (err) => console.log(err)
         );
 
-        return res.end(
+        return res.status(200).end(
           JSON.stringify({
             name: user.name,
             number: user.number,
-            roles: user.roles
+            role: user.role
           })
         );
       } else {
-        return res.end("invalid");
+        return res.status(200).end("invalid");
       }
     });
   } else {
-    return res.end("invalid");
+    return res.status(200).end("invalid");
   }
 }

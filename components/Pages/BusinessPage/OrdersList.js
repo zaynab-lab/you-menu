@@ -24,7 +24,7 @@ export default function OrdersList({ steps, currentStep, orders }) {
       .orderList{
         padding:0 .5rem;
         overflow:scroll;
-        height:calc(100vh - 13rem);
+        height:calc(100vh - 9rem);
       }
       `}</style>
     </>

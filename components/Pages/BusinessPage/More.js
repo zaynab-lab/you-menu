@@ -8,19 +8,27 @@ import {
 } from "react-icons/fa";
 
 const more = [
-  { name: "store info", icon: <FaStore /> },
-  { name: "qr generator", icon: <FaQrcode /> },
-  { name: "time - schadual", icon: <FaRegClock /> },
-  { name: "order history", icon: <FaHistory /> },
-  { name: "support", icon: <FaQuestion /> }
+  { name: "business info", icon: <FaStore />, selected: "BusinessInfo" },
+  { name: "qr generator", icon: <FaQrcode />, selected: "Qr" },
+  {
+    name: "time - schadual",
+    icon: <FaRegClock />,
+    selected: "Time"
+  },
+  {
+    name: "order history",
+    icon: <FaHistory />,
+    selected: "History"
+  },
+  { name: "support", icon: <FaQuestion />, selected: "support" }
 ];
 
-export default function More() {
+export default function More({ setSelected }) {
   return (
     <>
       <div className="more">
         {more.map((item) => (
-          <div className="more-item">
+          <div onClick={() => setSelected(item.selected)} className="more-item">
             <div className="more-icon">{item.icon}</div>
             <div>{item.name}</div>
           </div>

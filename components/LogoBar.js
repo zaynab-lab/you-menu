@@ -6,7 +6,7 @@ export default function LogoBar() {
       <div className="logo-bar">
         <div className="you">you</div>
         <div>menu</div>
-        <div className="line"></div>
+        <div className="logo-bar-line"></div>
       </div>
 
       <style>{`
@@ -19,13 +19,14 @@ export default function LogoBar() {
         ${styles.flexAligncenter}
         -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
         border-radius: 0 0 .5rem .5rem;
+        overflow:hidden;
         }
         
     .you{
         color:black;
         -webkit-transform:translateX(-2.4rem);-ms-transform:translateX(-2.4rem);transform:translateX(-2.4rem);
         }
-    .line{
+    .logo-bar-line{
         height:.5rem;
         width:100vw;
         background:black;

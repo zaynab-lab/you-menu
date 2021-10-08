@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema(
     role: { type: String },
     ccode: { type: String },
     businessBlocked: { type: Boolean },
-    businessId: { type: String },
     logDates: { type: [Date] },
     signDate: { type: Date, default: Date.now },
     otp: { type: String },

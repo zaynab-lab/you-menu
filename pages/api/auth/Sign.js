@@ -27,7 +27,10 @@ export default async (req, res) => {
           const min = 2 - (d - user.date) / 60000;
           if (min < 2 && min > 0) {
             var mins = Math.ceil(min);
-            return res.end(`please retry in ${mins} min.`);
+            return res
+              .status(200)
+
+              .end(`please retry in ${mins} min.`);
           } else {
             await User.findByIdAndUpdate(
               user._id,
@@ -64,16 +67,15 @@ export default async (req, res) => {
         // return response.data.REQUEST_RESULT === 200;
         // });
 
-        return res.end("done");
+        return res.status(200).end("done");
       } else {
-        res.end("please check the phone number");
+        res.status(200).end("please check the phone number");
       }
     } catch (err) {
       console.log(err);
 
-      return res.end("system error retry later");
+      return res.status(200).end("system error retry later");
     }
   }
-
-  return res.end("system error retry later");
+  return res.status(200).end("system error retry later");
 };

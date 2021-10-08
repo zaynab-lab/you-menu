@@ -1,4 +1,3 @@
-import Accept from "./Accept";
 import OrdersSteps from "./OrdersSteps";
 import {
   FaBackward,
@@ -50,7 +49,6 @@ export default function Orders() {
   const [orders, setOrders] = useState(orderfromdb);
   return (
     <>
-      <Accept />
       <OrdersSteps
         steps={steps}
         currentStep={currentStep}
