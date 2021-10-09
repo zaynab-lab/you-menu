@@ -27,8 +27,12 @@ export default function More({ setSelected }) {
   return (
     <>
       <div className="more">
-        {more.map((item) => (
-          <div onClick={() => setSelected(item.selected)} className="more-item">
+        {more.map((item, i) => (
+          <div
+            key={i}
+            onClick={() => setSelected(item.selected)}
+            className="more-item"
+          >
             <div className="more-icon">{item.icon}</div>
             <div>{item.name}</div>
           </div>

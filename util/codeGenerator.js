@@ -1,11 +1,11 @@
 export function codeGenerator() {
   const alphabet = [
-    ..."0123456789@#%tuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs"
+    ..."123456789tuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs"
   ];
 
-  const code = new Array(5)
+  const code = new Array(7)
     .fill()
-    .map(() => alphabet[Math.floor(Math.random() * 65)])
+    .map(() => alphabet[Math.floor(Math.random() * 61)])
     .reduce((a, b) => {
       return a + b;
     });

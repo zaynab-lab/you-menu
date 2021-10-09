@@ -2,12 +2,12 @@ import dbConnection from "@/util/dbConnection";
 import User from "@/models/user";
 import jwt from "jsonwebtoken";
 import Role from "@/models/role";
+import Business from "@/models/business";
 
 dbConnection();
 
-export default async function Auth(req, res) {
+export default async function (req, res) {
   const { method } = req;
-
   if (method === "GET") {
     const token = req.cookies.jwt;
     if (!token) return res.status(200).end("noToken");
@@ -15,20 +15,14 @@ export default async function Auth(req, res) {
       if (err) return res.status(200).end("invalid");
       const user = await User.findById(decoded.id).exec();
       if (user) {
-        User.findByIdAndUpdate(
-          user._id,
-          { workingtimes: user.workingtimes + 1 },
-          (err) => console.log(err)
-        );
         const role = await Role.findOne({ role: user.role }).exec();
+        if (role?.permissions.includes("EnterMarketingPage")) {
+          const businesses = await Business.find({
+            addedby: user.promoCode
+          }).exec();
 
-        return res.status(200).end(
-          JSON.stringify({
-            name: user.name,
-            number: user.number,
-            permissions: role.permissions
-          })
-        );
+          return res.status(200).end(JSON.stringify(businesses));
+        }
       } else {
         return res.status(200).end("invalid");
       }

@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const roleSchema = new mongoose.Schema(
   {
-    name: { type: String },
-    level: { type: Number },
+    role: { type: String },
     permissions: { type: [String] }
   },
   { collection: "roles" }
 );
 
-export default mongoose.models.Role || mongoose.model("Role", userSchema);
+export default mongoose.models.Role || mongoose.model("Role", roleSchema);

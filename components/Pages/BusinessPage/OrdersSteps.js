@@ -4,8 +4,9 @@ export default function OrdersSteps({ steps, currentStep, setCurrentStep }) {
   return (
     <>
       <div className="stepBar">
-        {steps?.map((step) => (
+        {steps?.map((step, i) => (
           <div
+            key={i}
             onClick={() => setCurrentStep(step.name)}
             className={`stepContainer ${step.name === currentStep && "active"}`}
           >

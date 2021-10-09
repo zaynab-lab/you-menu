@@ -15,8 +15,8 @@ export default function Arrow() {
         x2="21.8215"
         y2="4.35979"
         stroke={styles.secondaryColor}
-        stroke-width="6"
-        stroke-linecap="round"
+        strokeWidth="6"
+        strokeLinecap="round"
       />
       <line
         x1="5.38616"
@@ -24,8 +24,8 @@ export default function Arrow() {
         x2="22.4704"
         y2="34.3696"
         stroke={styles.secondaryColor}
-        stroke-width="6"
-        stroke-linecap="round"
+        strokeWidth="6"
+        strokeLinecap="round"
       />
     </svg>
   );

@@ -8,7 +8,7 @@ export default function Logo() {
         .logo {
           width: 8rem;
           height: 8rem;
-          background: lightgrey;
+          background: #eee;
           font-size: 3rem;
           border-radius: 2rem;
           color: ${styles.grey};

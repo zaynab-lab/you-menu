@@ -11,8 +11,10 @@ export default function OrderCard({ order }) {
           <div>{order.type}</div>
 
           <div className="orderItems">
-            {order.items.map((item) => (
-              <div className="orderItem">{item.name}</div>
+            {order.items.map((item, i) => (
+              <div key={i} className="orderItem">
+                {item.name}
+              </div>
             ))}
           </div>
         </div>

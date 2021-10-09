@@ -1,14 +1,25 @@
 import Arrow from "./icons/Arrow";
 import { styles } from "@/public/js/styles";
+import Link from "next/link";
 
-export default function BackButton({ setSelected }) {
+export default function BackButton({ setSelected, back }) {
   return (
     <>
-      <div className="backBar">
-        <div onClick={() => setSelected("More")} className="circulBack">
-          <Arrow />
+      {back ? (
+        <div className="backBar">
+          <Link href={back}>
+            <div className="circulBack">
+              <Arrow />
+            </div>
+          </Link>
         </div>
-      </div>
+      ) : (
+        <div className="backBar">
+          <div onClick={() => setSelected("More")} className="circulBack">
+            <Arrow />
+          </div>
+        </div>
+      )}
       <style jsx>{`
         .backBar {
           padding: 0.6rem 0 0 1rem;

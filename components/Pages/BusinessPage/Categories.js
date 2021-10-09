@@ -8,8 +8,9 @@ export default function Categories({ categories }) {
   return (
     <>
       <div className="categoryBar">
-        {categories?.map((category) => (
+        {categories?.map((category, i) => (
           <div
+            key={i}
             onClick={() => {
               setCurrentCat(category.name);
               setCategoryItems(category.items);
@@ -70,8 +71,8 @@ export function Category({ categoryItems, currentCat }) {
         <>
           <div className="categoryList">
             <div className="items">
-              {categoryItems?.map((item) => (
-                <div className="item">
+              {categoryItems?.map((item, i) => (
+                <div key={i} className="item">
                   <div>
                     <div className="namePrice">
                       <div className="name">{item.name}</div>
@@ -80,8 +81,8 @@ export function Category({ categoryItems, currentCat }) {
                     <div>default: {item.default}</div>
                     <div className="toAdd">
                       add:{" "}
-                      {item.toAdd?.map((add) => (
-                        <div>{add.name}</div>
+                      {item.toAdd?.map((add, j) => (
+                        <div key={j}>{add.name}</div>
                       ))}
                     </div>
                   </div>

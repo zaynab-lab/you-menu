@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
@@ -56,11 +57,12 @@ const categories = [
   { name: "mocktails", itemsCount: 0 }
 ];
 
-export default function Add() {
+export default function Add({ back }) {
   const [category, setCategory] = useState("");
   return (
     <>
       <div className="addPage">
+        {back && <BackButton back={back} />}
         <div className="addCategory">
           <div className="inputplus">
             <Input

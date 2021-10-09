@@ -5,11 +5,10 @@ import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "@/util/extraFunctions";
-// import jsPDF from "jspdf";
 import { FaDownload } from "react-icons/fa";
 import QrCode from "@/components/QrCode";
 
-export default function Qr({ setSelected }) {
+export default function Qr({ setSelected, back, businessCode }) {
   const [tableNumber, setTableNumber] = useState(1);
   const [tables, setTables] = useState([1]);
 
@@ -33,11 +32,11 @@ export default function Qr({ setSelected }) {
     setTables(t);
   }, [tableNumber]);
 
-  const domain = "https://mogetee.vercel.app";
+  const domain = "https://youmenu.vercel.app";
 
   return (
     <>
-      <BackButton setSelected={setSelected} />
+      <BackButton setSelected={setSelected} back={back} />
       <div className="form">
         <div className="qrCountainer">
           <div className="setTables">
@@ -58,8 +57,8 @@ export default function Qr({ setSelected }) {
             download all as pdf
           </div>
           <div className="qrCardList">
-            {tables.map((obj) => (
-              <div className="qrCardListChild">
+            {tables.map((obj, i) => (
+              <div key={i} className="qrCardListChild">
                 <div className="qrCardContainer" id={`table${obj}`}>
                   <div className="qrCard">
                     <div className="qrTitle">
@@ -68,7 +67,7 @@ export default function Qr({ setSelected }) {
                     </div>
                     <div className="qrCodeContainer">
                       <QrCode
-                        value={`${domain}/menu/businessCode?table=${obj}`}
+                        value={`${domain}/menu/${businessCode}?table=${obj}`}
                         width={"200"}
                       />
                     </div>
@@ -98,6 +97,7 @@ export default function Qr({ setSelected }) {
           height: -webkit-fit-content;
           height: -moz-fit-content;
           height: fit-content;
+          padding-bottom: 2rem;
         }
 
         .qrCountainer {

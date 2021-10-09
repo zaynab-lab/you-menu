@@ -3,6 +3,8 @@ import User from "@/models/user";
 import { codeGenerator, OTPGenerator } from "@/util/codeGenerator";
 import axios from "axios";
 import { countries } from "@/util/countryCode";
+import Role from "@/models/role";
+import Business from "@/models/business";
 
 dbConnection();
 
@@ -23,25 +25,59 @@ export default async (req, res) => {
         const user = await User.findOne({
           number: body.phoneNumber
         }).exec();
+
         if (user) {
-          const min = 2 - (d - user.date) / 60000;
-          if (min < 2 && min > 0) {
-            var mins = Math.ceil(min);
+          const role = await Role.findOne({ role: user.role }).exec();
+          const business = await Business.findOne({
+            ownerNumber: user.number
+          }).exec();
+          ////////////////////////////////////
+          if (
+            body.Loginfrom === "marketing" &&
+            !role?.permissions?.includes("EnterMarketingPage")
+          ) {
             return res
               .status(200)
+              .end(`you can not join marketing page without permission`);
+          }
+          if (body.Loginfrom === "signBusiness") {
+            if (business)
+              return res
+                .status(200)
+                .end(
+                  `the business is already exist go ahead with other number`
+                );
+            else {
+              const receptor = body.ccode + body.phoneNumber;
+              await axios.get(
+                process.env.SMS_URL +
+                  "to=" +
+                  receptor +
+                  "&message=your activation code is : " +
+                  otp +
+                  " (you menu)"
+              );
+            }
+            return res.status(200).end("done");
+          }
+          ////////////////////////////////////
 
-              .end(`please retry in ${mins} min.`);
+          const min = 2 - (d - user.signDate) / 60000;
+          if (min < 2 && min > 0) {
+            var mins = Math.ceil(min);
+            return res.status(200).end(`please retry in ${mins} min.`);
           } else {
             await User.findByIdAndUpdate(
               user._id,
               {
-                date: new Date(),
+                signDate: new Date(),
                 otptimes: user.otptimes + 1,
                 otp
               },
               (err) => console.log(err)
             ).exec();
           }
+          ////////////////////////////////////
         } else {
           const createdUser = new User({
             number: body.phoneNumber,

@@ -9,16 +9,16 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState(false);
   const [alertMsg, setAlertmsg] = useState(" ");
-  const [role, setRole] = useState("");
+
   useEffect(
     () =>
       axios.get("/api/auth").then((res) => {
-        res?.data?.number && res?.data?.role === "BusinessOwner"
+        res?.data?.number &&
+        res?.data?.permissions?.includes("EnterBusinessPage")
           ? setAuth(true)
           : setAuth(false);
-        res?.data?.role === "BusinessOwner" && setRole("BusinessOwner");
         res?.data.number &&
-          setAlertmsg(`you can login her to create a business`);
+          setAlertmsg(`you can login here to create a business`);
         setLoading(false);
       }),
     []
@@ -29,7 +29,7 @@ export default function Index() {
         {loading ? (
           "Loading..."
         ) : auth ? (
-          <BusinessPage setAuth={setAuth} role={role} />
+          <BusinessPage setAuth={setAuth} />
         ) : (
           <LoginPage
             setAuth={setAuth}

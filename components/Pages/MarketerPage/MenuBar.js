@@ -1,7 +1,7 @@
 import { styles } from "@/public/js/styles";
 import Add from "@/components/icons/Add";
-import More from "@/components/icons/More";
-import Orders from "@/components/icons/Orders";
+import Qr from "@/components/icons/Qr";
+import Home from "@/components/icons/Home";
 
 export default function MenuBar({ selected, setSelected }) {
   return (
@@ -13,9 +13,9 @@ export default function MenuBar({ selected, setSelected }) {
           </div>
         </div>
 
-        <div onClick={() => setSelected("Orders")} className="icon">
-          <Orders
-            color={selected === "Orders" ? styles.secondaryColor : styles.grey}
+        <div onClick={() => setSelected("Home")} className="icon">
+          <Home
+            color={selected === "Home" ? styles.secondaryColor : styles.grey}
           />
         </div>
 
@@ -25,10 +25,8 @@ export default function MenuBar({ selected, setSelected }) {
           />
         </div>
 
-        <div onClick={() => setSelected("More")} className="icon">
-          <More
-            color={selected === "More" ? styles.secondaryColor : styles.grey}
-          />
+        <div onClick={() => setSelected("Qr")} className="icon">
+          <Qr color={selected === "Qr" ? styles.secondaryColor : styles.grey} />
         </div>
       </div>
 

@@ -1,13 +1,28 @@
 import Line from "@/components/Line";
 import { styles } from "@/public/js/styles";
-import SignBusiness from "./SignBusiness";
+import LoginForm from "../LoginPage/LoginForm";
+import ListOfBusinesses from "./ListOfBusinesses";
+import { marketerMotivation } from "@/util/motivation";
+import { useState } from "react";
 
 export default function MarketerPage() {
+  const [addbusiness, setAddBusiness] = useState(false);
   return (
     <>
       <Line />
-      <div className="motivation">dear you-menu marketer do your best ❤</div>
-      <SignBusiness />
+      <div className="motivation" onClick={() => setAddBusiness(!addbusiness)}>
+        <div>❤ dear our marketer, give us feedback ❤</div>
+        🏹{" "}
+        {
+          marketerMotivation[
+            Math.floor(Math.random() * marketerMotivation.length)
+          ]?.content
+        }{" "}
+      </div>
+      {addbusiness && <LoginForm Loginfrom={"signBusiness"} />}
+      <div className="motivation">your active businesses</div>
+      <ListOfBusinesses />
+
       <style jsx>{`
         .motivation {
           font-size: 1.2rem;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const businessSchema = new mongoose.Schema(
   {
     ownerName: { type: String },
     ownerNumber: { type: String, require: true, unique: true },
@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
       name: { type: String },
       imgLink: { type: String }
     },
+    businessCode: { type: String },
     signDates: { type: Date, default: Date.now },
     orderTimes: Number,
     credit: Number,
@@ -63,4 +64,4 @@ const userSchema = new mongoose.Schema(
 );
 
 export default mongoose.models.Business ||
-  mongoose.model("Business", userSchema);
+  mongoose.model("Business", businessSchema);

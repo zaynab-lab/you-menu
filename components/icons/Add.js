@@ -16,8 +16,8 @@ export default function Add({ color }) {
           x2="42"
           y2="28"
           stroke="white"
-          stroke-width="6"
-          stroke-linecap="round"
+          strokeWidth="6"
+          strokeLinecap="round"
         />
 
         <line
@@ -26,8 +26,8 @@ export default function Add({ color }) {
           x2="29"
           y2="16"
           stroke="white"
-          stroke-width="6"
-          stroke-linecap="round"
+          strokeWidth="6"
+          strokeLinecap="round"
         />
       </svg>
     </>

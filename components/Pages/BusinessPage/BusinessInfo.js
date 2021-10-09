@@ -12,7 +12,7 @@ import Router from "next/router";
 
 const BusinessTypes = ["cafe", "resturant", "store", "other"];
 
-export default function BusinessInfo({ setSelected, setAuth }) {
+export default function BusinessInfo({ setSelected, setAuth, back }) {
   const [brand, setBrand] = useState("");
   const [ownerNumber, setOwnerNumber] = useState("");
   const [fullAddress, setFullAddress] = useState("");
@@ -20,7 +20,7 @@ export default function BusinessInfo({ setSelected, setAuth }) {
 
   return (
     <>
-      <BackButton setSelected={setSelected} />
+      <BackButton setSelected={setSelected} back={back} />
       <div className="form">
         <div className="logoContainer">
           <Logo />
@@ -28,7 +28,6 @@ export default function BusinessInfo({ setSelected, setAuth }) {
         <Label title={"brand name"} />
         <Input value={brand} onchange={(e) => setBrand(e.target.value)} />
         <Label title={"business type"} />
-        {bType}
         <select
           className="selectBusiness"
           onChange={(e) => setBType(e.target.value)}
@@ -53,31 +52,33 @@ export default function BusinessInfo({ setSelected, setAuth }) {
         <Label title={"location"} />
         <Location />
         <Button content={"confirm"} />
-        <div
-          className="signout"
-          onClick={
-            () =>
-              axios
-                .post("/api/auth/Logout")
-                .then((res) => res.data === "done" && Router.push("/"))
-                .then(() => setAuth(false))
-            // (res) =>
-            // res.data === "done" &&
-            // setState({
-            // name: "",
-            // number: "",
-            // mail: "",
-            // password: ""
-            // })
-            // )
-            // .then(() => Router.push("/"));
-          }
-        >
-          <div>Log out</div>
-          <div className="signoutIcon">
-            <FaSignOutAlt />
+        {!back && (
+          <div
+            className="signout"
+            onClick={
+              () =>
+                axios
+                  .post("/api/auth/Logout")
+                  .then((res) => res.data === "done" && Router.push("/"))
+                  .then(() => setAuth(false))
+              // (res) =>
+              // res.data === "done" &&
+              // setState({
+              // name: "",
+              // number: "",
+              // mail: "",
+              // password: ""
+              // })
+              // )
+              // .then(() => Router.push("/"));
+            }
+          >
+            <div>Log out</div>
+            <div className="signoutIcon">
+              <FaSignOutAlt />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <style jsx>{`
         .form {
@@ -92,6 +93,7 @@ export default function BusinessInfo({ setSelected, setAuth }) {
           height: -webkit-fit-content;
           height: -moz-fit-content;
           height: fit-content;
+          padding-bottom: 5rem;
         }
         .logoContainer {
           padding: 1rem;

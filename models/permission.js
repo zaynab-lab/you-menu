@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const permissionSchema = new mongoose.Schema(
   {
-    name: { type: String }
+    permission: { type: String },
+    roles: { type: [String], default: ["GM"] }
   },
 
   { collection: "permissions" }
 );
 
 export default mongoose.models.Permission ||
-  mongoose.model("Permission", userSchema);
+  mongoose.model("Permission", permissionSchema);
