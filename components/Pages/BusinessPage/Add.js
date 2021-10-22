@@ -1,64 +1,19 @@
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import { styles } from "@/public/js/styles";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Categories from "./Categories";
-const categories = [
-  {
-    name: "shakes",
-    items: [
-      {
-        name: "milkshake",
-        price: "2",
-        default: "banana,milk",
-        toAdd: [
-          { name: "banana", level: 2 },
-          { name: "suger", level: 2 }
-        ],
-        options: [{ colors: [] }, { size: [] }]
-      },
-      {
-        name: "choclate shake",
-        price: "2",
-        default: "choclate,banana,milk",
-        toAdd: [
-          { name: "banana", level: 2 },
-          { name: "suger", level: 2 }
-        ],
-        options: [{ colors: [] }, { size: [] }]
-      },
-      {
-        name: "milkshake",
-        price: "2",
-        default: "banana,milk",
-        toAdd: [
-          { name: "banana", level: 3 },
-          { name: "suger", level: 2 }
-        ],
 
-        options: [{ colors: [] }, { size: [] }]
-      },
-      {
-        name: "choclate shake",
-        price: "2",
-        default: "choclate,banana,milk",
-        toAdd: [
-          { name: "banana", level: 4 },
-          { name: "suger", level: 2 }
-        ],
-
-        options: [{ colors: [] }, { size: [] }]
-      }
-    ],
-    itemsCount: 2
-  },
-  { name: "cakes", itemsCount: 0 },
-  { name: "cocktails", itemsCount: 0 },
-  { name: "mocktails", itemsCount: 0 }
-];
-
-export default function Add({ back }) {
+export default function Add({ back, businessCode }) {
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([0, 0, 0]);
+  const [refresh, setRefresh] = useState(false);
+  useEffect(() => {
+    axios.get(`/api/categories?businessCode=${businessCode}`).then((res) => {
+      Array.isArray(res.data) && setCategories(res.data);
+    });
+  }, [businessCode, refresh]);
   return (
     <>
       <div className="addPage">
@@ -71,9 +26,27 @@ export default function Add({ back }) {
               placeholder="new category"
               font="1.4rem"
             />
+            <div
+              className="plus"
+              onClick={() => {
+                setCategories([...categories, 0]);
+                axios
+                  .post(
+                    "/api/categories",
+                    { category, businessCode },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    res.data === "done" && setCategory("");
+                    res.data === "done" && setRefresh(!refresh);
+                  });
+              }}
+            >
+              +
+            </div>
           </div>
         </div>
-        <Categories categories={categories} />
+        <Categories categories={categories} businessCode={businessCode} />
       </div>
       <style>{`
         .addPage{
@@ -81,6 +54,7 @@ export default function Add({ back }) {
         }
         .addCategory{
           padding:1rem;
+          padding-left:${back ? "4rem" : "2rem"};
           border-bottom:1px solid ${styles.secondaryColor}
         }
         .inputplus{
@@ -88,8 +62,7 @@ export default function Add({ back }) {
           position:relative;
           width:100%;
         }
-        .inputplus:after{
-          content:'+';
+        .plus{
           width:2rem;
           height:2rem;
           font-size:2.6rem;

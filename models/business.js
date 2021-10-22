@@ -17,39 +17,6 @@ const businessSchema = new mongoose.Schema(
       long: { type: Number },
       lat: { type: Number }
     },
-    categories: [
-      {
-        name: { type: String },
-        level: { type: Number, default: 1 },
-        colors: {
-          hbg: { type: String },
-          ht: { type: String },
-          bbg: { type: String }
-        },
-        category: { type: String },
-        items: [
-          {
-            name: { type: String },
-            price: { type: Number },
-            unit: { type: String },
-            quantity: { type: Number },
-            hasImg: { type: Boolean },
-            link: { type: String },
-            appear: { type: Boolean },
-            exist: { type: Boolean },
-            options: [
-              {
-                name: { type: String },
-                price: { type: Number },
-                priceEffect: { type: Boolean },
-                addable: { type: Boolean },
-                removable: { type: Boolean }
-              }
-            ]
-          }
-        ]
-      }
-    ],
     messages: [
       {
         reciverNumber: { type: String },

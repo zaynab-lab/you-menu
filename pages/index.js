@@ -1,10 +1,10 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-export default function Index({ users }) {
+export default function Index({ countries }) {
   return (
     <>
-      {/* {users?.map((user) => (
-        <>{user.emoji}</>
+      {/* {countries?.map((country) => (
+        <>{country.emoji}</>
       ))} */}
       Pending
     </>
@@ -27,5 +27,5 @@ export async function getServerSideProps() {
     `
   });
 
-  return { props: { users: data.countries.slice(0, 10) } };
+  return { props: { countries: data.countries.slice(0, 10) } };
 }

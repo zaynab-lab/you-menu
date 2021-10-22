@@ -14,7 +14,9 @@ export default function MarketerBusinessPage({ businessCode }) {
     <>
       <Line />
       {selected === "Home" && <BusinessInfo back={"/management"} />}
-      {selected === "Add" && <Add back={"/management"} />}
+      {selected === "Add" && (
+        <Add back={"/management"} businessCode={businessCode} />
+      )}
       {selected === "Qr" && (
         <Qr back={"/management"} businessCode={businessCode} />
       )}

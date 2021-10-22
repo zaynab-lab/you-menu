@@ -32,7 +32,7 @@ export default function Qr({ setSelected, back, businessCode }) {
     setTables(t);
   }, [tableNumber]);
 
-  const domain = "https://youmenu.vercel.app";
+  const domain = "https://www.za-menu.com";
 
   return (
     <>
@@ -53,9 +53,9 @@ export default function Qr({ setSelected, back, businessCode }) {
               />
             </div>
           </div>
-          <div onClick={() => exportPdf()} className="download">
-            download all as pdf
-          </div>
+          {/* <div onClick={() => exportPdf()} className="download">
+              download all as pdf
+            </div> */}
           <div className="qrCardList">
             {tables.map((obj, i) => (
               <div key={i} className="qrCardListChild">
@@ -106,6 +106,7 @@ export default function Qr({ setSelected, back, businessCode }) {
         .setTables {
           ${styles.flexAligncenter}
           justify-content:space-between;
+          padding: 0.4rem 2rem;
         }
 
         .setTablesTxt {

@@ -37,9 +37,10 @@ export default function ListOfBusinesses() {
         .businessCard {
           width: 25rem;
           max-width: 25rem;
-          border-radius: 2rem;
+          border-radius: 2rem 0.5rem 0.5rem 2rem;
           background: white;
-          border: 1px solid ${styles.secondaryColor};
+          // border: 1px solid ${styles.secondaryColor};
+          ${styles.boxshadow}
           ${styles.flexAligncenter}
           gap:2rem;
           cursor: pointer;

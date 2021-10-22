@@ -20,7 +20,7 @@ export default function MarketerPage() {
         }{" "}
       </div>
       {addbusiness && <LoginForm Loginfrom={"signBusiness"} />}
-      <div className="motivation">your active businesses</div>
+      <div className="businesesTitle">your active businesses</div>
       <ListOfBusinesses />
 
       <style jsx>{`
@@ -30,6 +30,12 @@ export default function MarketerPage() {
           text-align: center;
           padding: 0.5rem;
           color: ${styles.secondaryColor};
+        }
+        .businesesTitle {
+          font-size: 1.2rem;
+          width: 100%;
+          text-align: center;
+          padding: 0.5rem;
         }
       `}</style>
     </>
