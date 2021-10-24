@@ -15,13 +15,14 @@ export default function Index() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`/api/categories?businessCode=${businessCode}`)
-      .then((res) => Array.isArray(res.data) && setCategories(res.data));
-
-    axios
-      .get(`/api/products?businessCode=${businessCode}`)
-      .then((res) => Array.isArray(res.data) && setProducts(res.data));
+    businessCode !== undefined &&
+      axios
+        .get(`/api/categories?businessCode=${businessCode}`)
+        .then((res) => Array.isArray(res.data) && setCategories(res.data));
+    businessCode !== undefined &&
+      axios
+        .get(`/api/products?businessCode=${businessCode}`)
+        .then((res) => Array.isArray(res.data) && setProducts(res.data));
   }, [businessCode]);
 
   return (
