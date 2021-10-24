@@ -15,23 +15,22 @@ export default async (req, res) => {
     const business = await Business.findOne({
       businessCode: body.businessCode || req.query.businessCode
     }).exec();
+
     business &&
       jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
         if (err) return res.status(200).end("invalid");
         const user = await User.findById(decoded.id).exec();
-
         if (
           user.number === business.ownerNumber ||
           user.promoCode === business.addedby
         ) {
           switch (method) {
-            case "POST":
-              const product = new Product({
-                name: body.productName,
-                categoryID: body.categoryID
+            case "GET":
+              const products = await Product.find({
+                categoryID: req.query.categoryID,
+                deleted: false
               });
-              product.save().catch((err) => console.log(err));
-              res.status(200).end("done");
+              res.status(200).end(JSON.stringify(products));
               break;
             default:
               res.status(200).end("invalid");
@@ -41,6 +40,6 @@ export default async (req, res) => {
         }
       });
   } else {
-    res.status(200).end("invalid");
+    return res.status(200).end("invalid");
   }
 };

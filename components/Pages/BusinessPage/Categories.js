@@ -1,4 +1,4 @@
-import { FaImage, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import TextLoader, {
@@ -11,6 +11,12 @@ import axios from "axios";
 export default function Categories({ categories, businessCode }) {
   const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);
   const [category, setCategory] = useState(categories?.[0]);
+
+  useEffect(() => {
+    !currentCat && setCurrentCat(categories?.[0]?.name);
+    !currentCat && setCategory(categories?.[0]);
+  }, [categories, currentCat]);
+
   return (
     <>
       <div className="categoryBar">
@@ -26,9 +32,6 @@ export default function Categories({ categories, businessCode }) {
             }`}
           >
             <div>{category.name || <TextLoader />}</div>
-            {category.productsCount && (
-              <div className="count">{category.productsCount}</div>
-            )}
           </div>
         ))}
       </div>
@@ -88,11 +91,12 @@ export function Category({ category, currentCat, businessCode }) {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`/api/product/${categoryID}/?businessCode=${businessCode}`)
-      .then((res) => {
-        Array.isArray(res.data) && setProducts(res.data);
-      });
+    categoryID !== undefined &&
+      axios
+        .get(`/api/products/${categoryID}/?businessCode=${businessCode}`)
+        .then((res) => {
+          Array.isArray(res.data) && setProducts(res.data);
+        });
   }, [categoryID, businessCode, refresh]);
 
   useEffect(() => {
@@ -106,14 +110,25 @@ export function Category({ category, currentCat, businessCode }) {
           <div className="categoryList">
             <div className="products">
               {products?.map((product, i) => (
-                <div key={i} className="product">
-                  <div onClick={() => alert(categoryID)}>
+                <div
+                  key={i}
+                  className="product"
+                  onClick={() => alert(categoryID)}
+                >
+                  <div>
                     <div className="namePrice">
                       <div className="name">
                         {product.name || <ProductNameLoader />}
                       </div>
-                      {product.price && (
-                        <div>{product.price || <ProductPriceLoader />}$</div>
+                      {typeof product.price === "number" && (
+                        <div>
+                          {typeof product.price === "number" ? (
+                            product.price
+                          ) : (
+                            <ProductPriceLoader />
+                          )}
+                          $
+                        </div>
                       )}{" "}
                     </div>
                     {product.description && (
@@ -122,10 +137,14 @@ export function Category({ category, currentCat, businessCode }) {
                       </div>
                     )}
                   </div>
-                  <div>
-                    <div className="product-img">
-                      <FaImage />
-                    </div>
+                  <div className="productImg">
+                    {product.link && (
+                      <img
+                        className="productImg"
+                        alt={product.name}
+                        src={product.link}
+                      />
+                    )}
                   </div>
                 </div>
               ))}
@@ -142,7 +161,7 @@ export function Category({ category, currentCat, businessCode }) {
                     setProducts([...products, 0]);
                     axios
                       .post(
-                        "/api/product",
+                        "/api/products",
                         { productName, categoryID, businessCode },
                         { "content-type": "application/json" }
                       )
@@ -155,6 +174,36 @@ export function Category({ category, currentCat, businessCode }) {
                   add
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="colorsControl">
+            <div className="colorContainer">
+              <div
+                className="colorCircul"
+                style={{ background: styles.secondaryColor }}
+              ></div>
+              <div>top bar title</div>
+            </div>
+            <div className="colorContainer">
+              <div
+                className="colorCircul"
+                style={{ background: "#ffefed" }}
+              ></div>
+              <div>body background</div>
+            </div>
+            <div className="colorContainer">
+              <div
+                className="colorCircul"
+                style={{ background: styles.secondaryColor }}
+              ></div>
+              <div>title background</div>
+            </div>
+            <div className="colorContainer">
+              <div
+                className="colorCircul"
+                style={{ background: "white" }}
+              ></div>
+              <div>title</div>
             </div>
           </div>
           <div className="remove">
@@ -185,7 +234,6 @@ export function Category({ category, currentCat, businessCode }) {
         .addproduct {
           font-size: 1rem;
           transform: translateX(-2rem);
-          z-index: 5;
           cursor: pointer;
           color: ${styles.secondaryColor};
         }
@@ -207,10 +255,10 @@ export function Category({ category, currentCat, businessCode }) {
           color: ${styles.secondaryColor};
           font-size: 1.2rem;
         }
-        .product-img {
-          font-size: 3rem;
+        .productImg {
+          width: 3rem;
+          height: 3rem;
           ${styles.flexBothcenter}
-          color: grey;
         }
         .remove {
           color: ${styles.secondaryColor};
@@ -224,6 +272,23 @@ export function Category({ category, currentCat, businessCode }) {
         }
         .description {
           color: grey;
+        }
+        .colorsControl {
+          padding: 0.8rem;
+          ${styles.flexAligncenter}
+          gap: 1rem;
+          flex-wrap: wrap;
+          border-bottom: 1px solid ${styles.secondaryColor};
+        }
+        .colorContainer {
+          ${styles.flexBothcenter}
+          gap:.5rem;
+        }
+        .colorCircul {
+          width: 1.3rem;
+          height: 1.3rem;
+          border-radius: 10rem;
+          border: 2px solid lightgrey;
         }
       `}</style>
     </>

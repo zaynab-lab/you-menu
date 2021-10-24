@@ -11,6 +11,13 @@ export default async (req, res) => {
   const token = cookies.jwt;
   const { body } = req;
 
+  if (method === "GET") {
+    const categories = await Category.find({
+      businessCode: req.query.businessCode,
+      deleted: false
+    });
+    res.status(200).end(JSON.stringify(categories));
+  }
   if (token) {
     const business = await Business.findOne({
       businessCode: body.businessCode || req.query.businessCode
@@ -23,30 +30,21 @@ export default async (req, res) => {
           user.number === business.ownerNumber ||
           user.promoCode === business.addedby
         ) {
-          switch (method) {
-            case "POST":
-              const category = new Category({
-                name: body.category,
-                businessCode: body.businessCode
-              });
-              category.save().catch((err) => console.log(err));
-              res.status(200).end("done");
-              break;
-            case "GET":
-              const categories = await Category.find({
-                businessCode: req.query.businessCode,
-                deleted: false
-              });
-              res.status(200).end(JSON.stringify(categories));
-              break;
-            default:
-              res.status(200).end("invalid");
+          if (method === "POST") {
+            const category = new Category({
+              name: body.category,
+              businessCode: body.businessCode
+            });
+            category.save().catch((err) => console.log(err));
+            return res.status(200).end("done");
+          } else {
+            return res.status(200).end("invalid");
           }
         } else {
           return res.status(200).end("invalid");
         }
       });
   } else {
-    res.status(200).end("invalid");
+    return res.status(200).end("invalid");
   }
 };

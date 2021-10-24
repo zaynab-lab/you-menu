@@ -12,8 +12,7 @@ const categorySchema = new mongoose.Schema(
       bbg: { type: String },
       tt: { type: String }
     },
-    underCategoryId: { type: String },
-    productsCount: { type: Number, default: 0 }
+    underCategoryId: { type: String }
   },
   { collection: "categories" }
 );

@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>you menu</title>
+        <title>za menu</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"
@@ -32,8 +32,8 @@ const Layout = ({ children }) => {
           -ms-overflow-style: none;
           scrollbar-width: none;
           font-family: "Reem Kufi";
+          scroll-behavior: smooth;
         }
-
         *::-webkit-scrollbar {
           display: none;
         }
