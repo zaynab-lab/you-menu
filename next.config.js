@@ -7,6 +7,6 @@ module.exports = withPWA({
 });
 module.exports = {
   async redirects() {
-    return [{ source: "/", destination: "/management", permanent: false }];
+    return [{ source: "/", destination: "/business", permanent: false }];
   }
 };
