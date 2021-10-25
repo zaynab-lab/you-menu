@@ -7,6 +7,7 @@ import TextLoader, {
   ProductPriceLoader
 } from "@/components/Loaders/TextLoader";
 import axios from "axios";
+import Color from "./Color";
 
 export default function Categories({ categories, businessCode }) {
   const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);
@@ -176,36 +177,7 @@ export function Category({ category, currentCat, businessCode }) {
               </div>
             </div>
           </div>
-          <div className="colorsControl">
-            <div className="colorContainer">
-              <div
-                className="colorCircul"
-                style={{ background: styles.secondaryColor }}
-              ></div>
-              <div>top bar title</div>
-            </div>
-            <div className="colorContainer">
-              <div
-                className="colorCircul"
-                style={{ background: "#ffefed" }}
-              ></div>
-              <div>body background</div>
-            </div>
-            <div className="colorContainer">
-              <div
-                className="colorCircul"
-                style={{ background: styles.secondaryColor }}
-              ></div>
-              <div>title background</div>
-            </div>
-            <div className="colorContainer">
-              <div
-                className="colorCircul"
-                style={{ background: "white" }}
-              ></div>
-              <div>title</div>
-            </div>
-          </div>
+          <Color />
           <div className="remove">
             <div className="trash">
               <FaTrashAlt />
@@ -272,23 +244,6 @@ export function Category({ category, currentCat, businessCode }) {
         }
         .description {
           color: grey;
-        }
-        .colorsControl {
-          padding: 0.8rem;
-          ${styles.flexAligncenter}
-          gap: 1rem;
-          flex-wrap: wrap;
-          border-bottom: 1px solid ${styles.secondaryColor};
-        }
-        .colorContainer {
-          ${styles.flexBothcenter}
-          gap:.5rem;
-        }
-        .colorCircul {
-          width: 1.3rem;
-          height: 1.3rem;
-          border-radius: 10rem;
-          border: 2px solid lightgrey;
         }
       `}</style>
     </>

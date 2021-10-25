@@ -7,7 +7,6 @@ import { toPng } from "html-to-image";
 import { saveAs } from "@/util/extraFunctions";
 import { FaDownload } from "react-icons/fa";
 import QrCode from "@/components/QrCode";
-import Line from "@/components/Line";
 
 export default function Qr({ setSelected, back, businessCode }) {
   const [tableNumber, setTableNumber] = useState(1);
@@ -73,6 +72,7 @@ export default function Qr({ setSelected, back, businessCode }) {
                       />
                     </div>
                     <div className="LogoContainer">
+                      <div className="qrline"></div>
                       <LogoBar />
                     </div>
                   </div>
@@ -176,6 +176,11 @@ export default function Qr({ setSelected, back, businessCode }) {
           max-width: 22rem;
           padding-bottom: 2.6rem;
           width: 100%;
+        }
+        .qrline {
+          width: 100%;
+          height: 0.3rem;
+          background: ${styles.secondaryColor};
         }
 
         .fadownload {

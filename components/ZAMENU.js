@@ -49,7 +49,7 @@ export default function ZAMENU() {
       <style jsx>{`
         .TopBar {
           width: 100%;
-          padding: 1rem;
+          padding: 2rem;
           margin: 0;
           ${styles.flexBothcenter};
         }
