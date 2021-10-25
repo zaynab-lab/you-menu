@@ -5,7 +5,7 @@ export default function LogoLoader() {
     <>
       <div className="container">
         <div className="menu">
-          <Image height="500" width="500" src="/img/MenuLogo.png" alt="" />
+          <Image height="500" width="500" src="/img/Logo.svg" alt="" />
         </div>
       </div>
 
@@ -45,6 +45,7 @@ export default function LogoLoader() {
           -webkit-box-align: center;
           -ms-flex-align: center;
           align-items: center;
+          border-radius: 2.6rem;
           background: white;
           -webkit-box-shadow: 0px 10px 14.1px 0.9px rgba(0, 0, 0, 0.24),
             0px 4px 19.6px 0.4px rgba(0, 0, 0, 0.16);

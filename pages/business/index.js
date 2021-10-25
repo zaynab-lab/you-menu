@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import LoginPage from "@/components/Pages/LoginPage";
 import axios from "axios";
+import LogoLoader from "@/components/Loaders/LogoLoader";
 
 const BusinessPage = dynamic(() => import("@/components/Pages/BusinessPage"));
 
@@ -27,7 +28,7 @@ export default function Index() {
     <>
       <div className="page">
         {loading ? (
-          "Loading..."
+          <LogoLoader />
         ) : auth ? (
           <BusinessPage setAuth={setAuth} />
         ) : (

@@ -37,21 +37,30 @@ export default function Orders() {
   const [orders, setOrders] = useState(orderfromdb);
   return (
     <>
-      <OrdersSteps
-        steps={steps}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
-      />
-      {orders === [] ? (
-        <div className="empty">
-          <FaBoxOpen />
-        </div>
-      ) : (
-        <div className="ordersContainer">
-          <OrdersList steps={steps} currentStep={currentStep} orders={orders} />
-        </div>
-      )}
+      <div className="orderPage">
+        <OrdersSteps
+          steps={steps}
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+        />
+        {orders === [] ? (
+          <div className="empty">
+            <FaBoxOpen />
+          </div>
+        ) : (
+          <div className="ordersContainer">
+            <OrdersList
+              steps={steps}
+              currentStep={currentStep}
+              orders={orders}
+            />
+          </div>
+        )}
+      </div>
       <style>{`
+      .orderPage{
+        padding-top:.2rem;
+      }
       .empty{
         font-size:10rem;
         text-align:center;

@@ -50,6 +50,7 @@ export default function Add({ back, businessCode }) {
       </div>
       <style>{`
         .addPage{
+          padding-top:.2rem;
           padding-bottom:1rem;
         }
         .addCategory{

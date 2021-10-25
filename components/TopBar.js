@@ -22,7 +22,8 @@ export default function TopBar({ categories, state, setState }) {
 
       <style jsx>{`
         .bar {
-          padding: 0.6rem;
+          padding: 0.3rem;
+          padding-top: 0.8rem;
           overflow: auto;
           display: -webkit-box;
           display: -ms-flexbox;

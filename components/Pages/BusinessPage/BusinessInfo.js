@@ -82,7 +82,7 @@ export default function BusinessInfo({ setSelected, setAuth, back }) {
       </div>
       <style jsx>{`
         .form {
-          padding: 0 1rem;
+          padding: 0.2rem 1rem;
           ${styles.flexAligncenter}
           -webkit-box-orient:vertical;
           -webkit-box-direction: normal;

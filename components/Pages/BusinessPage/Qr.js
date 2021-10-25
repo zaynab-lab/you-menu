@@ -1,12 +1,13 @@
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
-import LogoBar from "@/components/LogoBar";
+import LogoBar from "@/components/ZAMENU";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "@/util/extraFunctions";
 import { FaDownload } from "react-icons/fa";
 import QrCode from "@/components/QrCode";
+import Line from "@/components/Line";
 
 export default function Qr({ setSelected, back, businessCode }) {
   const [tableNumber, setTableNumber] = useState(1);
@@ -137,7 +138,6 @@ export default function Qr({ setSelected, back, businessCode }) {
         .qrCard {
           border: 4px solid ${styles.secondaryColor};
           border-radius: 2rem;
-          padding: 0.2rem;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
           max-width: 22rem;
@@ -174,8 +174,10 @@ export default function Qr({ setSelected, back, businessCode }) {
 
         .LogoContainer {
           max-width: 22rem;
-          padding-bottom: 2rem;
+          padding-bottom: 2.6rem;
+          width: 100%;
         }
+
         .fadownload {
           color: ${styles.secondaryColor};
           font-size: 1.2rem;

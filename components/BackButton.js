@@ -22,7 +22,7 @@ export default function BackButton({ setSelected, back }) {
       )}
       <style jsx>{`
         .backBar {
-          padding: 0.6rem 0 0 1rem;
+          padding: 0.8rem 0 0 1rem;
           position: fixed;
           z-index: 8;
         }

@@ -19,15 +19,15 @@ export default function Menu({ categories, products }) {
               id={category.name}
               className="title"
               style={{
-                background: styles.secondaryColor || category.color.tbg,
-                color: "white" || category.color.ht
+                background: "white" || category.color.tbg,
+                color: styles.secondaryColor || category.color.ht
               }}
             >
               {category.name}
             </div>
             <div
               style={{
-                background: "#ffefed" || category.color.bbg,
+                background: "white" || category.color.bbg,
                 textAlign: "center"
               }}
             >
@@ -44,7 +44,7 @@ export default function Menu({ categories, products }) {
             <div
               className="productList"
               style={{
-                background: "#ffefed" || category.color.bbg
+                background: "white" || category.color.bbg
               }}
             >
               {products

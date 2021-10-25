@@ -22,7 +22,6 @@ export default function MarketerPage() {
       {addbusiness && <LoginForm Loginfrom={"signBusiness"} />}
       <div className="businesesTitle">your active businesses</div>
       <ListOfBusinesses />
-
       <style jsx>{`
         .motivation {
           font-size: 1.2rem;

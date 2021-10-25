@@ -7,9 +7,9 @@ export default function Line() {
       <style>{`
   .line{
     width:100vw;
-    height:.3rem;
+    height:.4rem;
     background:${styles.lineargradeint};
-    position:sticky;
+    position:fixed;
     top:0;
     z-index:100;
   }
