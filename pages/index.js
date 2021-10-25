@@ -1,4 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { redirect } from "next/dist/server/api-utils";
+import Link from "next/link";
 
 export default function Index({ countries }) {
   return (
@@ -6,7 +8,7 @@ export default function Index({ countries }) {
       {/* {countries?.map((country) => (
         <>{country.emoji}</>
       ))} */}
-      Pending
+      <Link href="/business">go to business page</Link>
     </>
   );
 }

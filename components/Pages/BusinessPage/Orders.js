@@ -12,7 +12,7 @@ import OrdersList from "./OrdersList";
 import { styles } from "../../../public/js/styles";
 
 const steps = [
-  { name: "waiting to confirm", icon: <FaCheck />, count: 3 },
+  { name: "waiting to confirm", icon: <FaCheck />, count: 1 },
   { name: "pending to pay", icon: <FaReceipt /> },
   { name: "preparing", icon: <FaHandHoldingHeart /> },
   { name: "delivering", icon: <FaShippingFast /> },
@@ -59,7 +59,7 @@ export default function Orders() {
       </div>
       <style>{`
       .orderPage{
-        padding-top:.2rem;
+        padding-top:.4rem;
       }
       .empty{
         font-size:10rem;

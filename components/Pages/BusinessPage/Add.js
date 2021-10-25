@@ -55,7 +55,7 @@ export default function Add({ back, businessCode }) {
         }
         .addCategory{
           padding:1rem;
-          padding-left:${back ? "4rem" : "2rem"};
+          padding-left:${back ? "4.6rem" : "2rem"};
           border-bottom:1px solid ${styles.secondaryColor}
         }
         .inputplus{
