@@ -5,3 +5,8 @@ module.exports = withPWA({
     dest: "public"
   }
 });
+module.exports = {
+  async redirects() {
+    return [{ source: "/", destination: "/management", permanent: false }];
+  }
+};
