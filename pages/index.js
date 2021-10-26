@@ -28,5 +28,5 @@ export async function getServerSideProps() {
     `
   });
 
-  return { props: { countries: data.countries.slice(0, 10) } };
+  return { props: { countries: data.countries.slice(0, 100) } };
 }

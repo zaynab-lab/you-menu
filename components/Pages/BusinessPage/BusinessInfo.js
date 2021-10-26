@@ -10,7 +10,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 import Router from "next/router";
 
-const BusinessTypes = ["cafe", "resturant", "store", "other"];
+const BusinessTypes = ["cafe", "resturant", "store", "retail", "other"];
 
 export default function BusinessInfo({ setSelected, setAuth, back }) {
   const [brand, setBrand] = useState("");

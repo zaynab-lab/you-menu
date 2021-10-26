@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Line from "./Line";
 import { styles } from "@/public/js/styles";
+import TextLoader from "./Loaders/TextLoader";
 
 export default function Menu({ categories, products }) {
   const [state, setState] = useState("");
@@ -23,7 +24,7 @@ export default function Menu({ categories, products }) {
                 color: styles.secondaryColor || category.color.ht
               }}
             >
-              {category.name}
+              {category.name || <TextLoader />}
             </div>
             <div
               style={{

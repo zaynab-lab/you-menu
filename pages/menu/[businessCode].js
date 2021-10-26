@@ -11,8 +11,8 @@ export default function Index() {
   const businessName = "za menu";
   const router = useRouter();
   const { businessCode } = router.query;
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([0, 0, 0]);
+  const [products, setProducts] = useState([0, 0]);
 
   useEffect(() => {
     businessCode !== undefined &&

@@ -14,6 +14,13 @@ export const countries = [
     parafix: [9]
   },
   {
+    code: "968",
+    shownCode: "+968",
+    flag: "🇴🇲",
+    name: "Oman",
+    parafix: [7, 8, 9]
+  },
+  {
     code: "1",
     shownCode: "+1",
     flag: "🇨🇦",

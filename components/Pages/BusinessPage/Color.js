@@ -4,7 +4,7 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 
 export default function Color() {
-  const [modal, setModal] = useState(false);
+  const [colorModal, setColorModal] = useState(false);
   const [titleBColor, setTitleBColor] = useState("white");
   const [defaultColor, setDefColor] = useState("white");
 
@@ -29,20 +29,20 @@ export default function Color() {
           ></div>
           <div>title</div>
         </div>
-        <div onClick={() => setModal(true)} className="colorContainer">
+        <div onClick={() => setColorModal(true)} className="colorContainer">
           <div
             className="colorCircul"
             style={{ background: titleBColor }}
           ></div>
           <div>title background</div>
         </div>
-        {modal && (
-          <ColorModal
-            defaultColor={defaultColor}
-            setTitleBColor={setTitleBColor}
-            setModal={setModal}
-          />
-        )}
+
+        <ColorModal
+          defaultColor={defaultColor}
+          setTitleBColor={setTitleBColor}
+          setColorModal={setColorModal}
+          colorModal={colorModal}
+        />
       </div>
       <style jsx>{`
         .colorsControl {
@@ -69,12 +69,18 @@ export default function Color() {
     </>
   );
 }
-export function ColorModal({ setModal, defaultColor, setTitleBColor }) {
+
+export function ColorModal({
+  setColorModal,
+  colorModal,
+  defaultColor,
+  setTitleBColor
+}) {
   const [color, setColor] = useColor("hex", defaultColor);
 
   return (
     <>
-      <div className="modal">
+      <div className={`colorModal ${colorModal && "showColorModal"}`}>
         <div className="colorContainer">
           <div className="Xheader">
             <div>select color</div>
@@ -82,10 +88,10 @@ export function ColorModal({ setModal, defaultColor, setTitleBColor }) {
               className="X"
               onClick={() => {
                 setTitleBColor(color.hex);
-                setModal(false);
+                setColorModal(false);
               }}
             >
-              X
+              x
             </div>
           </div>
           <ColorPicker
@@ -99,14 +105,21 @@ export function ColorModal({ setModal, defaultColor, setTitleBColor }) {
         </div>
       </div>
       <style jsx>{`
-        .modal {
+        .colorModal {
           position: fixed;
           top: 0;
           width: 96vw;
           height: 100vh;
-          z-index: 100;
+          z-index: -1;
+          opacity: 0;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
+          transition: all 0.5s ease-out;
+        }
+        .showColorModal {
+          opacity: 100;
+          z-index: 100;
+          transition: all 0.5s ease-out;
         }
         .Xheader {
           text-align: right;
@@ -119,6 +132,9 @@ export function ColorModal({ setModal, defaultColor, setTitleBColor }) {
           border-radius: 0.7rem 0.7rem 0 0;
         }
         .X {
+          font-size: 1.6rem;
+          line-height: 0;
+          padding-bottom: 0.4rem;
           cursor: pointer;
         }
         .colorContainer {

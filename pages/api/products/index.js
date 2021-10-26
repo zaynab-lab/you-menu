@@ -44,6 +44,17 @@ export default async (req, res) => {
                 });
                 product.save().catch((err) => console.log(err));
                 return res.status(200).end("done");
+              } else if (method === "PUT") {
+                Product.findByIdAndUpdate(
+                  body.productID,
+                  {
+                    name: body.state.name,
+                    price: body.state.price,
+                    description: body.state.description
+                  },
+                  (err) => console.log(err)
+                );
+                return res.status(200).end("done");
               } else {
                 return res.status(200).end("invalid");
               }

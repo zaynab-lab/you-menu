@@ -1,4 +1,5 @@
 import { styles } from "@/public/js/styles";
+import TextLoader from "./Loaders/TextLoader";
 
 export default function TopBar({ categories, state, setState }) {
   return (
@@ -12,7 +13,7 @@ export default function TopBar({ categories, state, setState }) {
               style={{ color: "black" }}
               onClick={() => setState(category.name)}
             >
-              {category.name}
+              {category.name || <TextLoader />}
             </div>
           </a>
         ))}
