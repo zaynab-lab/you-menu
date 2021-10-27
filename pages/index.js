@@ -1,18 +1,31 @@
+import { BurgerButton } from "@/components/BackButton";
+import Input from "@/components/Input";
+import LogoBar from "@/components/ZAMENU";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import Link from "next/link";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const MenuModal = dynamic(import("@/components/MenuModal"));
 
 export default function Index({ countries }) {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <>
-      {countries?.map((country) => (
+      {/* {countries?.map((country) => (
         <span key={country.id}>{country.emoji}</span>
-      ))}
-      <div>
-        <Link href="/business">go to business page</Link>
+      ))} */}
+      <BurgerButton setOpenModal={setOpenModal} />
+      <LogoBar size={true} />
+      <div className="pageContainer">
+        <Input placeholder={"search a brand"} font={"1.4rem"} />
+
+        <MenuModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>
-      <div>
-        <Link href="/management">are you a marketer</Link>
-      </div>
+      <style jsx>{`
+        .pageContainer {
+          padding: 1rem;
+        }
+      `}</style>
     </>
   );
 }
