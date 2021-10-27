@@ -5,13 +5,18 @@ export default function Index({ countries }) {
   return (
     <>
       {countries?.map((country) => (
-        <>{country.emoji}</>
+        <span key={country.id}>{country.emoji}</span>
       ))}
-      <Link href="/business">go to business page</Link>
+      <div>
+        <Link href="/business">go to business page</Link>
+      </div>
+      <div>
+        <Link href="/management">are you a marketer</Link>
+      </div>
     </>
   );
 }
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const client = new ApolloClient({
     // uri: "https://lz03d.sse.codesandbox.io/api/graphql",
     uri: "https://countries.trevorblades.com",
