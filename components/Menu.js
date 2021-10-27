@@ -14,6 +14,7 @@ export default function Menu({ categories, products, businessCode }) {
 
   useEffect(
     () =>
+      businessCode !== undefined &&
       axios
         .get(`/api/business/currency?businessCode=${businessCode}`)
         .then((res) => {

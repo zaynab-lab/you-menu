@@ -3,6 +3,13 @@ import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 
+const dfColors = [
+  styles.secondaryColor,
+  "white",
+  styles.secondaryColor,
+  "white"
+];
+
 export default function Color() {
   const [colorModal, setColorModal] = useState(false);
   const [titleBColor, setTitleBColor] = useState("white");

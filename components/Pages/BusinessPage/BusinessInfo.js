@@ -95,7 +95,7 @@ export default function BusinessInfo({
               )
               .then((res) => {
                 res.data === "done" && setRefresh(!refresh);
-                res.data === "done" && setAlert("change saved");
+                res.data === "done" && setAlert("changes saved");
               });
           }}
         />

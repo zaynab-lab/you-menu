@@ -63,7 +63,7 @@ export default function Qr({ setSelected, back, business }) {
                       <div className="qrTitle-number">
                         {bType.includes(business?.businessType)
                           ? obj
-                          : business?.businessBrand}
+                          : business?.brand?.name}
                       </div>
                     </div>
                     <Link href={`/menu/${business?.businessCode}`}>
@@ -76,12 +76,15 @@ export default function Qr({ setSelected, back, business }) {
                     </Link>
                     <div className="LogoContainer">
                       <div className="qrline"></div>
-                      <LogoBar />
+                      <LogoBar size={true} />
                     </div>
                   </div>
                 </div>
                 <div className="fadownload" onClick={() => exportImg(obj)}>
-                  <FaDownload /> {"   "} table {obj}
+                  <FaDownload /> {"   "}{" "}
+                  {bType.includes(business?.businessType)
+                    ? `table ${obj}`
+                    : "QR code"}
                 </div>
               </div>
             ))}

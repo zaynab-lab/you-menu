@@ -1,11 +1,22 @@
+import { useState } from "react";
+import Dots from "@/components/Loaders/Dots";
+
 export default function Button({ content, onclick, color }) {
+  const [dots, setDots] = useState(false);
   return (
     <>
       <button
         className={`button ${color ? "color" : "black"}`}
-        onClick={onclick}
+        onClick={() => {
+          setDots(true);
+          onclick();
+          const clearMessage = setTimeout(() => {
+            setDots(false);
+          }, 1200);
+          return () => clearTimeout(clearMessage);
+        }}
       >
-        {content}
+        {dots ? <Dots /> : content}
       </button>
       <style>{`
       .button{

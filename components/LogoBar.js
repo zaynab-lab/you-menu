@@ -1,6 +1,6 @@
 import { styles } from "@/public/js/styles";
 
-export default function LogoBar() {
+export default function LogoBar({ height }) {
   return (
     <>
       <div className="logo-bar">
@@ -13,7 +13,7 @@ export default function LogoBar() {
       .logo-bar{
         color:white;
         background: ${styles.lineargradeint};
-        font-size:5rem;
+        font-size:${height ? height : "5rem"};
         padding:1rem 0 2rem 0;
         line-height:3.4rem;
         ${styles.flexAligncenter}

@@ -5,7 +5,7 @@ export default function LogoLoader() {
     <>
       <div className="container">
         <div className="menu">
-          <Image height="500" width="500" src="/img/Logo.svg" alt="" />
+          <Image height="500" width="500" src="/img/ZaLogo.svg" alt="" />
         </div>
       </div>
 
