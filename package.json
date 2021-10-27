@@ -21,7 +21,7 @@
     "jsonwebtoken": "8.5.1",
     "jspdf": "2.4.0",
     "mongoose": "5.11.16",
-    "next": "12.0.0",
+    "next": "12.0.1",
     "next-pwa": "5.4.0",
     "react": "17.0.2",
     "react-color-palette": "6.1.0",
