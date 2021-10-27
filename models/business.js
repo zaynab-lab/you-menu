@@ -9,6 +9,9 @@ const businessSchema = new mongoose.Schema(
       imgLink: { type: String }
     },
     businessCode: { type: String },
+    businessType: { type: String },
+    exRate: { type: Number },
+    currency: { type: String },
     signDates: { type: Date, default: Date.now },
     orderTimes: Number,
     credit: Number,

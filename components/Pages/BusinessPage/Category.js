@@ -10,18 +10,19 @@ import Modal from "@/components/Modal";
 import axios from "axios";
 import Color from "./Color";
 import Alert from "@/components/Alert";
+import Image from "next/image";
 
 export default function Category({ category, currentCat, businessCode }) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([]);
-  const categoryID = category._id;
+  const categoryID = category?._id;
   const [refresh, setRefresh] = useState(false);
   const [alert, setAlert] = useState("");
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    categoryID !== undefined &&
+    categoryID &&
       axios
         .get(`/api/products/${categoryID}/?businessCode=${businessCode}`)
         .then((res) => {
@@ -53,16 +54,16 @@ export default function Category({ category, currentCat, businessCode }) {
                       <div className="name">
                         {product.name || <ProductNameLoader />}
                       </div>
-                      {typeof product.price === "number" && (
-                        <div>
+                      {product.hasImg && typeof product.price === "number" && (
+                        <div className="price">
+                          $
                           {typeof product.price === "number" ? (
                             product.price
                           ) : (
                             <ProductPriceLoader />
                           )}
-                          $
                         </div>
-                      )}{" "}
+                      )}
                     </div>
 
                     {product.description && (
@@ -71,16 +72,20 @@ export default function Category({ category, currentCat, businessCode }) {
                       </div>
                     )}
                   </div>
-
-                  <div className="productImg">
-                    {product.link && (
-                      <img
-                        className="productImg"
+                  {product.hasImg ? (
+                    <div className="productPartImg">
+                      <Image
+                        height="260"
+                        width="260"
+                        src={`/img/products/${product.image}.png`}
                         alt={product.name}
-                        src={product.link}
                       />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    typeof product.price === "number" && (
+                      <div className="price">${product.price}</div>
+                    )
+                  )}
                 </div>
               ))}
 
@@ -168,16 +173,16 @@ export default function Category({ category, currentCat, businessCode }) {
           justify-content: space-between;
           border-bottom: 1px solid lightgrey;
           padding: 0.2rem 1rem;
+          cursor: pointer;
         }
 
         .name {
-          font-size: 1.2rem;
+          color: ${styles.secondaryColor};
         }
 
         .namePrice {
           ${styles.flexAligncenter}
           gap:.4rem;
-          color: ${styles.secondaryColor};
           font-size: 1.2rem;
         }
 

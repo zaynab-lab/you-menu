@@ -22,7 +22,7 @@ export default function ListOfBusinesses() {
                 <div className="brand">
                   {business?.brand?.name ? business?.brand?.name : "Brand"}
                 </div>
-                <div>{business.ownerNumber}</div>
+                <div>{business?.ownerNumber}</div>
               </div>
             </div>
           </Link>
@@ -33,6 +33,7 @@ export default function ListOfBusinesses() {
           padding: 1rem;
           ${styles.flexBothcenter}
           flex-wrap:wrap;
+          gap:1.6rem;
         }
         .businessCard {
           width: 25rem;

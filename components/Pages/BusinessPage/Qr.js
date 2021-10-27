@@ -7,20 +7,15 @@ import { toPng } from "html-to-image";
 import { saveAs } from "@/util/extraFunctions";
 import { FaDownload } from "react-icons/fa";
 import QrCode from "@/components/QrCode";
+import Share from "@/components/Share";
+import Link from "next/link";
 
-export default function Qr({ setSelected, back, businessCode }) {
+const bType = ["resturant", "cafe"];
+
+export default function Qr({ setSelected, back, business }) {
   const [tableNumber, setTableNumber] = useState(1);
   const [tables, setTables] = useState([1]);
 
-  const exportPdf = () => {
-    // const pdf = new jsPDF("p", "mm", "a5");
-    // tables.map((number) =>
-    //   toPng(document.getElementById("table" + number)).then((dataUrl) => {
-    //     pdf.loadFile(dataUrl);
-    //   })
-    // );
-    // pdf.save("Tables.pdf");
-  };
   const exportImg = (number) => {
     toPng(document.getElementById("table" + number)).then((dataUrl) => {
       saveAs(dataUrl, `table${number}.png`);
@@ -39,38 +34,46 @@ export default function Qr({ setSelected, back, businessCode }) {
       <BackButton setSelected={setSelected} back={back} />
       <div className="form">
         <div className="qrCountainer">
-          <div className="setTables">
-            <div className="setTablesTxt">number of tables</div>
-            <div className="setTablesInput">
-              <Input
-                type={"number"}
-                value={tableNumber}
-                onchange={(e) => {
-                  e.target.value <= 50
-                    ? setTableNumber(e.target.value)
-                    : alert("50 table allowed");
-                }}
-              />
+          {bType.includes(business?.businessType) && (
+            <div className="setTables">
+              <div className="setTablesTxt">number of tables</div>
+              <div className="setTablesInput">
+                <Input
+                  type={"number"}
+                  value={tableNumber}
+                  onchange={(e) => {
+                    e.target.value <= 50
+                      ? setTableNumber(e.target.value)
+                      : alert("50 table allowed");
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          {/* <div onClick={() => exportPdf()} className="download">
-              download all as pdf
-            </div> */}
+          )}
+          <Share domain={domain} businessCode={business?.businessCode} />
           <div className="qrCardList">
             {tables.map((obj, i) => (
               <div key={i} className="qrCardListChild">
                 <div className="qrCardContainer" id={`table${obj}`}>
                   <div className="qrCard">
                     <div className="qrTitle">
-                      <div className="qrTitle-table">table</div>
-                      <div className="qrTitle-number">{obj}</div>
+                      <div className="qrTitle-table">
+                        {bType.includes(business?.businessType) && "table"}
+                      </div>
+                      <div className="qrTitle-number">
+                        {bType.includes(business?.businessType)
+                          ? obj
+                          : business?.businessBrand}
+                      </div>
                     </div>
-                    <div className="qrCodeContainer">
-                      <QrCode
-                        value={`${domain}/menu/${businessCode}?table=${obj}`}
-                        width={"200"}
-                      />
-                    </div>
+                    <Link href={`/menu/${business?.businessCode}`}>
+                      <div className="qrCodeContainer">
+                        <QrCode
+                          value={`${domain}/menu/${business?.businessCode}?table=${obj}`}
+                          width={"200"}
+                        />
+                      </div>
+                    </Link>
                     <div className="LogoContainer">
                       <div className="qrline"></div>
                       <LogoBar />
@@ -162,6 +165,9 @@ export default function Qr({ setSelected, back, businessCode }) {
           line-height: 6rem;
           color: white;
           background: ${styles.lineargradeint};
+          font-size: ${bType.includes(business?.businessType)
+            ? "6rem"
+            : "3rem"};
         }
 
         .qrCodeContainer {

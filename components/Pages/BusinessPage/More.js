@@ -20,7 +20,7 @@ const more = [
     icon: <FaHistory />,
     selected: "History"
   },
-  { name: "support", icon: <FaQuestion />, selected: "support" }
+  { name: "support", icon: <FaQuestion />, selected: "Support" }
 ];
 
 export default function More({ setSelected }) {

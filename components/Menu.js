@@ -1,13 +1,27 @@
 import Image from "next/image";
 import TopBar from "./TopBar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Line from "./Line";
 import { styles } from "@/public/js/styles";
 import TextLoader from "./Loaders/TextLoader";
+import axios from "axios";
 
-export default function Menu({ categories, products }) {
+export default function Menu({ categories, products, businessCode }) {
   const [state, setState] = useState("");
+  const [currency, setCurrency] = useState("");
+  const [exRate, setExRate] = useState(1);
+
+  useEffect(
+    () =>
+      axios
+        .get(`/api/business/currency?businessCode=${businessCode}`)
+        .then((res) => {
+          res?.data?.currency && setCurrency(res.data.currency);
+          res?.data?.exRate && setExRate(res.data.exRate);
+        }),
+    [businessCode]
+  );
 
   return (
     <>
@@ -56,7 +70,12 @@ export default function Menu({ categories, products }) {
                       <div className="productName">{product.name}</div>
                       <div className="description">{product.description}</div>
                       {product.hasImg && (
-                        <div className="price">${product.price}</div>
+                        <div className="price">
+                          {currency === "$"
+                            ? product.price
+                            : product.price * exRate}{" "}
+                          {currency}
+                        </div>
                       )}
                     </div>
 
@@ -70,7 +89,12 @@ export default function Menu({ categories, products }) {
                         />
                       </div>
                     ) : (
-                      <div className="price">${product.price}</div>
+                      <div className="price">
+                        {currency === "$"
+                          ? product.price
+                          : product.price * exRate}{" "}
+                        {currency}
+                      </div>
                     )}
                   </div>
                 ))}

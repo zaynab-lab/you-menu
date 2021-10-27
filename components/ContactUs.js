@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function ContuctUs() {
   return (
     <>
-      <Link href="https://wa.me/+96181026095?text=There are some points: ">
+      <Link href="https://wa.me/+96181026095?text=dear za menu: ">
         <div className="contact">contact us on Whatsapp</div>
       </Link>
       <style>{`

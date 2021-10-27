@@ -31,7 +31,11 @@ export default function Index() {
         <title>{businessName}</title>
       </Head>
       <LogoLoader />
-      <Menu categories={categories} products={products} />
+      <Menu
+        categories={categories}
+        products={products}
+        businessCode={businessCode}
+      />
     </>
   );
 }
