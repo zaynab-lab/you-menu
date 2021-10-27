@@ -7,6 +7,7 @@ export default function Logo() {
       <style jsx>{`
         .logo {
           width: 8rem;
+          min-width: 8rem;
           height: 8rem;
           background: #eee;
           font-size: 3rem;

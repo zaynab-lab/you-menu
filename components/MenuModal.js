@@ -48,13 +48,13 @@ export default function MenuModal({ openModal, setOpenModal }) {
         .swipe1 {
           position: relative;
           left: -20rem;
-          transition: 0.5s all 0.1s ease-out;
+          transition: 1.2s all 0.1s ease-out;
           text-align: center;
         }
         .swipe2 {
           position: relative;
           left: -20rem;
-          transition: 0.7s all 0.1s ease-out;
+          transition: 1.4s all 0.1s ease-out;
           text-align: center;
         }
 
