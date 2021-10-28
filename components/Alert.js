@@ -11,12 +11,20 @@ export default function Alert({ alert, setAlert }) {
 
   return (
     <>
-      {alert !== "" && <div className="alert">{alert}</div>}
+      {alert !== "" && (
+        <div className="alertContainer">
+          <div className="alert">{alert}</div>
+        </div>
+      )}
       <style jsx>{`
+        .alertContainer {
+          width: 100%;
+          ${styles.flexJustifycenter}
+        }
         .alert {
           width: 70vw;
           position: fixed;
-          padding: 0.6rem;
+          padding: 0.3rem;
           text-align: center;
           top: 0.6rem;
           margin: auto;

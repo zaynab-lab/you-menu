@@ -1,20 +1,21 @@
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
 
-export default function Logo({ uploading, setFile }) {
+export default function ProductImage({ uploading, setFile }) {
   const [image, setImage] = useState();
 
   return (
     <>
       <label id="imglabel" htmlFor="imgInput">
-        <div className="logo">
+        <div className="product">
           {image ? (
             <img id="img" height="100%" width="100%" alt="" src={image} />
           ) : (
-            "logo"
+            "product"
           )}
         </div>
       </label>
+
       {uploading && (
         <input
           type="file"
@@ -25,6 +26,7 @@ export default function Logo({ uploading, setFile }) {
             reader.onload = () => {
               reader.readyState === 2 && setImage(reader.result);
             };
+
             if (file && file.size < 300000) {
               reader.readAsDataURL(file);
               var blob = file.slice(0, file.size);
@@ -40,6 +42,7 @@ export default function Logo({ uploading, setFile }) {
           }}
         />
       )}
+
       <style jsx>{`
         #imgInput {
           opacity: 0;
@@ -47,14 +50,15 @@ export default function Logo({ uploading, setFile }) {
           z-index: -1;
           width: 5rem;
         }
+
         #imglabel,
         #img,
-        .logo {
-          width: 8rem;
-          min-width: 8rem;
-          height: 8rem;
+        .product {
+          width: 7rem;
+          min-width: 7rem;
+          height: 7rem;
           background: #eee;
-          font-size: 3rem;
+          font-size: 1.7rem;
           border-radius: 2rem;
           color: ${styles.grey};
           ${styles.flexBothcenter}

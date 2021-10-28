@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
+import ProductImage from "./ProductImage";
 
 export default function Modal({
   openModal,
@@ -27,6 +28,9 @@ export default function Modal({
           x
         </div>
         <div>
+          <div className="pImg">
+            <ProductImage uploading={true} />
+          </div>
           <Label title={"product name"} />
           <Input
             value={state?.name}
@@ -44,7 +48,6 @@ export default function Modal({
             font={"1.2rem"}
           />
         </div>
-
         <div>
           <Label title={"price"} />
           <Input
@@ -93,6 +96,9 @@ export default function Modal({
         .modal.show {
           top: 0vh;
           transition: all 0.5s ease-out;
+        }
+        .pImg {
+          ${styles.flexJustifycenter}
         }
         .X {
           text-align: right;

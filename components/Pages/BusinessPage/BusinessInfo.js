@@ -34,7 +34,7 @@ export default function BusinessInfo({
       <BackButton setSelected={setSelected} back={back} />
       <div className="form">
         <div className="logoContainer">
-          <Logo />
+          <Logo uploading={true} />
         </div>
         <Label title={"brand name"} />
         <Input
