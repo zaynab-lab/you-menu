@@ -1,6 +1,7 @@
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
@@ -52,30 +53,40 @@ export default function Modal({
           <Label title={"price"} />
           <Input
             value={state?.price}
+            type={"number"}
             onchange={(e) => setState({ ...state, price: e.target.value })}
             font={"1.2rem"}
           />
         </div>
-        <Button
-          content={"save changes"}
-          onclick={() =>
-            axios
-              .put(
-                "/api/products",
-                {
-                  businessCode,
-                  productID: currentProduct._id,
-                  state
-                },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                res.data === "done" && setRefresh(!refresh);
-                res.data === "done" && setOpenModal(false);
-              })
-          }
-          color={styles.secondaryColor}
-        />
+        <div className="btnCont">
+          <Button
+            content={"save changes"}
+            onclick={() =>
+              axios
+                .put(
+                  "/api/products",
+                  {
+                    businessCode,
+                    productID: currentProduct._id,
+                    state
+                  },
+                  { "content-type": "application/json" }
+                )
+                .then((res) => {
+                  res.data === "done" && setRefresh(!refresh);
+                  res.data === "done" && setOpenModal(false);
+                })
+            }
+            color={styles.secondaryColor}
+          />
+        </div>
+
+        <div className="remove">
+          <div className="trash">
+            <FaTrashAlt />
+          </div>
+          <div>remove product</div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -106,6 +117,21 @@ export default function Modal({
           line-height: 0;
           padding-bottom: 0.4rem;
           cursor: pointer;
+        }
+        .btnCont {
+          text-align: center;
+        }
+        .remove {
+          color: ${styles.secondaryColor};
+          padding-top: 2rem;
+          cursor: pointer;
+          ${styles.flexBothcenter}
+          gap:.6rem;
+          font-size: 1rem;
+        }
+
+        .trash {
+          padding-top: 0.3rem;
         }
       `}</style>
     </>

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import TopBar from "./TopBar";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import Line from "./Line";
 import { styles } from "@/public/js/styles";
@@ -35,15 +34,15 @@ export default function Menu({ categories, products, businessCode }) {
               id={category.name}
               className="title"
               style={{
-                background: "white" || category.color.tbg,
-                color: styles.secondaryColor || category.color.ht
+                background: category?.colors?.tbg || "white",
+                color: category?.colors?.t || styles.secondaryColor
               }}
             >
               {category.name || <TextLoader />}
             </div>
             <div
               style={{
-                background: "white" || category.color.bbg,
+                background: category?.color?.bbg || "white",
                 textAlign: "center"
               }}
             >
@@ -60,7 +59,7 @@ export default function Menu({ categories, products, businessCode }) {
             <div
               className="productList"
               style={{
-                background: "white" || category.color.bbg
+                background: category?.color?.bbg || "white"
               }}
             >
               {products
@@ -70,7 +69,7 @@ export default function Menu({ categories, products, businessCode }) {
                     <div className="productPart">
                       <div className="productName">{product.name}</div>
                       <div className="description">{product.description}</div>
-                      {product.hasImg && (
+                      {product.hasImg && product.price && (
                         <div className="price">
                           {currency === "$"
                             ? product.price
@@ -90,12 +89,14 @@ export default function Menu({ categories, products, businessCode }) {
                         />
                       </div>
                     ) : (
-                      <div className="price">
-                        {currency === "$"
-                          ? product.price
-                          : product.price * exRate}{" "}
-                        {currency}
-                      </div>
+                      product.price && (
+                        <div className="price">
+                          {currency === "$"
+                            ? product.price
+                            : product.price * exRate}{" "}
+                          {currency}
+                        </div>
+                      )
                     )}
                   </div>
                 ))}

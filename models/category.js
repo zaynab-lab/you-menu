@@ -7,12 +7,12 @@ const categorySchema = new mongoose.Schema(
     addingDates: { type: Date, default: Date.now },
     deleted: { type: Boolean, default: false },
     colors: {
-      hbg: { type: String },
-      ht: { type: String },
+      tbt: { type: String },
       bbg: { type: String },
-      tt: { type: String }
+      t: { type: String },
+      tbg: { type: String }
     },
-    underCategoryId: { type: String }
+    parentCategoryId: { type: String }
   },
   { collection: "categories" }
 );

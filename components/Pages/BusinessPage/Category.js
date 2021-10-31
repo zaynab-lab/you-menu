@@ -14,13 +14,12 @@ import Image from "next/image";
 
 export default function Category({ category, currentCat, businessCode }) {
   const [productName, setProductName] = useState("");
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([0]);
   const categoryID = category?._id;
   const [refresh, setRefresh] = useState(false);
   const [alert, setAlert] = useState("");
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
-
   useEffect(() => {
     categoryID &&
       axios
@@ -31,7 +30,7 @@ export default function Category({ category, currentCat, businessCode }) {
   }, [categoryID, businessCode, refresh]);
 
   useEffect(() => {
-    setProducts([0, 0]);
+    setProducts([0]);
   }, [categoryID]);
 
   return (
@@ -94,25 +93,29 @@ export default function Category({ category, currentCat, businessCode }) {
                   value={productName}
                   className="addproduct-input"
                   placeholder="new product"
-                  onChange={(e) => setProductName(e.target.value)}
+                  onChange={(e) =>
+                    e.target.value !== " " && setProductName(e.target.value)
+                  }
                 />
 
                 <div
                   className="addproduct"
                   onClick={() => {
-                    setProducts([...products, 0]);
-                    axios
-                      .post(
-                        "/api/products",
-                        { productName, categoryID, businessCode },
-                        { "content-type": "application/json" }
-                      )
-                      .then((res) => {
-                        res.data === "done" && setProductName("");
-                        res.data === "done" && setRefresh(!refresh);
-                        res.data === "done" &&
-                          setAlert("product has been added");
-                      });
+                    !!productName && setProducts([...products, 0]);
+                    !!productName
+                      ? axios
+                          .post(
+                            "/api/products",
+                            { productName, categoryID, businessCode },
+                            { "content-type": "application/json" }
+                          )
+                          .then((res) => {
+                            res.data === "done" && setProductName("");
+                            res.data === "done" && setRefresh(!refresh);
+                            res.data === "done" &&
+                              setAlert("product has been added");
+                          })
+                      : setAlert("add product name");
                   }}
                 >
                   add
@@ -121,7 +124,11 @@ export default function Category({ category, currentCat, businessCode }) {
             </div>
           </div>
 
-          <Color />
+          <Color
+            categoryID={categoryID}
+            colors={category?.colors}
+            businessCode={businessCode}
+          />
           <Modal
             refresh={refresh}
             setRefresh={setRefresh}
@@ -164,6 +171,7 @@ export default function Category({ category, currentCat, businessCode }) {
           transform: translateX(-2rem);
           cursor: pointer;
           color: ${styles.secondaryColor};
+          background: white;
         }
 
         .product {

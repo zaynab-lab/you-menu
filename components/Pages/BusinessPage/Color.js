@@ -1,54 +1,85 @@
 import { styles } from "@/public/js/styles";
+import axios from "axios";
 import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 
-const dfColors = [
-  styles.secondaryColor,
-  "white",
-  styles.secondaryColor,
-  "white"
-];
+const dfColors = {
+  tbt: styles.secondaryColor,
+  bbg: "white",
+  t: styles.secondaryColor,
+  tbg: "white"
+};
 
-export default function Color() {
+export default function Color({ categoryID, colors, businessCode }) {
   const [colorModal, setColorModal] = useState(false);
-  const [titleBColor, setTitleBColor] = useState("white");
-  const [defaultColor, setDefColor] = useState("white");
-
+  const [selected, setSelected] = useState("");
+  const [colorState, setColorState] = useState(colors || dfColors);
   return (
     <>
       <div className="colorsControl">
-        <div className="colorContainer">
+        <div
+          onClick={() => {
+            setSelected("tbt");
+            setColorModal(true);
+          }}
+          className="colorContainer"
+        >
           <div
             className="colorCircul"
-            style={{ background: styles.secondaryColor }}
+            style={{ background: colorState.tbt }}
           ></div>
           <div>top bar title</div>
         </div>
-        <div className="colorContainer">
-          <div className="colorCircul" style={{ background: "white" }}></div>
-          <div>body background</div>
-        </div>
-        <div className="colorContainer">
+        <div
+          onClick={() => {
+            setSelected("bbg");
+            setColorModal(true);
+          }}
+          className="colorContainer"
+        >
           <div
             className="colorCircul"
-            style={{ background: styles.secondaryColor }}
+            style={{ background: colorState.bbg }}
+          ></div>
+          <div>body background</div>
+        </div>
+        <div
+          onClick={() => {
+            setSelected("t");
+
+            setColorModal(true);
+          }}
+          className="colorContainer"
+        >
+          <div
+            className="colorCircul"
+            style={{ background: colorState.t }}
           ></div>
           <div>title</div>
         </div>
-        <div onClick={() => setColorModal(true)} className="colorContainer">
+        <div
+          onClick={() => {
+            setSelected("tbg");
+            setColorModal(true);
+          }}
+          className="colorContainer"
+        >
           <div
             className="colorCircul"
-            style={{ background: titleBColor }}
+            style={{ background: colorState.tbg }}
           ></div>
           <div>title background</div>
         </div>
 
         <ColorModal
-          defaultColor={defaultColor}
-          setTitleBColor={setTitleBColor}
+          selected={selected}
+          colorState={colorState}
+          setColorState={setColorState}
           setColorModal={setColorModal}
           colorModal={colorModal}
+          categoryID={categoryID}
+          businessCode={businessCode}
         />
       </div>
       <style jsx>{`
@@ -80,10 +111,13 @@ export default function Color() {
 export function ColorModal({
   setColorModal,
   colorModal,
-  defaultColor,
-  setTitleBColor
+  selected,
+  colorState,
+  setColorState,
+  businessCode,
+  categoryID
 }) {
-  const [color, setColor] = useColor("hex", defaultColor);
+  const [color, setColor] = useColor("hex", colorState[selected] || "white");
 
   return (
     <>
@@ -94,7 +128,12 @@ export function ColorModal({
             <div
               className="X"
               onClick={() => {
-                setTitleBColor(color.hex);
+                axios.put(
+                  "/api/categories/color",
+                  { color: color.hex, selected, categoryID, businessCode },
+                  { "content-type": "application/json" }
+                );
+                setColorState({ ...colorState, [selected]: color.hex });
                 setColorModal(false);
               }}
             >

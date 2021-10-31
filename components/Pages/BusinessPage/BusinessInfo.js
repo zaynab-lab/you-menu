@@ -12,7 +12,7 @@ import Router from "next/router";
 import Alert from "@/components/Alert";
 
 const BusinessTypes = ["cafe", "resturant", "store", "retail", "other"];
-const Currency = ["$", "LBP"];
+const Currency = ["$", "LBP", "AED", "OMR", "CAD"];
 
 export default function BusinessInfo({
   setSelected,
@@ -32,92 +32,102 @@ export default function BusinessInfo({
   return (
     <>
       <BackButton setSelected={setSelected} back={back} />
-      <div className="form">
-        <div className="logoContainer">
-          <Logo uploading={true} />
-        </div>
-        <Label title={"brand name"} />
-        <Input
-          value={state?.brand?.name}
-          onchange={(e) =>
-            setState({ ...state, brand: { name: e.target.value } })
-          }
-        />
-        <Label title={"business type"} />
-        <select
-          className="selectBusiness"
-          value={state?.businessType || "cafe"}
-          onChange={(e) => setState({ ...state, businessType: e.target.value })}
-        >
-          {BusinessTypes.map((type, i) => (
-            <option key={i} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        <Label title={"owner number"} />
-        <Input type={"number"} value={state?.ownerNumber} />
-        <Label title={"currency"} />
-        <div className="currency">
+      <div className="container">
+        <div className="form">
+          <div className="logoContainer">
+            <Logo uploading={true} />
+          </div>
+          <Label title={"brand name"} />
           <Input
-            value={state?.exRate}
-            onchange={(e) => setState({ ...state, exRate: e.target.value })}
+            value={state?.brand?.name}
+            onchange={(e) =>
+              setState({ ...state, brand: { name: e.target.value } })
+            }
           />
+          <Label title={"business type"} />
           <select
             className="selectBusiness"
-            value={state?.currency || "$"}
-            onChange={(e) => setState({ ...state, currency: e.target.value })}
+            value={state?.businessType || "cafe"}
+            onChange={(e) =>
+              setState({ ...state, businessType: e.target.value })
+            }
           >
-            {Currency.map((type, i) => (
+            {BusinessTypes.map((type, i) => (
               <option key={i} value={type}>
                 {type}
               </option>
             ))}
           </select>
-        </div>
-        <Label title={"full address"} />
-        <Input
-          value={state?.address?.content}
-          onchange={(e) =>
-            setState({ ...state, address: { content: e.target.value } })
-          }
-        />
-        <Label title={"location"} />
-        <Location />
-        <Button
-          content={"confirm"}
-          onclick={() => {
-            axios
-              .put(
-                "/api/business",
-                { state, businessCode: business?.businessCode },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                res.data === "done" && setRefresh(!refresh);
-                res.data === "done" && setAlert("changes saved");
-              });
-          }}
-        />
-        {!back && (
-          <div
-            className="signout"
-            onClick={() =>
-              axios
-                .post("/api/auth/Logout")
-                .then((res) => res.data === "done" && Router.push("/"))
-                .then(() => setAuth(false))
-            }
-          >
-            <div>Log out</div>
-            <div className="signoutIcon">
-              <FaSignOutAlt />
-            </div>
+          <Label title={"owner number"} />
+          <Input type={"number"} value={state?.ownerNumber} />
+          <Label title={"currency"} />
+          <div className="currency">
+            <Input
+              value={state?.exRate}
+              onchange={(e) => setState({ ...state, exRate: e.target.value })}
+            />
+            <select
+              className="selectBusiness"
+              value={state?.currency || "$"}
+              onChange={(e) => setState({ ...state, currency: e.target.value })}
+            >
+              {Currency.map((type, i) => (
+                <option key={i} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
           </div>
-        )}
-        <Alert alert={alert} setAlert={setAlert} />
+          <Label title={"full address"} />
+          <Input
+            value={state?.address?.content}
+            onchange={(e) =>
+              setState({ ...state, address: { content: e.target.value } })
+            }
+          />
+          <Label title={"location"} />
+          <Location />
+          <Button
+            content={"confirm"}
+            onclick={() => {
+              axios
+                .put(
+                  "/api/business",
+                  { state, businessCode: business?.businessCode },
+                  { "content-type": "application/json" }
+                )
+                .then((res) => {
+                  res.data === "done" && setRefresh(!refresh);
+                  res.data === "done" && setAlert("changes saved");
+                });
+            }}
+          />
+          {!back && (
+            <div
+              className="signout"
+              onClick={() =>
+                axios
+                  .post("/api/auth/Logout")
+                  .then((res) => res.data === "done" && Router.push("/"))
+                  .then(() => setAuth(false))
+              }
+            >
+              <div>Log out</div>
+              <div className="signoutIcon">
+                <FaSignOutAlt />
+              </div>
+            </div>
+          )}
+          <Alert alert={alert} setAlert={setAlert} />
+        </div>
       </div>
       <style jsx>{`
+        .container {
+          width: 100vw;
+          overflow: hidden;
+          margin: auto;
+          ${styles.flexJustifycenter};
+        }
         .form {
           padding: 0.4rem 1rem;
           ${styles.flexAligncenter}
@@ -125,7 +135,7 @@ export default function BusinessInfo({
           -webkit-box-direction: normal;
           -ms-flex-direction: column;
           flex-direction: column;
-          max-width: 100vw;
+          max-width: 25rem;
           position: relative;
           height: -webkit-fit-content;
           height: -moz-fit-content;

@@ -21,14 +21,16 @@ export default function HorizontalScroll({ title }) {
         </div>
         <div className="Hbusinesses">
           {businesses.map((business, i) => (
-            <Link href={`/menu/${business?.businessCode}`}>
-              <div key={i} className="Hbusiness">
-                <div>
-                  <Logo />
+            <div key={i}>
+              <Link href={`/menu/${business?.businessCode}`}>
+                <div className="Hbusiness">
+                  <div>
+                    <Logo />
+                  </div>
+                  <div>{business?.brand?.name || "brand"}</div>
                 </div>
-                <div>{business?.brand?.name || "brand"}</div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       </div>

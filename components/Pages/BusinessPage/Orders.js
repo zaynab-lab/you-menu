@@ -20,16 +20,16 @@ const steps = [
   { name: "not accepted", icon: <FaBackward /> }
 ];
 const orderfromdb = [
-  {
-    items: [
-      { name: "milkshack" },
-      { name: "hot choclate" },
-      { name: "ice tee" }
-    ],
-    type: "delivery",
-    state: "waiting to confirm",
-    total: 50
-  }
+  // {
+  //   items: [
+  //     { name: "milkshack" },
+  //     { name: "hot choclate" },
+  //     { name: "ice tee" }
+  //   ],
+  //   type: "delivery",
+  //   state: "waiting to confirm",
+  //   total: 50
+  // }
 ];
 
 export default function Orders() {

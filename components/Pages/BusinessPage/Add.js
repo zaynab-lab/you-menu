@@ -1,3 +1,4 @@
+import Alert from "@/components/Alert";
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import { styles } from "@/public/js/styles";
@@ -8,6 +9,7 @@ import Categories from "./Categories";
 export default function Add({ back, businessCode }) {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([0, 0, 0]);
+  const [alert, setAlert] = useState("");
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     axios.get(`/api/categories?businessCode=${businessCode}`).then((res) => {
@@ -22,30 +24,35 @@ export default function Add({ back, businessCode }) {
           <div className="inputplus">
             <Input
               value={category}
-              onchange={(e) => setCategory(e.target.value)}
+              onchange={(e) =>
+                e.target.value !== " " && setCategory(e.target.value)
+              }
               placeholder="new category"
               font="1.4rem"
             />
             <div
               className="plus"
               onClick={() => {
-                setCategories([...categories, 0]);
-                axios
-                  .post(
-                    "/api/categories",
-                    { category, businessCode },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    res.data === "done" && setCategory("");
-                    res.data === "done" && setRefresh(!refresh);
-                  });
+                !!category && setCategories([...categories, 0]);
+                !!category
+                  ? axios
+                      .post(
+                        "/api/categories",
+                        { category, businessCode },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        res.data === "done" && setCategory("");
+                        res.data === "done" && setRefresh(!refresh);
+                      })
+                  : setAlert("add category name");
               }}
             >
               +
             </div>
           </div>
         </div>
+        <Alert alert={alert} setAlert={setAlert} />
         <Categories categories={categories} businessCode={businessCode} />
       </div>
       <style>{`

@@ -10,7 +10,7 @@ export default function TopBar({ categories, state, setState }) {
             <div
               key={i}
               className={`item ${category.name === state && "active"}`}
-              style={{ color: "black" }}
+              style={{ color: category?.colors?.tbt || "black" }}
               onClick={() => setState(category.name)}
             >
               {category.name || <TextLoader />}

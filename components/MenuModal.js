@@ -30,11 +30,12 @@ export default function MenuModal({ openModal, setOpenModal }) {
           padding: 1rem;
           transition: all 0.5s ease-out;
           font-size: 1.2rem;
+          overflow: hidden;
         }
 
         .modal.show {
           top: 0vh;
-          transition: all 0.5s ease-out;
+          transition: all 0.2s ease-out;
         }
 
         .X {
@@ -48,13 +49,13 @@ export default function MenuModal({ openModal, setOpenModal }) {
         .swipe1 {
           position: relative;
           left: -20rem;
-          transition: 1.2s all 0.1s ease-out;
+          transition: 0.2s all 0.2s cubic-bezier(0.76, -0.48, 0.61, 1.5);
           text-align: center;
         }
         .swipe2 {
           position: relative;
           left: -20rem;
-          transition: 1.4s all 0.1s ease-out;
+          transition: 0.4s all 0.2s cubic-bezier(0.76, -0.48, 0.61, 1.5);
           text-align: center;
         }
 
