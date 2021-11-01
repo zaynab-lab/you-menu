@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
+import { FaDeaf, FaHistory, FaRecycle, FaUndo } from "react-icons/fa";
 
 const dfColors = {
   tbt: styles.secondaryColor,
@@ -11,10 +12,10 @@ const dfColors = {
   tbg: "white"
 };
 
-export default function Color({ categoryID, colors, businessCode }) {
+export default function Color({ categoryID, colors, setColors, businessCode }) {
   const [colorModal, setColorModal] = useState(false);
   const [selected, setSelected] = useState("");
-  const [colorState, setColorState] = useState(colors || dfColors);
+
   return (
     <>
       <div className="colorsControl">
@@ -27,7 +28,7 @@ export default function Color({ categoryID, colors, businessCode }) {
         >
           <div
             className="colorCircul"
-            style={{ background: colorState.tbt }}
+            style={{ background: colors?.tbt || dfColors.tbt }}
           ></div>
           <div>top bar title</div>
         </div>
@@ -40,21 +41,20 @@ export default function Color({ categoryID, colors, businessCode }) {
         >
           <div
             className="colorCircul"
-            style={{ background: colorState.bbg }}
+            style={{ background: colors?.bbg || dfColors.bbg }}
           ></div>
           <div>body background</div>
         </div>
         <div
           onClick={() => {
             setSelected("t");
-
             setColorModal(true);
           }}
           className="colorContainer"
         >
           <div
             className="colorCircul"
-            style={{ background: colorState.t }}
+            style={{ background: colors?.t || dfColors.t }}
           ></div>
           <div>title</div>
         </div>
@@ -67,15 +67,34 @@ export default function Color({ categoryID, colors, businessCode }) {
         >
           <div
             className="colorCircul"
-            style={{ background: colorState.tbg }}
+            style={{ background: colors?.tbg || dfColors.tbg }}
           ></div>
           <div>title background</div>
+        </div>
+        <div
+          className="reset"
+          onClick={() => {
+            axios.put(
+              "/api/categories/color",
+              {
+                colors: dfColors,
+                selected,
+                categoryID,
+                businessCode
+              },
+              { "content-type": "application/json" }
+            );
+            setColors(dfColors);
+          }}
+        >
+          <FaUndo />
+          reset colors
         </div>
 
         <ColorModal
           selected={selected}
-          colorState={colorState}
-          setColorState={setColorState}
+          colors={colors}
+          setColors={setColors}
           setColorModal={setColorModal}
           colorModal={colorModal}
           categoryID={categoryID}
@@ -103,6 +122,12 @@ export default function Color({ categoryID, colors, businessCode }) {
           border-radius: 10rem;
           border: 2px solid lightgrey;
         }
+        .reset {
+          color: ${styles.secondaryColor};
+          cursor: pointer;
+          ${styles.flexBothcenter}
+          gap:.6rem
+        }
       `}</style>
     </>
   );
@@ -112,12 +137,15 @@ export function ColorModal({
   setColorModal,
   colorModal,
   selected,
-  colorState,
-  setColorState,
+  colors,
+  setColors,
   businessCode,
   categoryID
 }) {
-  const [color, setColor] = useColor("hex", colorState[selected] || "white");
+  const [color, setColor] = useColor(
+    "hex",
+    (colors && colors[selected]) || dfColors[selected] || "white"
+  );
 
   return (
     <>
@@ -130,10 +158,15 @@ export function ColorModal({
               onClick={() => {
                 axios.put(
                   "/api/categories/color",
-                  { color: color.hex, selected, categoryID, businessCode },
+                  {
+                    colors: { ...colors, [selected]: color.hex },
+                    selected,
+                    categoryID,
+                    businessCode
+                  },
                   { "content-type": "application/json" }
                 );
-                setColorState({ ...colorState, [selected]: color.hex });
+                setColors({ ...colors, [selected]: color.hex });
                 setColorModal(false);
               }}
             >

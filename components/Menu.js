@@ -42,7 +42,7 @@ export default function Menu({ categories, products, businessCode }) {
             </div>
             <div
               style={{
-                background: category?.color?.bbg || "white",
+                background: category?.colors?.bbg || "white",
                 textAlign: "center"
               }}
             >
@@ -59,7 +59,7 @@ export default function Menu({ categories, products, businessCode }) {
             <div
               className="productList"
               style={{
-                background: category?.color?.bbg || "white"
+                background: category?.colors?.bbg || "white"
               }}
             >
               {products

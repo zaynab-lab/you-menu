@@ -50,7 +50,7 @@ export default async (req, res) => {
                   {
                     name: body.state.name,
                     price: body.state.price,
-                    description: body.state.description
+                    description: body.state?.description
                   },
                   (err) => console.log(err)
                 );

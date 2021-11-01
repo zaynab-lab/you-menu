@@ -20,6 +20,8 @@ export default function Category({ category, currentCat, businessCode }) {
   const [alert, setAlert] = useState("");
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
+  const [colors, setColors] = useState(category?.colors);
+
   useEffect(() => {
     categoryID &&
       axios
@@ -31,6 +33,12 @@ export default function Category({ category, currentCat, businessCode }) {
 
   useEffect(() => {
     setProducts([0]);
+    categoryID &&
+      axios
+        .get(`/api/categories/colors?categoryID=${categoryID}`)
+        .then((res) => {
+          res?.data && setColors(res?.data);
+        });
   }, [categoryID]);
 
   return (
@@ -126,7 +134,8 @@ export default function Category({ category, currentCat, businessCode }) {
 
           <Color
             categoryID={categoryID}
-            colors={category?.colors}
+            colors={colors}
+            setColors={setColors}
             businessCode={businessCode}
           />
           <Modal
