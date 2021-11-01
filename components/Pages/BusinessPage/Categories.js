@@ -2,15 +2,25 @@ import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import TextLoader from "@/components/Loaders/TextLoader";
 import dynamic from "next/dynamic";
+import { FaCheck } from "react-icons/fa";
+import axios from "axios";
 
 const Category = dynamic(() => import("./Category"));
 
-export default function Categories({ categories, businessCode }) {
+export default function Categories({
+  categories,
+  businessCode,
+  setRefresh,
+  refresh
+}) {
   const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);
   const [category, setCategory] = useState(categories?.[0]);
+  const [renameModal, setRenameModal] = useState(false);
+  const [categoryID, setCategoryID] = useState("");
 
   useEffect(() => {
     !currentCat && setCurrentCat(categories?.[0]?.name);
+    !currentCat && setCategoryID(categories?.[0]._id);
     !currentCat && setCategory(categories?.[0]);
   }, [categories, currentCat]);
 
@@ -21,7 +31,9 @@ export default function Categories({ categories, businessCode }) {
           <div
             key={i}
             onClick={() => {
+              currentCat === category.name && setRenameModal(true);
               setCurrentCat(category.name);
+              setCategoryID(category._id);
               setCategory(category);
             }}
             className={`categoryContainer ${
@@ -32,12 +44,17 @@ export default function Categories({ categories, businessCode }) {
           </div>
         ))}
       </div>
-      <Category
-        category={category}
-        currentCat={currentCat}
+      <Category category={category} businessCode={businessCode} />
+      <RenameModal
+        dfname={currentCat}
+        renameModal={renameModal}
+        setRenameModal={setRenameModal}
+        categoryID={categoryID}
         businessCode={businessCode}
+        setCurrentCat={setCurrentCat}
+        setRefresh={setRefresh}
+        refresh={refresh}
       />
-
       <style jsx>{`
         .categoryBar {
           position: sticky;
@@ -75,6 +92,138 @@ export default function Categories({ categories, businessCode }) {
         .active {
           -webkit-box-shadow: 0 0px 5px 0 ${styles.secondaryColor};
           box-shadow: 0 0px 5px 0 ${styles.secondaryColor};
+        }
+      `}</style>
+    </>
+  );
+}
+
+export function RenameModal({
+  renameModal,
+  setRenameModal,
+  dfname,
+  setCurrentCat,
+  categoryID,
+  businessCode,
+  setRefresh,
+  refresh
+}) {
+  const [name, setName] = useState(dfname);
+
+  useEffect(() => setName(dfname), [dfname]);
+  return (
+    <>
+      <div className={`renameModal ${renameModal && "showRenameModal"}`}>
+        <div className="renameContainer">
+          <div className="Xheader">
+            <div>change name</div>
+            <div
+              className="X"
+              onClick={() => {
+                setRenameModal(false);
+              }}
+            >
+              x
+            </div>
+          </div>
+          <div className="renameInput">
+            <input
+              className="name-input"
+              value={name}
+              onChange={(e) =>
+                e.target.value !== " " && setName(e.target.value)
+              }
+            />
+            <div
+              className="check"
+              onClick={() => {
+                !!name &&
+                  axios
+                    .put(
+                      "/api/categories/name",
+                      {
+                        name,
+                        categoryID,
+                        businessCode
+                      },
+                      { "content-type": "application/json" }
+                    )
+                    .then(
+                      (res) => res?.data === "done" && setRefresh(!refresh)
+                    );
+                !!name && setCurrentCat(name);
+                !!name && setName(name);
+                setRenameModal(false);
+              }}
+            >
+              <FaCheck />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .renameModal {
+          position: fixed;
+          top: 0;
+          width: 96vw;
+          height: 100vh;
+          z-index: -1;
+          opacity: 0;
+          ${styles.flexBothcenter}
+          ${styles.flexColumn}
+          transition: all 0.5s ease-out;
+        }
+
+        .showRenameModal {
+          opacity: 100;
+          z-index: 100;
+          transition: all 0.5s ease-out;
+        }
+
+        .Xheader {
+          text-align: right;
+          width: 100%;
+          background: white;
+          font-size: 1.2rem;
+          ${styles.flexAligncenter};
+          justify-content: space-between;
+          padding: 0 0.5rem;
+          border-radius: 0.7rem 0.7rem 0 0;
+          padding-bottom: 0.5rem;
+        }
+
+        .X {
+          font-size: 1.6rem;
+          line-height: 0;
+          padding-bottom: 0.4rem;
+          cursor: pointer;
+        }
+        .renameContainer {
+          border: 1px solid ${styles.secondaryColor};
+          background: white;
+          border-radius: 0.7rem;
+          padding: 0.5rem;
+        }
+        .renameInput {
+          ${styles.flexAligncenter}
+        }
+
+        .name-input {
+          border-radius: 1rem;
+          border: 1px solid lightgrey;
+          padding: 0.2rem 0.5rem;
+          font-size: 1.1rem;
+        }
+        .check {
+          font-size: 1rem;
+          transform: translateX(-2.5rem);
+          border-radius: 1rem;
+          cursor: pointer;
+          padding: 0.1rem 0.7rem;
+          padding-top: 0.3rem;
+          color: ${styles.secondaryColor};
+          background: white;
         }
       `}</style>
     </>

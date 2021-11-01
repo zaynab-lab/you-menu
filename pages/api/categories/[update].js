@@ -38,7 +38,13 @@ export default async (req, res) => {
                     (err) => console.log(err)
                   ).exec();
                   return res.status(200).end("done");
-
+                case "name":
+                  Category.findByIdAndUpdate(
+                    body.categoryID,
+                    { name: body.name },
+                    (err) => console.log(err)
+                  ).exec();
+                  return res.status(200).end("done");
                 default:
                   return res.status(200).end("done");
               }

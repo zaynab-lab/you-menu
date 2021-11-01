@@ -11,6 +11,7 @@ export default function Add({ back, businessCode }) {
   const [categories, setCategories] = useState([0, 0, 0]);
   const [alert, setAlert] = useState("");
   const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     axios.get(`/api/categories?businessCode=${businessCode}`).then((res) => {
       Array.isArray(res.data) && setCategories(res.data);
@@ -53,7 +54,12 @@ export default function Add({ back, businessCode }) {
           </div>
         </div>
         <Alert alert={alert} setAlert={setAlert} />
-        <Categories categories={categories} businessCode={businessCode} />
+        <Categories
+          setRefresh={setRefresh}
+          refresh={refresh}
+          categories={categories}
+          businessCode={businessCode}
+        />
       </div>
       <style>{`
         .addPage{

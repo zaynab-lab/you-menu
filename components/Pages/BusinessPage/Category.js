@@ -12,11 +12,11 @@ import Color from "./Color";
 import Alert from "@/components/Alert";
 import Image from "next/image";
 
-export default function Category({ category, currentCat, businessCode }) {
+export default function Category({ category, businessCode }) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([0]);
-  const categoryID = category?._id;
   const [refresh, setRefresh] = useState(false);
+  const categoryID = category._id;
   const [alert, setAlert] = useState("");
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
@@ -43,7 +43,7 @@ export default function Category({ category, currentCat, businessCode }) {
 
   return (
     <>
-      {currentCat && (
+      {category?.name && (
         <>
           <div className="categoryList">
             <div className="products">
@@ -105,7 +105,6 @@ export default function Category({ category, currentCat, businessCode }) {
                     e.target.value !== " " && setProductName(e.target.value)
                   }
                 />
-
                 <div
                   className="addproduct"
                   onClick={() => {
