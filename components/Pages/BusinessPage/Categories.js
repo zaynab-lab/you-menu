@@ -44,7 +44,11 @@ export default function Categories({
           </div>
         ))}
       </div>
-      <Category category={category} businessCode={businessCode} />
+      <Category
+        category={category}
+        businessCode={businessCode}
+        currentCat={currentCat}
+      />
       <RenameModal
         dfname={currentCat}
         renameModal={renameModal}

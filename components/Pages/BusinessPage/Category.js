@@ -12,7 +12,7 @@ import Color from "./Color";
 import Alert from "@/components/Alert";
 import Image from "next/image";
 
-export default function Category({ category, businessCode }) {
+export default function Category({ category, businessCode, currentCat }) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([0]);
   const [refresh, setRefresh] = useState(false);
@@ -43,7 +43,7 @@ export default function Category({ category, businessCode }) {
 
   return (
     <>
-      {category?.name && (
+      {currentCat && (
         <>
           <div className="categoryList">
             <div className="products">
