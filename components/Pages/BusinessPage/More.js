@@ -38,22 +38,22 @@ export default function More({ setSelected }) {
           </div>
         ))}
       </div>
-      <style>{`
-      .more{
-        padding:.8rem;
-      }
-      .more-item{
-        ${styles.flexAligncenter}
-        padding:.8rem;
-        font-size:1.4rem;
-        gap:1rem;
-        cursor:pointer;
-      }
-      .more-icon{
-        color:${styles.secondaryColor};
-        padding-top:.6rem;
-      }
-    `}</style>
+      <style jsx>{`
+        .more {
+          padding: 0.8rem;
+        }
+        .more-item {
+          ${styles.flexAligncenter}
+          padding:.8rem;
+          font-size: 1.4rem;
+          gap: 1rem;
+          cursor: pointer;
+        }
+        .more-icon {
+          color: ${styles.secondaryColor};
+          padding-top: 0.6rem;
+        }
+      `}</style>
     </>
   );
 }

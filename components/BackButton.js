@@ -3,7 +3,7 @@ import { styles } from "@/public/js/styles";
 import Link from "next/link";
 import More from "./icons/More";
 
-export default function BackButton({ setSelected, back }) {
+export default function BackButton({ setSelected, back, select }) {
   return (
     <>
       {back ? (
@@ -16,14 +16,14 @@ export default function BackButton({ setSelected, back }) {
         </div>
       ) : (
         <div className="backBar">
-          <div onClick={() => setSelected("More")} className="circulBack">
+          <div onClick={() => setSelected(select)} className="circulBack">
             <Arrow />
           </div>
         </div>
       )}
       <style jsx>{`
         .backBar {
-          padding: 0.8rem 0 0 1rem;
+          padding: ${select === "More" ? "0.8rem" : "0rem"} 0 0 1rem;
           position: fixed;
           z-index: 8;
         }

@@ -27,6 +27,7 @@ export default async (req, res) => {
             if (user) {
               const business = new Business({
                 ownerNumber: body.phoneNumber,
+                ccode: body.ccode,
                 businessCode: code,
                 addedby: user.promoCode
               });

@@ -9,6 +9,7 @@ import { FaDownload } from "react-icons/fa";
 import QrCode from "@/components/QrCode";
 import Share from "@/components/Share";
 import Link from "next/link";
+import BPLayout from "./BPLayout";
 
 const bType = ["resturant", "cafe"];
 
@@ -31,9 +32,9 @@ export default function Qr({ setSelected, back, business }) {
 
   return (
     <>
-      <BackButton setSelected={setSelected} back={back} />
-      <div className="form">
-        <div className="qrCountainer">
+      <BackButton setSelected={setSelected} back={back} select={"More"} />
+      <BPLayout>
+        <div>
           {bType.includes(business?.businessType) && (
             <div className="setTables">
               <div className="setTablesTxt">number of tables</div>
@@ -90,26 +91,8 @@ export default function Qr({ setSelected, back, business }) {
             ))}
           </div>
         </div>
-      </div>
+      </BPLayout>
       <style jsx>{`
-        .form {
-          padding: 0 1rem;
-          ${styles.flexAligncenter}
-          -webkit-box-orient:vertical;
-          -webkit-box-direction: normal;
-          -ms-flex-direction: column;
-          flex-direction: column;
-          max-width: 100vw;
-          position: relative;
-          height: -webkit-fit-content;
-          height: -moz-fit-content;
-          height: fit-content;
-          padding-bottom: 2rem;
-        }
-
-        .qrCountainer {
-          padding: 3.5rem 0;
-        }
         .setTables {
           ${styles.flexAligncenter}
           justify-content:space-between;

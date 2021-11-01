@@ -53,7 +53,9 @@ export default function BusinessPage({ setAuth }) {
       )}
       {selected === "Time" && <Time setSelected={setSelected} />}
       {selected === "History" && <History setSelected={setSelected} />}
-      {selected === "Support" && <Support setSelected={setSelected} />}
+      {selected === "Support" && (
+        <Support select={"More"} setSelected={setSelected} />
+      )}
     </>
   );
 }

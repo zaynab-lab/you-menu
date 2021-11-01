@@ -47,7 +47,7 @@ export default function LoginForm({ setAuth, Loginfrom, alertMsg }) {
               axios
                 .post(
                   "/api/auth/SignBusiness",
-                  { phoneNumber },
+                  { phoneNumber, ccode },
                   { "content-type": "application/json" }
                 )
                 .then((res) => {

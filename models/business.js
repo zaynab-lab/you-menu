@@ -4,6 +4,7 @@ const businessSchema = new mongoose.Schema(
   {
     ownerName: { type: String },
     ownerNumber: { type: String, require: true, unique: true },
+    ccode: { type: String },
     brand: {
       name: { type: String },
       imgLink: { type: String }
