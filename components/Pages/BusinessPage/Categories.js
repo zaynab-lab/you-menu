@@ -20,7 +20,7 @@ export default function Categories({
 
   useEffect(() => {
     !currentCat && setCurrentCat(categories?.[0]?.name);
-    !currentCat && setCategoryID(categories?.[0]._id);
+    !currentCat && setCategoryID(categories?.[0]?._id);
     !currentCat && setCategory(categories?.[0]);
   }, [categories, currentCat]);
 

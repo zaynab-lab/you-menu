@@ -23,7 +23,7 @@ export default function BackButton({ setSelected, back, select }) {
       )}
       <style jsx>{`
         .backBar {
-          padding: ${select === "More" ? "0.8rem" : "0rem"} 0 0 1rem;
+          padding: ${select === "Options" ? "0rem" : "0.8rem"} 0 0 1rem;
           position: fixed;
           z-index: 8;
         }

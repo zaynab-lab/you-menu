@@ -43,7 +43,7 @@ export default function Category({ category, businessCode, currentCat }) {
 
   return (
     <>
-      {currentCat && (
+      {!!currentCat && (
         <>
           <div className="categoryList">
             <div className="products">

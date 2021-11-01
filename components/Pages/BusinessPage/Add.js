@@ -54,12 +54,14 @@ export default function Add({ back, businessCode }) {
           </div>
         </div>
         <Alert alert={alert} setAlert={setAlert} />
-        <Categories
-          setRefresh={setRefresh}
-          refresh={refresh}
-          categories={categories}
-          businessCode={businessCode}
-        />
+        {categories.length > 0 && (
+          <Categories
+            setRefresh={setRefresh}
+            refresh={refresh}
+            categories={categories}
+            businessCode={businessCode}
+          />
+        )}
       </div>
       <style>{`
         .addPage{
