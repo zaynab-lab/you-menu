@@ -15,10 +15,10 @@ export default function Modal({
   refresh,
   setRefresh
 }) {
-  const [state, setState] = useState("");
+  const [state, setState] = useState({});
 
   useEffect(() => {
-    setState("");
+    setState({});
     setState(currentProduct);
   }, [currentProduct]);
 
@@ -42,7 +42,7 @@ export default function Modal({
         <div>
           <Label title={"description"} />
           <Input
-            value={state?.description}
+            value={state?.description || ""}
             onchange={(e) =>
               setState({ ...state, description: e.target.value })
             }

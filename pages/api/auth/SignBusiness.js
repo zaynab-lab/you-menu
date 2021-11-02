@@ -17,7 +17,7 @@ export default async (req, res) => {
         ownerNumber: body.phoneNumber
       }).exec();
       if (businessExist) {
-        return res.status(200).end("your all done");
+        return res.status(200).end("you'r almost done");
       } else {
         const code = codeGenerator();
         if (token) {

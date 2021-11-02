@@ -12,7 +12,14 @@ import Color from "./Color";
 import Alert from "@/components/Alert";
 import Image from "next/image";
 
-export default function Category({ category, businessCode, currentCat }) {
+export default function Category({
+  category,
+  businessCode,
+  currentCat,
+  setCurrentCat,
+  refreshCat,
+  setRefreshCat
+}) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([0]);
   const [refresh, setRefresh] = useState(false);
@@ -52,8 +59,8 @@ export default function Category({ category, businessCode, currentCat }) {
                   key={i}
                   className="product"
                   onClick={() => {
-                    setCurrentProduct(product);
-                    setOpenModal(true);
+                    !!product && setCurrentProduct(product);
+                    !!product && setOpenModal(true);
                   }}
                 >
                   <div>
@@ -121,6 +128,8 @@ export default function Category({ category, businessCode, currentCat }) {
                             res.data === "done" && setRefresh(!refresh);
                             res.data === "done" &&
                               setAlert("product has been added");
+                            res.data !== "done" &&
+                              setAlert("something went wrong");
                           })
                       : setAlert("add product name");
                   }}
@@ -146,7 +155,22 @@ export default function Category({ category, businessCode, currentCat }) {
             businessCode={businessCode}
           />
           <Alert alert={alert} setAlert={setAlert} />
-          <div className="remove">
+          <div
+            className="remove"
+            onClick={() =>
+              axios
+                .put(
+                  "/api/categories/remove",
+                  { categoryID, businessCode },
+                  { "content-type": "application/json" }
+                )
+                .then((res) => {
+                  res.data === "done" && setAlert("you'r all done");
+                  res.data === "done" && setRefreshCat(!refreshCat);
+                  res.data === "done" && setCurrentCat("");
+                })
+            }
+          >
             <div className="trash">
               <FaTrashAlt />
             </div>

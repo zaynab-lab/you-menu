@@ -28,14 +28,6 @@ export default function ({ setSelected }) {
               <div>business account</div>
             </div>
           </Link>
-          <Link href="/management">
-            <div className="Bbtn">
-              <div className="Bbtn-icon">
-                <FaSearchDollar />
-              </div>
-              <div>marketing account</div>
-            </div>
-          </Link>
         </div>
       </UPLayout>
       <style jsx>{`

@@ -31,10 +31,12 @@ export default function Categories({
           <div
             key={i}
             onClick={() => {
-              currentCat === category.name && setRenameModal(true);
-              setCurrentCat(category.name);
-              setCategoryID(category._id);
-              setCategory(category);
+              !!category &&
+                currentCat === category.name &&
+                setRenameModal(true);
+              !!category && setCurrentCat(category.name);
+              !!category && setCategoryID(category._id);
+              !!category && setCategory(category);
             }}
             className={`categoryContainer ${
               currentCat === category.name && "active"
@@ -48,6 +50,9 @@ export default function Categories({
         category={category}
         businessCode={businessCode}
         currentCat={currentCat}
+        setCurrentCat={setCurrentCat}
+        refreshCat={refresh}
+        setRefreshCat={setRefresh}
       />
       <RenameModal
         dfname={currentCat}

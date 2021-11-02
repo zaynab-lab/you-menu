@@ -1,9 +1,10 @@
+import Alert from "@/components/Alert";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
-import { FaDeaf, FaHistory, FaRecycle, FaUndo } from "react-icons/fa";
+import { FaStar, FaUndo } from "react-icons/fa";
 
 const dfColors = {
   tbt: styles.secondaryColor,
@@ -15,6 +16,7 @@ const dfColors = {
 export default function Color({ categoryID, colors, setColors, businessCode }) {
   const [colorModal, setColorModal] = useState(false);
   const [selected, setSelected] = useState("");
+  const [alert, setAlert] = useState("");
 
   return (
     <>
@@ -78,7 +80,6 @@ export default function Color({ categoryID, colors, setColors, businessCode }) {
               "/api/categories/color",
               {
                 colors: dfColors,
-                selected,
                 categoryID,
                 businessCode
               },
@@ -90,6 +91,22 @@ export default function Color({ categoryID, colors, setColors, businessCode }) {
           <FaUndo />
           reset colors
         </div>
+
+        <div
+          className="reset"
+          onClick={() => {
+            axios.put(
+              "/api/categories/theme",
+              { colors: colors, businessCode },
+              { "content-type": "application/json" }
+            );
+            setAlert("you all done");
+          }}
+        >
+          <FaStar />
+          set as theme
+        </div>
+        <Alert setAlert={setAlert} alert={alert} />
 
         <ColorModal
           selected={selected}

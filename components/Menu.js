@@ -73,8 +73,8 @@ export default function Menu({ categories, products, businessCode }) {
                         <div className="price">
                           {currency === "$"
                             ? product.price
-                            : product.price * exRate}{" "}
-                          {currency}
+                            : product.price * exRate}
+                          {+" " + currency}
                         </div>
                       )}
                     </div>
@@ -93,8 +93,8 @@ export default function Menu({ categories, products, businessCode }) {
                         <div className="price">
                           {currency === "$"
                             ? product.price
-                            : product.price * exRate}{" "}
-                          {currency}
+                            : product.price * exRate}
+                          {+" " + currency}
                         </div>
                       )
                     )}

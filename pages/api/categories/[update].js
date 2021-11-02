@@ -38,6 +38,14 @@ export default async (req, res) => {
                     (err) => console.log(err)
                   ).exec();
                   return res.status(200).end("done");
+                case "theme":
+                  Category.updateMany(
+                    { businessCode: body.businessCode },
+                    { colors: body.colors },
+                    { multi: true },
+                    (err) => console.log(err)
+                  );
+                  return res.status(200).end("done");
                 case "name":
                   Category.findByIdAndUpdate(
                     body.categoryID,
@@ -45,6 +53,14 @@ export default async (req, res) => {
                     (err) => console.log(err)
                   ).exec();
                   return res.status(200).end("done");
+                case "remove":
+                  Category.findByIdAndUpdate(
+                    body.categoryID,
+                    { deleted: true },
+                    (err) => console.log(err)
+                  ).exec();
+                  return res.status(200).end("done");
+
                 default:
                   return res.status(200).end("done");
               }
