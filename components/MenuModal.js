@@ -25,6 +25,7 @@ export default function MenuModal({ openModal, setOpenModal }) {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("Options");
   const [user, setUser] = useState();
+  const [refreshUser, setRefreshUser] = useState(false);
   useEffect(() => {
     setLoading(true);
     axios.get("/api/auth").then((res) => {
@@ -32,8 +33,7 @@ export default function MenuModal({ openModal, setOpenModal }) {
       res?.data?.number && setLoading(false);
       res?.data?.number && setUser(res.data);
     });
-  }, []);
-  console.log(user);
+  }, [refreshUser]);
 
   return (
     <>
@@ -55,10 +55,16 @@ export default function MenuModal({ openModal, setOpenModal }) {
             setSelected={setSelected}
             openModal={openModal}
             auth={auth}
+            credit={user?.credit}
           />
         )}
         {selected === "Profile" && (
-          <Profile setSelected={setSelected} user={user} />
+          <Profile
+            setSelected={setSelected}
+            user={user}
+            setRefreshUser={setRefreshUser}
+            refreshUser={refreshUser}
+          />
         )}
         {selected === "Discount" && <Discount setSelected={setSelected} />}
         {selected === "History" && <History setSelected={setSelected} />}

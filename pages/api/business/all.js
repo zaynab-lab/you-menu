@@ -1,5 +1,4 @@
 import dbConnection from "@/util/dbConnection";
-
 import Business from "@/models/business";
 
 dbConnection();

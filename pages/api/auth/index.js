@@ -26,7 +26,8 @@ export default async function Auth(req, res) {
           JSON.stringify({
             name: user.name,
             number: user.number,
-            permissions: role?.permissions
+            permissions: role?.permissions,
+            credit: user.credit
           })
         );
       } else {

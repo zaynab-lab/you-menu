@@ -49,6 +49,5 @@ export async function getStaticProps() {
       }
     `
   });
-
   return { props: { countries: data.countries.slice(0, 100) } };
 }

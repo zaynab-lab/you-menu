@@ -18,7 +18,8 @@ export default function BPLayout({ children }) {
           height: -moz-fit-content;
           height: fit-content;
           padding-bottom: 2rem;
-          padding: 3.5rem 0;
+          padding: 3.5rem 1rem;
+          overflow: hidden;
         }
       `}</style>
     </>

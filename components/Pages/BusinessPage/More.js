@@ -4,6 +4,7 @@ import {
   FaQrcode,
   FaQuestion,
   FaRegClock,
+  FaSeedling,
   FaStore
 } from "react-icons/fa";
 
@@ -20,6 +21,7 @@ const more = [
     icon: <FaHistory />,
     selected: "History"
   },
+  { name: "subscribe", icon: <FaSeedling />, selected: "Subscribe" },
   { name: "support", icon: <FaQuestion />, selected: "Support" }
 ];
 
@@ -30,6 +32,11 @@ export default function More({ setSelected }) {
         {more.map((item, i) => (
           <div
             key={i}
+            style={{
+              transition: `${
+                i * 0.15
+              }s all cubic-bezier(0.76, -0.48, 0.61, 1.5)`
+            }}
             onClick={() => setSelected(item.selected)}
             className="more-item"
           >
@@ -40,12 +47,12 @@ export default function More({ setSelected }) {
       </div>
       <style jsx>{`
         .more {
-          padding: 0.8rem;
+          padding: 1rem 1.5rem;
         }
         .more-item {
           ${styles.flexAligncenter}
-          padding:.8rem;
-          font-size: 1.4rem;
+          padding:.5rem;
+          font-size: 1.5rem;
           gap: 1rem;
           cursor: pointer;
         }

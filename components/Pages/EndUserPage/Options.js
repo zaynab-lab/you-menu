@@ -62,7 +62,7 @@ const more = [
   }
 ];
 
-export default function Options({ setSelected, auth, openModal }) {
+export default function Options({ setSelected, auth, openModal, credit }) {
   const [alert, setAlert] = useState("");
   return (
     <>
@@ -87,7 +87,7 @@ export default function Options({ setSelected, auth, openModal }) {
                 <div className="more-icon">{item.icon}</div>
                 <div>{item.name}</div>
               </div>
-              {item.credit && <div className="extra">5 $</div>}
+              {item.credit && <div className="extra">{credit} $</div>}
             </div>
           ))}
       </div>

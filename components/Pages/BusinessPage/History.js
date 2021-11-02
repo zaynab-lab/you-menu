@@ -1,5 +1,4 @@
 import BackButton from "@/components/BackButton";
-import { styles } from "@/public/js/styles";
 import BPLayout from "@/components/Pages/BusinessPage/BPLayout";
 
 export default function History({ setSelected }) {

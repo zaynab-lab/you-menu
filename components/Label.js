@@ -9,7 +9,7 @@ export default function Label({ title }) {
           margin: 0.5rem 0 0.2rem 0;
           width: 100%;
           align-text: left;
-          max-width: 25rem;
+          max-width: 22rem;
         }
       `}</style>
     </>

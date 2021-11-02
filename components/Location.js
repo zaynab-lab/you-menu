@@ -28,7 +28,7 @@ export default function Location() {
       <style jsx>{`
         .mapContainer {
           width: 100%;
-          max-width: 25rem;
+          max-width: 22rem;
           height: 10rem;
           border-radius: 1rem;
           overflow: hidden;

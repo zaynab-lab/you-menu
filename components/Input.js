@@ -15,6 +15,9 @@ export default function Input({
           className="input"
           type={type}
           value={value}
+          onKeyPress={(e) => {
+            e.which === 13 && e.target.blur();
+          }}
           onChange={onchange}
           onBlur={onblur && onblur}
           placeholder={placeholder}
@@ -33,7 +36,7 @@ export default function Input({
             border: none;
             border-radius: 0.5rem;
             font-size: ${font ? font : "1.8rem"};
-            max-width: 25rem;
+            max-width: 22rem;
             width: 100%;
             padding: 0 0.5rem;
           }

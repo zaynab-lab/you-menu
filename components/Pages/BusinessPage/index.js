@@ -11,6 +11,7 @@ const BusinessInfo = dynamic(() => import("./BusinessInfo"));
 const Qr = dynamic(() => import("./Qr"));
 const Time = dynamic(() => import("./Time"));
 const History = dynamic(() => import("./History"));
+const Subscribe = dynamic(() => import("./Subscribe"));
 const Support = dynamic(() => import("./Support"));
 
 export default function BusinessPage({ setAuth }) {
@@ -53,6 +54,7 @@ export default function BusinessPage({ setAuth }) {
       )}
       {selected === "Time" && <Time setSelected={setSelected} />}
       {selected === "History" && <History setSelected={setSelected} />}
+      {selected === "Subscribe" && <Subscribe setSelected={setSelected} />}
       {selected === "Support" && (
         <Support select={"More"} setSelected={setSelected} />
       )}

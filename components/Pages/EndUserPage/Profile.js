@@ -1,5 +1,4 @@
 import BackButton from "@/components/BackButton";
-import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
@@ -10,7 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
-export default function ({ setSelected, user }) {
+export default function ({ setSelected, user, refreshUser, setRefreshUser }) {
   const [alert, setAlert] = useState("");
   const [userName, setUserName] = useState(user?.name);
   return (
@@ -23,18 +22,24 @@ export default function ({ setSelected, user }) {
             value={userName}
             onchange={(e) => setUserName(e.target.value)}
             onblur={() => {
-              axios
-                .put(
-                  "/api/users/name",
-                  { name: userName },
-                  { "content-type": "application/json" }
-                )
-                .then((res) => res.data === "done" && setAlert("done"));
+              user?.name !== userName && setAlert("something is going change");
+              user?.name !== userName &&
+                axios
+                  .put(
+                    "/api/users/name",
+                    { name: userName },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    res.data === "done"
+                      ? setAlert("change done")
+                      : setAlert("something went wrong");
+                    res.data === "done" && setRefreshUser(!refreshUser);
+                  });
             }}
           />
-
           <Label title={"phone number"} />
-          <Input value={user?.number} />
+          <Input value={user?.number} onchange={() => {}} />
           <Alert setAlert={setAlert} alert={alert} />
 
           <div className="goto">

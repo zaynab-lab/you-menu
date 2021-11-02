@@ -5,7 +5,6 @@ import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { useState } from "react";
 import Location from "@/components/Location";
-import Button from "@/components/Button";
 import { FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 import Router from "next/router";
@@ -23,12 +22,52 @@ export default function BusinessInfo({
   refresh,
   setRefresh
 }) {
-  const [state, setState] = useState({
-    ...business,
-    businessType: business.businessType || "cafe",
-    currency: business.currency || "$"
-  });
+  const [brandName, setBrandName] = useState(business?.brand?.name);
+  const [businessType, setBusinessType] = useState(
+    business?.businessType || "cafe"
+  );
+  const [exRate, setExRate] = useState(business?.exRate);
+  const [currency, setCurrency] = useState(business?.currency || "$");
+  const [addressContent, setAddressContent] = useState(
+    business?.address?.content
+  );
   const [alert, setAlert] = useState("");
+
+  const handleOnBlur = (value, business, state, v2) => {
+    if (v2) {
+      business?.[v2]?.[value] !== state &&
+        setAlert("something is going change");
+      business?.[v2]?.[value] !== state &&
+        axios
+          .put(
+            `/api/business/${value}`,
+            { [value]: state, businessCode: business?.businessCode },
+            { "content-type": "application/json" }
+          )
+          .then((res) => {
+            res.data === "done"
+              ? setAlert("change done")
+              : setAlert("something went wrong");
+            res.data === "done" && setRefresh(!refresh);
+          });
+    } else {
+      business?.[value] !== state && setAlert("something is going change");
+      business?.[value] !== state &&
+        axios
+          .put(
+            `/api/business/${value}`,
+            { [value]: state, businessCode: business?.businessCode },
+            { "content-type": "application/json" }
+          )
+          .then((res) => {
+            res.data === "done"
+              ? setAlert("change done")
+              : setAlert("something went wrong");
+            res.data === "done" && setRefresh(!refresh);
+            console.log(res.data);
+          });
+    }
+  };
 
   return (
     <>
@@ -39,16 +78,18 @@ export default function BusinessInfo({
         </div>
         <Label title={"brand name"} />
         <Input
-          value={state?.brand?.name}
-          onchange={(e) =>
-            setState({ ...state, brand: { name: e.target.value } })
-          }
+          value={brandName}
+          onblur={() => handleOnBlur("name", business, brandName, "brand")}
+          onchange={(e) => setBrandName(e.target.value)}
         />
         <Label title={"business type"} />
         <select
           className="selectBusiness"
-          value={state?.businessType || "cafe"}
-          onChange={(e) => setState({ ...state, businessType: e.target.value })}
+          value={businessType}
+          onChange={(e) => {
+            handleOnBlur("businessType", business, e.target.value);
+            setBusinessType(e.target.value);
+          }}
         >
           {BusinessTypes.map((type, i) => (
             <option key={i} value={type}>
@@ -57,49 +98,40 @@ export default function BusinessInfo({
           ))}
         </select>
         <Label title={"owner number"} />
-        <Input type={"number"} value={state?.ownerNumber} />
-        <Label title={"currency"} />
+        <Input value={business?.ownerNumber} onchange={() => {}} />
+        <Label title={"dollar rate"} />
         <div className="currency">
           <Input
-            value={state?.exRate}
-            onchange={(e) => setState({ ...state, exRate: e.target.value })}
+            value={exRate}
+            onchange={(e) => setExRate(e.target.value)}
+            onblur={() => handleOnBlur("exRate", business, exRate)}
           />
           <select
-            className="selectBusiness"
-            value={state?.currency || "$"}
-            onChange={(e) => setState({ ...state, currency: e.target.value })}
+            className="selectCurrency"
+            value={currency}
+            onChange={(e) => {
+              setCurrency(e.target.value);
+              handleOnBlur("currenc", business, e.target.value);
+            }}
           >
-            {Currency.map((type, i) => (
-              <option key={i} value={type}>
-                {type}
+            {Currency.map((unit, j) => (
+              <option key={j} value={unit}>
+                {unit}
               </option>
             ))}
           </select>
         </div>
         <Label title={"full address"} />
         <Input
-          value={state?.address?.content}
-          onchange={(e) =>
-            setState({ ...state, address: { content: e.target.value } })
+          value={addressContent}
+          onchange={(e) => setAddressContent(e.target.value)}
+          onblur={() =>
+            handleOnBlur("content", business, addressContent, "address")
           }
         />
         <Label title={"location"} />
         <Location />
-        <Button
-          content={"confirm"}
-          onclick={() => {
-            axios
-              .put(
-                "/api/business",
-                { state, businessCode: business?.businessCode },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                res.data === "done" && setRefresh(!refresh);
-                res.data === "done" && setAlert("changes saved");
-              });
-          }}
-        />
+
         {!back && (
           <div
             className="signout"
@@ -140,11 +172,22 @@ export default function BusinessInfo({
           font-size: 1.2rem;
           border-radius: 0.5rem;
           width: 100%;
-          max-width: 25rem;
+          max-width: 22rem;
+          padding: 0 0.5rem;
+          ${styles.boxshadow}
+        }
+        .selectCurrency {
+          background: white;
+          border: none;
+          height: 2.8rem;
+          font-size: 1.2rem;
+          border-radius: 0.5rem;
+          width: 5rem;
           padding: 0 0.5rem;
           ${styles.boxshadow}
         }
         .currency {
+          max-width: 22rem;
           ${styles.flexBothcenter}
           gap:1rem;
         }
