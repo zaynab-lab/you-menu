@@ -1,6 +1,13 @@
 import { styles } from "@/public/js/styles";
 
-export default function Input({ value, onchange, type, placeholder, font }) {
+export default function Input({
+  value,
+  onblur,
+  onchange,
+  type,
+  placeholder,
+  font
+}) {
   return (
     <>
       <div className="input-container">
@@ -9,6 +16,7 @@ export default function Input({ value, onchange, type, placeholder, font }) {
           type={type}
           value={value}
           onChange={onchange}
+          onBlur={onblur && onblur}
           placeholder={placeholder}
         />
       </div>

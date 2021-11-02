@@ -24,18 +24,16 @@ export default function MenuModal({ openModal, setOpenModal }) {
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("Options");
+  const [user, setUser] = useState();
   useEffect(() => {
     setLoading(true);
     axios.get("/api/auth").then((res) => {
-      res?.data?.number && res?.data?.permissions?.includes("EnterBusinessPage")
-        ? setAuth(true)
-        : setAuth(false);
+      res?.data?.number ? setAuth(true) : setAuth(false);
       res?.data?.number && setLoading(false);
-      // res?.data.number &&
-      //   setAlertmsg(`you can login here to create a business`);
-      // setLoading(false);
+      res?.data?.number && setUser(res.data);
     });
   }, []);
+  console.log(user);
 
   return (
     <>
@@ -59,7 +57,9 @@ export default function MenuModal({ openModal, setOpenModal }) {
             auth={auth}
           />
         )}
-        {selected === "Profile" && <Profile setSelected={setSelected} />}
+        {selected === "Profile" && (
+          <Profile setSelected={setSelected} user={user} />
+        )}
         {selected === "Discount" && <Discount setSelected={setSelected} />}
         {selected === "History" && <History setSelected={setSelected} />}
         {selected === "Rights" && <Rights setSelected={setSelected} />}
