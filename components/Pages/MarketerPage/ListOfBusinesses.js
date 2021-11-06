@@ -13,11 +13,7 @@ export default function ListOfBusinesses() {
     <>
       <div className="businessList">
         {businesses.map((business, i) => (
-          <Link
-            key={i}
-            href={`management/business/${business.businessCode}`}
-            replace
-          >
+          <Link key={i} href={`management/business/${business.businessCode}`}>
             <div className="businessCard">
               <div className="businessCardItems">
                 <Logo

@@ -6,7 +6,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 
 const MenuModal = dynamic(import("@/components/MenuModal"));
-const HorizontalScroll = dynamic(import("@/components/HorizontalScroll"));
+// const HorizontalScroll = dynamic(import("@/components/HorizontalScroll"));
 const VerticalScroll = dynamic(import("@/components/VerticalScroll"));
 
 export default function Index({ countries }) {

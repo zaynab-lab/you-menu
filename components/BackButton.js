@@ -8,7 +8,7 @@ export default function BackButton({ setSelected, back, select }) {
     <>
       {back ? (
         <div className="backBar">
-          <Link href={back}>
+          <Link href={back} replace>
             <div className="circulBack">
               <Arrow />
             </div>
