@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
     unit: { type: String },
     quantity: { type: Number },
     hasImg: { type: Boolean },
-    link: { type: String },
+    imgLink: { type: Number },
     appear: { type: Boolean },
     exist: { type: Boolean },
     deleted: { type: Boolean, default: false },

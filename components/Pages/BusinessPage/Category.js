@@ -6,7 +6,7 @@ import {
   ProductNameLoader,
   ProductPriceLoader
 } from "@/components/Loaders/TextLoader";
-import Modal from "@/components/Modal";
+import ProductModal from "@/components/ProductModal";
 import axios from "axios";
 import Color from "./Color";
 import Alert from "@/components/Alert";
@@ -27,11 +27,13 @@ export default function Category({
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [colors, setColors] = useState(category?.colors);
+  const firebaseLink =
+    "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
   useEffect(() => {
     categoryID &&
       axios
-        .get(`/api/products/${categoryID}/?businessCode=${businessCode}`)
+        .get(`/api/products/getBycategory?categoryID=${categoryID}`)
         .then((res) => {
           Array.isArray(res.data) && setProducts(res.data);
         });
@@ -85,12 +87,16 @@ export default function Category({
                       </div>
                     )}
                   </div>
-                  {product.hasImg ? (
+                  {product?.hasImg ? (
                     <div className="productPartImg">
-                      <Image
-                        height="260"
-                        width="260"
-                        src={`/img/products/${product.image}.png`}
+                      <img
+                        height="60"
+                        width="60"
+                        src={`${
+                          firebaseLink +
+                          businessCode +
+                          `%2F${product?._id + product?.imgLink}.png?alt=media`
+                        }`}
                         alt={product.name}
                       />
                     </div>
@@ -146,12 +152,13 @@ export default function Category({
             setColors={setColors}
             businessCode={businessCode}
           />
-          <Modal
+          <ProductModal
             setRefreshProducts={setRefreshProducts}
             currentProduct={currentProduct}
             openModal={openModal}
             setOpenModal={setOpenModal}
             businessCode={businessCode}
+            setAlert={setAlert}
           />
           <Alert alert={alert} setAlert={setAlert} />
           <div
@@ -245,6 +252,11 @@ export default function Category({
 
         .description {
           color: grey;
+        }
+        .productPartImg {
+          width: 5rem;
+          height: 5rem;
+          ${styles.flexBothcenter}
         }
       `}</style>
     </>

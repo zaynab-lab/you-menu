@@ -11,6 +11,8 @@ export default function Menu({ categories, products, businessCode }) {
   const [currency, setCurrency] = useState("");
   const [exRate, setExRate] = useState(1);
   const sectionsRefs = useRef({});
+  const firebaseLink =
+    "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
   useEffect(
     () =>
@@ -96,10 +98,16 @@ export default function Menu({ categories, products, businessCode }) {
 
                     {product.hasImg ? (
                       <div className="productPartImg">
-                        <Image
-                          height="260"
-                          width="260"
-                          src={`/img/products/${product.image}.png`}
+                        <img
+                          height="80"
+                          width="80"
+                          src={`${
+                            firebaseLink +
+                            businessCode +
+                            `%2F${
+                              product?._id + product?.imgLink
+                            }.png?alt=media`
+                          }`}
                           alt={product.name}
                         />
                       </div>
@@ -161,6 +169,9 @@ export default function Menu({ categories, products, businessCode }) {
       }
       .price{
         padding:.2rem 0;
+        color: grey;
+        font-size: 1rem;
+
       }
       .product {
         padding: 0.8rem;
@@ -184,7 +195,6 @@ export default function Menu({ categories, products, businessCode }) {
         flex: 1 1 65%;
       }
       .productPartImg {
-        flex: 1 1 35%;
       }
       .watermark{
         font-size:.8em;

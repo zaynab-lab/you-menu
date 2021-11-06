@@ -10,7 +10,6 @@ export default function Logo({
   hasImg,
   imgLink,
   setRefreshBusiness,
-  alert,
   setAlert
 }) {
   const [image, setImage] = useState();
@@ -28,7 +27,6 @@ export default function Logo({
         "/" + businessCode + `/Logo${newLink}.png`
       );
       uploadBytes(storageRef, image).then((snapshot) => {
-        console.log(snapshot?.metadata?.name);
         snapshot?.metadata?.name === `Logo${newLink}.png`
           ? axios
               .put(
@@ -87,7 +85,7 @@ export default function Logo({
               setImage(newFile);
               setFile(file, imgLink);
             } else if (file && file.size > 300000) {
-              alert("more than 300kB is not allowed");
+              setAlert("more than 300k is not allowed");
             } else {
               setImage();
               setFile();

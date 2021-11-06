@@ -7,12 +7,13 @@ import Input from "./Input";
 import Label from "./Label";
 import ProductImage from "./ProductImage";
 
-export default function Modal({
+export default function ProductModal({
   openModal,
   setOpenModal,
   currentProduct,
   businessCode,
-  setRefreshProducts
+  setRefreshProducts,
+  setAlert
 }) {
   const [state, setState] = useState({});
 
@@ -29,7 +30,13 @@ export default function Modal({
         </div>
         <div>
           <div className="pImg">
-            <ProductImage uploading={true} />
+            <ProductImage
+              uploading={true}
+              setAlert={setAlert}
+              state={state}
+              businessCode={businessCode}
+              setRefreshProducts={setRefreshProducts}
+            />
           </div>
           <Label title={"product name"} />
           <Input
@@ -63,7 +70,7 @@ export default function Modal({
             onclick={() =>
               axios
                 .put(
-                  "/api/products",
+                  "/api/products/all",
                   {
                     businessCode,
                     productID: currentProduct._id,
@@ -81,7 +88,23 @@ export default function Modal({
           />
         </div>
 
-        <div className="remove">
+        <div
+          className="remove"
+          onClick={() => {
+            axios
+              .put(
+                "/api/products/remove",
+                { productID: currentProduct._id, businessCode },
+                { "content-type": "application/json" }
+              )
+              .then((res) => {
+                res.data === "done" && setAlert("you'r all done");
+                res.data === "done" &&
+                  setRefreshProducts((refresh) => !refresh);
+                res.data === "done" && setOpenModal(false);
+              });
+          }}
+        >
           <div className="trash">
             <FaTrashAlt />
           </div>
@@ -114,7 +137,7 @@ export default function Modal({
         .X {
           text-align: right;
           font-size: 1.6rem;
-          line-height: 0;
+          line-height: 1.2rem;
           padding-bottom: 0.4rem;
           cursor: pointer;
         }
