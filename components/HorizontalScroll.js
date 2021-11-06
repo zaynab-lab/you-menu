@@ -31,7 +31,7 @@ export default function HorizontalScroll({ title }) {
               >
                 <div className="Hbusiness">
                   <div>
-                    <Logo />
+                    <Logo hasImg={business?.brand?.img} />
                   </div>
                   <div>{business?.brand?.name || "brand"}</div>
                 </div>

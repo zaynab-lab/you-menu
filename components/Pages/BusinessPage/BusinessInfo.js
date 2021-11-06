@@ -72,7 +72,11 @@ export default function BusinessInfo({
       <BackButton setSelected={setSelected} back={back} select={"More"} />
       <BPLayout className="pageContainer">
         <div className="logoContainer">
-          <Logo uploading={true} />
+          <Logo
+            uploading={true}
+            businessCode={business?.businessCode}
+            hasImg={business?.brand?.img}
+          />
         </div>
         <Label title={"brand name"} />
         <Input

@@ -24,7 +24,7 @@ export default function VerticalScroll({ title }) {
             >
               <div key={i} className="vbusiness">
                 <div>
-                  <Logo />
+                  <Logo hasImg={business?.brand?.img} />
                 </div>
                 <div>{business?.brand?.name || "brand"}</div>
               </div>

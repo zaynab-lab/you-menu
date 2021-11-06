@@ -7,7 +7,7 @@ const businessSchema = new mongoose.Schema(
     ccode: { type: String },
     brand: {
       name: { type: String },
-      imgLink: { type: String }
+      img: { type: Boolean }
     },
     businessCode: { type: String },
     businessType: { type: String },
