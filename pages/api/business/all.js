@@ -10,7 +10,7 @@ export default async function Businesses(req, res) {
     const businesses = await Business.find({ verified: true }).exec();
     const LoB = await businesses.map((business) => ({
       businessCode: business.businessCode,
-      brand: { name: business?.brand?.name }
+      brand: business?.brand
     }));
     return res.status(200).end(JSON.stringify(LoB));
   } else {

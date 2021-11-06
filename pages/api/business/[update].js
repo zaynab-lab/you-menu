@@ -35,6 +35,13 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
+              case "img":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { "brand.hasImg": true, "brand.imgLink": body.imgLink },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
               case "businessType":
                 Business.findByIdAndUpdate(
                   business._id,

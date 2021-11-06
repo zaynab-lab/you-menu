@@ -16,7 +16,11 @@ export default function ListOfBusinesses() {
           <Link key={i} href={`management/business/${business.businessCode}`}>
             <div className="businessCard">
               <div className="businessCardItems">
-                <Logo />
+                <Logo
+                  hasImg={business?.brand?.hasImg}
+                  imgLink={business?.brand?.imgLink}
+                  businessCode={business.businessCode}
+                />
               </div>
               <div className="businessCardItems">
                 <div className="brand">

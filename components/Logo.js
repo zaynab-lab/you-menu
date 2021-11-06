@@ -2,20 +2,50 @@ import { styles } from "@/public/js/styles";
 import { useState } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "@/util/firebase";
+import axios from "axios";
 
-export default function Logo({ uploading, businessCode, hasImg }) {
+export default function Logo({
+  uploading,
+  businessCode,
+  hasImg,
+  imgLink,
+  setRefreshBusiness,
+  alert,
+  setAlert
+}) {
   const [image, setImage] = useState();
 
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
-  const setFile = (image) => {
+  const setFile = (image, Link) => {
+    const newLink = Link ? Link + 1 : 1;
+    setAlert("something is going change");
     if (image) {
       const storage = getStorage(app);
-      const storageRef = ref(storage, "/" + businessCode + "/Logo.png");
+      const storageRef = ref(
+        storage,
+        "/" + businessCode + `/Logo${newLink}.png`
+      );
       uploadBytes(storageRef, image).then((snapshot) => {
-        console.log(snapshot);
+        console.log(snapshot?.metadata?.name);
+        snapshot?.metadata?.name === `Logo${newLink}.png`
+          ? axios
+              .put(
+                `/api/business/img`,
+                { imgLink: newLink, businessCode: businessCode },
+                { "content-type": "application/json" }
+              )
+              .then((res) => {
+                setRefreshBusiness((refresh) => !refresh);
+                res.data === "done"
+                  ? setAlert("change done")
+                  : setAlert("something went wrong");
+              })
+          : setAlert("something went wrong");
       });
+    } else {
+      setAlert("something went wrong");
     }
   };
 
@@ -31,7 +61,9 @@ export default function Logo({ uploading, businessCode, hasImg }) {
               alt=""
               height="100%"
               width="100%"
-              src={`${firebaseLink + businessCode + "%2FLogo.png?alt=media"}`}
+              src={`${
+                firebaseLink + businessCode + `%2FLogo${imgLink}.png?alt=media`
+              }`}
             />
           ) : (
             "logo"
@@ -53,7 +85,7 @@ export default function Logo({ uploading, businessCode, hasImg }) {
               var blob = file.slice(0, file.size);
               var newFile = new File([blob], "file");
               setImage(newFile);
-              setFile(file);
+              setFile(file, imgLink);
             } else if (file && file.size > 300000) {
               alert("more than 300kB is not allowed");
             } else {

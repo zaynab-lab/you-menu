@@ -19,7 +19,7 @@ export default function BusinessInfo({
   setAuth,
   back,
   business,
-  setRefresh
+  setRefreshBusiness
 }) {
   const [brandName, setBrandName] = useState(business?.brand?.name);
   const [businessType, setBusinessType] = useState(
@@ -47,7 +47,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data !== "done" && setRefresh((refresh) => !refresh);
+            res.data !== "done" && setRefreshBusiness((refresh) => !refresh);
           });
     } else {
       business?.[value] !== state && setAlert("something is going change");
@@ -62,7 +62,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data !== "done" && setRefresh((refresh) => !refresh);
+            res.data !== "done" && setRefreshBusiness((refresh) => !refresh);
           });
     }
   };
@@ -75,7 +75,11 @@ export default function BusinessInfo({
           <Logo
             uploading={true}
             businessCode={business?.businessCode}
-            hasImg={business?.brand?.img}
+            hasImg={business?.brand?.hasImg}
+            imgLink={business?.brand?.imgLink}
+            setRefreshBusiness={setRefreshBusiness}
+            alert={alert}
+            setAlert={setAlert}
           />
         </div>
         <Label title={"brand name"} />

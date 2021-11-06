@@ -9,7 +9,7 @@ const MarketerBusinessPage = dynamic(
 
 export default function MBPage() {
   const router = useRouter();
-  const [refresh, setRefresh] = useState(false);
+  const [refreshBusiness, setRefreshBusiness] = useState(false);
   const [business, setBusiness] = useState({});
   const { businessCode } = router.query;
 
@@ -18,12 +18,15 @@ export default function MBPage() {
       axios.get(`/api/business?businessCode=${businessCode}`).then((res) => {
         res.data && setBusiness(res.data);
       }),
-    [businessCode, refresh]
+    [businessCode, refreshBusiness]
   );
 
   return (
     <>
-      <MarketerBusinessPage setRefresh={setRefresh} business={business} />
+      <MarketerBusinessPage
+        setRefreshBusiness={setRefreshBusiness}
+        business={business}
+      />
     </>
   );
 }

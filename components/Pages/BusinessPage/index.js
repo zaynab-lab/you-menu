@@ -18,7 +18,7 @@ export default function BusinessPage({ setAuth }) {
   const [selected, setSelected] = useState("Orders");
   const [toggleMenu, setToggleMenu] = useState(true);
   const [business, setBusiness] = useState({});
-  const [refresh, setRefresh] = useState(false);
+  const [refreshBusiness, setRefreshBusiness] = useState(false);
 
   useEffect(() => {
     selected === "Orders" || selected === "Add" || selected === "More"
@@ -30,7 +30,7 @@ export default function BusinessPage({ setAuth }) {
       axios.get("/api/business").then((res) => {
         res?.data?.businessCode && setBusiness(res.data);
       }),
-    [refresh]
+    [refreshBusiness]
   );
 
   return (
@@ -45,8 +45,7 @@ export default function BusinessPage({ setAuth }) {
           setAuth={setAuth}
           setSelected={setSelected}
           business={business}
-          refresh={refresh}
-          setRefresh={setRefresh}
+          setRefreshBusiness={setRefreshBusiness}
         />
       )}
       {selected === "Qr" && (

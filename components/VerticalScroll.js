@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
 
-export default function VerticalScroll({ title }) {
+export default function VerticalScroll() {
   const [businesses, setBusinesses] = useState([0, 0, 0, 0, 0, 0, 0]);
   useEffect(() => {
     axios
@@ -18,13 +18,18 @@ export default function VerticalScroll({ title }) {
         <div className="vbusinesses">
           {businesses.map((business, i) => (
             <Link
+              key={i}
               href={
                 business?.businessCode ? `/menu/${business?.businessCode}` : "/"
               }
             >
-              <div key={i} className="vbusiness">
+              <div className="vbusiness">
                 <div>
-                  <Logo hasImg={business?.brand?.img} />
+                  <Logo
+                    hasImg={business?.brand?.hasImg}
+                    imgLink={business?.brand?.imgLink}
+                    businessCode={business?.businessCode}
+                  />
                 </div>
                 <div>{business?.brand?.name || "brand"}</div>
               </div>
@@ -54,7 +59,7 @@ export default function VerticalScroll({ title }) {
         .vbusiness {
           ${styles.flexBothcenter};
           ${styles.flexColumn}
-          flex:1 1 40%;
+          flex:1 1 3.2rem;
           gap:.6rem;
           cursor:pointer;
         }
