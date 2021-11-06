@@ -12,8 +12,7 @@ export default function Modal({
   setOpenModal,
   currentProduct,
   businessCode,
-  refresh,
-  setRefresh
+  setRefreshProducts
 }) {
   const [state, setState] = useState({});
 
@@ -73,7 +72,8 @@ export default function Modal({
                   { "content-type": "application/json" }
                 )
                 .then((res) => {
-                  res.data === "done" && setRefresh(!refresh);
+                  res.data === "done" &&
+                    setRefreshProducts((refresh) => !refresh);
                   res.data === "done" && setOpenModal(false);
                 })
             }

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
-import { FaStar, FaUndo } from "react-icons/fa";
+import { FaCheck, FaStar, FaUndo } from "react-icons/fa";
 
 const dfColors = {
   tbt: styles.secondaryColor,
@@ -171,7 +171,7 @@ export function ColorModal({
           <div className="Xheader">
             <div>select color</div>
             <div
-              className="X"
+              className="check"
               onClick={() => {
                 axios.put(
                   "/api/categories/color",
@@ -184,6 +184,14 @@ export function ColorModal({
                   { "content-type": "application/json" }
                 );
                 setColors({ ...colors, [selected]: color.hex });
+                setColorModal(false);
+              }}
+            >
+              <FaCheck />
+            </div>
+            <div
+              className="X"
+              onClick={() => {
                 setColorModal(false);
               }}
             >
@@ -237,6 +245,21 @@ export function ColorModal({
           border: 1px solid ${styles.secondaryColor};
           border-radius: 0.7rem;
           z-index: 101;
+        }
+        .check {
+          padding: 0.3rem;
+          border-radius: 2rem;
+          line-height: 0;
+          color: ${color.rgb.r * 0.299 +
+            color.rgb.g * 0.587 +
+            color.rgb.b * 0.114 >
+          186
+            ? "gray"
+            : "white"};
+          background: ${color.hex};
+          cursor: pointer;
+          font-size: 0.8rem;
+          border: 1px solid lightgray;
         }
       `}</style>
     </>

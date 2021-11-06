@@ -1,15 +1,16 @@
 import Image from "next/image";
 import TopBar from "./TopBar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Line from "./Line";
 import { styles } from "@/public/js/styles";
 import TextLoader from "./Loaders/TextLoader";
 import axios from "axios";
 
 export default function Menu({ categories, products, businessCode }) {
-  const [state, setState] = useState("");
+  const [currentCat, setCurrentCat] = useState("");
   const [currency, setCurrency] = useState("");
   const [exRate, setExRate] = useState(1);
+  const sectionsRefs = useRef({});
 
   useEffect(
     () =>
@@ -22,15 +23,29 @@ export default function Menu({ categories, products, businessCode }) {
         }),
     [businessCode]
   );
+  useEffect(() => {
+    setCurrentCat(categories?.[0]?.name);
+  }, [categories]);
 
   return (
     <>
       <Line />
-      <TopBar categories={categories} state={state} setState={setState} />
+      <TopBar
+        sectionsRefs={sectionsRefs}
+        categories={categories}
+        currentCat={currentCat}
+        setCurrentCat={setCurrentCat}
+      />
       <div>
         {categories?.map((category, i) => (
           <div key={i}>
             <div
+              ref={(el) =>
+                (sectionsRefs.current = {
+                  ...sectionsRefs.current,
+                  [category.name]: el
+                })
+              }
               id={category.name}
               className="title"
               style={{
@@ -132,12 +147,9 @@ export default function Menu({ categories, products, businessCode }) {
         color:black;
         font-size: 2.6rem;
         padding: 0.2rem 0.8rem ;
+        scroll-margin-top:3rem;
       }
-      .title:target:before {
-        content: "";
-        display: block;
-        margin-top: 3.4rem;
-      }
+      
       .description {
         color: grey;
         font-size: 0.8em;

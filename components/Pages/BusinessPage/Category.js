@@ -17,12 +17,11 @@ export default function Category({
   businessCode,
   currentCat,
   setCurrentCat,
-  refreshCat,
   setRefreshCat
 }) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([0]);
-  const [refresh, setRefresh] = useState(false);
+  const [refreshProducts, setRefreshProducts] = useState(false);
   const categoryID = category._id;
   const [alert, setAlert] = useState("");
   const [currentProduct, setCurrentProduct] = useState();
@@ -36,7 +35,7 @@ export default function Category({
         .then((res) => {
           Array.isArray(res.data) && setProducts(res.data);
         });
-  }, [categoryID, businessCode, refresh]);
+  }, [categoryID, businessCode, refreshProducts]);
 
   useEffect(() => {
     setProducts([0]);
@@ -125,7 +124,8 @@ export default function Category({
                           )
                           .then((res) => {
                             res.data === "done" && setProductName("");
-                            res.data === "done" && setRefresh(!refresh);
+                            res.data === "done" &&
+                              setRefreshProducts((refresh) => !refresh);
                             res.data === "done" &&
                               setAlert("product has been added");
                             res.data !== "done" &&
@@ -147,8 +147,7 @@ export default function Category({
             businessCode={businessCode}
           />
           <Modal
-            refresh={refresh}
-            setRefresh={setRefresh}
+            setRefreshProducts={setRefreshProducts}
             currentProduct={currentProduct}
             openModal={openModal}
             setOpenModal={setOpenModal}
@@ -166,7 +165,7 @@ export default function Category({
                 )
                 .then((res) => {
                   res.data === "done" && setAlert("you'r all done");
-                  res.data === "done" && setRefreshCat(!refreshCat);
+                  res.data === "done" && setRefreshCat((refresh) => !refresh);
                   res.data === "done" && setCurrentCat("");
                 })
             }

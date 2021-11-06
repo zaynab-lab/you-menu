@@ -9,11 +9,7 @@ const BusinessInfo = dynamic(() =>
 const Add = dynamic(() => import("@/components/Pages/BusinessPage/Add"));
 const Qr = dynamic(() => import("@/components/Pages/BusinessPage/Qr"));
 
-export default function MarketerBusinessPage({
-  business,
-  refresh,
-  setRefresh
-}) {
+export default function MarketerBusinessPage({ business, setRefresh }) {
   const [selected, setSelected] = useState("Add");
 
   return (
@@ -21,7 +17,6 @@ export default function MarketerBusinessPage({
       <Line />
       {selected === "Home" && (
         <BusinessInfo
-          refresh={refresh}
           setRefresh={setRefresh}
           business={business}
           back={"/management"}

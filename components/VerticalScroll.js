@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
 
-export default function HorizontalScroll({ title }) {
+export default function VerticalScroll({ title }) {
   const [businesses, setBusinesses] = useState([0, 0, 0, 0, 0, 0, 0]);
   useEffect(() => {
     axios
@@ -17,7 +17,11 @@ export default function HorizontalScroll({ title }) {
       <div className="horizantalContainer">
         <div className="vbusinesses">
           {businesses.map((business, i) => (
-            <Link href={`/menu/${business?.businessCode}`}>
+            <Link
+              href={
+                business?.businessCode ? `/menu/${business?.businessCode}` : "/"
+              }
+            >
               <div key={i} className="vbusiness">
                 <div>
                   <Logo />

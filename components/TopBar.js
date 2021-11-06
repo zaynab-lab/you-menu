@@ -1,21 +1,32 @@
 import { styles } from "@/public/js/styles";
 import TextLoader from "./Loaders/TextLoader";
 
-export default function TopBar({ categories, state, setState }) {
+export default function TopBar({
+  sectionsRefs,
+  categories,
+  currentCat,
+  setCurrentCat
+}) {
   return (
     <>
       <div className="bar">
         {categories?.map((category, i) => (
-          <a href={`#${category.name}`}>
-            <div
-              key={i}
-              className={`item ${category.name === state && "active"}`}
-              style={{ color: category?.colors?.tbt || "black" }}
-              onClick={() => setState(category.name)}
-            >
-              {category.name || <TextLoader />}
-            </div>
-          </a>
+          <div
+            key={i}
+            className={`item ${category.name === currentCat && "active"}`}
+            style={{
+              color: category?.colors?.tbt || "black",
+              boxShadow:
+                category.name === currentCat &&
+                "0 0px 5px 0 " + category?.colors?.tbt
+            }}
+            onClick={() => {
+              setCurrentCat(category.name);
+              sectionsRefs.current[category.name].scrollIntoView();
+            }}
+          >
+            {category.name || <TextLoader />}
+          </div>
         ))}
       </div>
 
@@ -45,13 +56,14 @@ export default function TopBar({ categories, state, setState }) {
           white-space: nowrap;
           -webkit-box-shadow: 0 0px 5px 0 grey;
           box-shadow: 0 0px 5px 0 grey;
-          padding: 0.2rem 0.8rem;
+          padding: 0rem 0.8rem;
           border-radius: 10rem;
           font-size: 1rem;
+          cursor: pointer;
         }
 
         .topbar {
-          margin-top: 3rem;
+          margin-top: 2.7rem;
         }
 
         .active {

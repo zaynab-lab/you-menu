@@ -19,7 +19,6 @@ export default function BusinessInfo({
   setAuth,
   back,
   business,
-  refresh,
   setRefresh
 }) {
   const [brandName, setBrandName] = useState(business?.brand?.name);
@@ -48,7 +47,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data === "done" && setRefresh(!refresh);
+            res.data !== "done" && setRefresh((refresh) => !refresh);
           });
     } else {
       business?.[value] !== state && setAlert("something is going change");
@@ -63,8 +62,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data === "done" && setRefresh(!refresh);
-            console.log(res.data);
+            res.data !== "done" && setRefresh((refresh) => !refresh);
           });
     }
   };

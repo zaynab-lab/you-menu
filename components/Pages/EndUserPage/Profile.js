@@ -9,7 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 
-export default function ({ setSelected, user, refreshUser, setRefreshUser }) {
+export default function ({ setSelected, user, setRefreshUser }) {
   const [alert, setAlert] = useState("");
   const [userName, setUserName] = useState(user?.name);
   return (
@@ -34,7 +34,8 @@ export default function ({ setSelected, user, refreshUser, setRefreshUser }) {
                     res.data === "done"
                       ? setAlert("change done")
                       : setAlert("something went wrong");
-                    res.data === "done" && setRefreshUser(!refreshUser);
+                    res.data === "done" &&
+                      setRefreshUser((refresh) => !refresh);
                   });
             }}
           />
@@ -90,6 +91,7 @@ export default function ({ setSelected, user, refreshUser, setRefreshUser }) {
           ${styles.flexBothcenter}
           gap:1rem;
           color: ${styles.secondaryColor};
+          cursor: pointer;
         }
         .Bbtn-icon {
           padding-top: 0.3rem;

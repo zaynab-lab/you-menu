@@ -22,7 +22,13 @@ export default function HorizontalScroll({ title }) {
         <div className="Hbusinesses">
           {businesses.map((business, i) => (
             <div key={i}>
-              <Link href={`/menu/${business?.businessCode}`}>
+              <Link
+                href={
+                  business?.businessCode
+                    ? `/menu/${business?.businessCode}`
+                    : "/"
+                }
+              >
                 <div className="Hbusiness">
                   <div>
                     <Logo />

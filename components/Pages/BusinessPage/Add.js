@@ -44,7 +44,8 @@ export default function Add({ back, businessCode }) {
                       )
                       .then((res) => {
                         res.data === "done" && setCategory("");
-                        res.data === "done" && setRefresh(!refresh);
+                        res.data === "done" &&
+                          setRefresh((refresh) => !refresh);
                       })
                   : setAlert("add category name");
               }}
@@ -57,7 +58,6 @@ export default function Add({ back, businessCode }) {
         {categories.length > 0 && (
           <Categories
             setRefresh={setRefresh}
-            refresh={refresh}
             categories={categories}
             businessCode={businessCode}
           />

@@ -7,12 +7,7 @@ import axios from "axios";
 
 const Category = dynamic(() => import("./Category"));
 
-export default function Categories({
-  categories,
-  businessCode,
-  setRefresh,
-  refresh
-}) {
+export default function Categories({ categories, businessCode, setRefresh }) {
   const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);
   const [category, setCategory] = useState(categories?.[0]);
   const [renameModal, setRenameModal] = useState(false);
@@ -51,7 +46,6 @@ export default function Categories({
         businessCode={businessCode}
         currentCat={currentCat}
         setCurrentCat={setCurrentCat}
-        refreshCat={refresh}
         setRefreshCat={setRefresh}
       />
       <RenameModal
@@ -62,7 +56,6 @@ export default function Categories({
         businessCode={businessCode}
         setCurrentCat={setCurrentCat}
         setRefresh={setRefresh}
-        refresh={refresh}
       />
       <style jsx>{`
         .categoryBar {
@@ -114,8 +107,7 @@ export function RenameModal({
   setCurrentCat,
   categoryID,
   businessCode,
-  setRefresh,
-  refresh
+  setRefresh
 }) {
   const [name, setName] = useState(dfname);
 
@@ -158,7 +150,9 @@ export function RenameModal({
                       { "content-type": "application/json" }
                     )
                     .then(
-                      (res) => res?.data === "done" && setRefresh(!refresh)
+                      (res) =>
+                        res?.data === "done" &&
+                        setRefresh((refresh) => !refresh)
                     );
                 !!name && setCurrentCat(name);
                 !!name && setName(name);
@@ -189,6 +183,13 @@ export function RenameModal({
           z-index: 100;
           transition: all 0.5s ease-out;
         }
+        .renameContainer {
+          border: 1px solid ${styles.secondaryColor};
+          background: white;
+          border-radius: 0.7rem;
+          padding: 0.5rem;
+          ${styles.boxshadow}
+        }
 
         .Xheader {
           text-align: right;
@@ -208,12 +209,7 @@ export function RenameModal({
           padding-bottom: 0.4rem;
           cursor: pointer;
         }
-        .renameContainer {
-          border: 1px solid ${styles.secondaryColor};
-          background: white;
-          border-radius: 0.7rem;
-          padding: 0.5rem;
-        }
+
         .renameInput {
           ${styles.flexAligncenter}
         }

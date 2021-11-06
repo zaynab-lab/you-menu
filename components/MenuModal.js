@@ -30,8 +30,8 @@ export default function MenuModal({ openModal, setOpenModal }) {
     setLoading(true);
     axios.get("/api/auth").then((res) => {
       res?.data?.number ? setAuth(true) : setAuth(false);
-      res?.data?.number && setLoading(false);
       res?.data?.number && setUser(res.data);
+      setLoading(false);
     });
   }, [refreshUser]);
 
@@ -63,7 +63,6 @@ export default function MenuModal({ openModal, setOpenModal }) {
             setSelected={setSelected}
             user={user}
             setRefreshUser={setRefreshUser}
-            refreshUser={refreshUser}
           />
         )}
         {selected === "Discount" && <Discount setSelected={setSelected} />}

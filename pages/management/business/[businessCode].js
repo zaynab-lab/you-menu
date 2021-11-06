@@ -23,11 +23,7 @@ export default function MBPage() {
 
   return (
     <>
-      <MarketerBusinessPage
-        refresh={refresh}
-        setRefresh={setRefresh}
-        business={business}
-      />
+      <MarketerBusinessPage setRefresh={setRefresh} business={business} />
     </>
   );
 }
