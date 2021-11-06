@@ -49,7 +49,12 @@ export default function MenuModal({ openModal, setOpenModal }) {
           x
         </div>
 
-        {!auth && (loading ? <Dots /> : <LoginForm setAuth={setAuth} />)}
+        {!auth &&
+          (loading ? (
+            <Dots />
+          ) : (
+            <LoginForm setAuth={setAuth} setRefreshUser={setRefreshUser} />
+          ))}
         {selected === "Options" && (
           <Options
             setSelected={setSelected}
@@ -97,10 +102,11 @@ export default function MenuModal({ openModal, setOpenModal }) {
         .X {
           text-align: right;
           font-size: 2rem;
-          line-height: 0;
+          line-height: 2rem;
           padding-right: 2rem;
-          padding-top: 2rem;
+          padding-top: 1.2rem;
           cursor: pointer;
+          z-index: 100;
         }
       `}</style>
     </>

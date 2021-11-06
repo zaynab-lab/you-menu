@@ -8,7 +8,12 @@ import timer from "@/util/timer";
 import { countries } from "@/util/countryCode";
 import Label from "@/components/Label";
 
-export default function LoginForm({ setAuth, Loginfrom, alertMsg }) {
+export default function LoginForm({
+  setAuth,
+  Loginfrom,
+  alertMsg,
+  setRefreshUser
+}) {
   const [waiting, setWaiting] = useState(false);
   const [msg, setMsg] = useState(" ");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -75,6 +80,7 @@ export default function LoginForm({ setAuth, Loginfrom, alertMsg }) {
       )
       .then((res) => {
         res.data === "done" && setAuth(true);
+        setRefreshUser((refresh) => !refresh);
         res.data !== "done" && setMsg(res.data);
       });
   };
