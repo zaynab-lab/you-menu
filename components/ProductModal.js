@@ -16,11 +16,12 @@ export default function ProductModal({
   setAlert
 }) {
   const [state, setState] = useState({});
+  const [refreshProduct, setRefreshProduct] = useState(false);
 
   useEffect(() => {
     setState({});
     setState(currentProduct);
-  }, [currentProduct]);
+  }, [currentProduct, refreshProduct]);
 
   return (
     <>
@@ -36,6 +37,7 @@ export default function ProductModal({
               state={state}
               businessCode={businessCode}
               setRefreshProducts={setRefreshProducts}
+              setRefreshProduct={setRefreshProduct}
             />
           </div>
           <Label title={"product name"} />

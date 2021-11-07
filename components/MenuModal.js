@@ -68,6 +68,7 @@ export default function MenuModal({ openModal, setOpenModal }) {
             setSelected={setSelected}
             user={user}
             setRefreshUser={setRefreshUser}
+            setAuth={setAuth}
           />
         )}
         {selected === "Discount" && <Discount setSelected={setSelected} />}
@@ -82,7 +83,8 @@ export default function MenuModal({ openModal, setOpenModal }) {
         .modal {
           width: 100vw;
           max-width: 30rem;
-          height: 100vh;
+          min-height: 100%;
+          height: 100%;
           background: white;
           position: fixed;
           top: 100vh;
@@ -92,6 +94,7 @@ export default function MenuModal({ openModal, setOpenModal }) {
           transition: all 0.5s ease-out;
           font-size: 1.2rem;
           overflow: hidden;
+          overflow-y: auto;
         }
 
         .modal.show {

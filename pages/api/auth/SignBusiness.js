@@ -25,6 +25,11 @@ export default async (req, res) => {
             if (err) return res.status(200).end("invalid");
             const user = await User.findById(decoded.id).exec();
             if (user) {
+              await User.findByIdAndUpdate(
+                user._id,
+                { role: "BusinessOwner" },
+                (err) => console.log(err)
+              ).exec();
               const business = new Business({
                 ownerNumber: body.phoneNumber,
                 ccode: body.ccode,
@@ -32,6 +37,7 @@ export default async (req, res) => {
                 addedby: user.promoCode
               });
               business.save().catch((err) => console.log(err));
+              return res.status(200).end("done");
             } else {
               return res.status(200).end("invalid");
             }

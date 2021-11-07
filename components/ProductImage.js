@@ -9,13 +9,14 @@ export default function ProductImage({
   businessCode,
   setAlert,
   setRefreshProducts,
+  setRefreshProduct,
   state
 }) {
   const [image, setImage] = useState();
 
   useEffect(() => {
     setImage();
-  }, [state]);
+  }, [state?._id]);
 
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
@@ -29,8 +30,6 @@ export default function ProductImage({
         "/" + businessCode + `/${productID + newLink}.png`
       );
       uploadBytes(storageRef, image).then((snapshot) => {
-        console.log(snapshot?.metadata?.name);
-
         snapshot?.metadata?.name === `${productID + newLink}.png`
           ? axios
               .put(
@@ -45,6 +44,7 @@ export default function ProductImage({
               )
               .then((res) => {
                 setRefreshProducts((refresh) => !refresh);
+                setRefreshProduct((refresh) => !refresh);
                 res.data === "done"
                   ? setAlert("change done")
                   : setAlert("something went wrong");

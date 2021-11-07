@@ -3,19 +3,20 @@ import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
 import Link from "next/link";
-import { FaSearchDollar, FaStore } from "react-icons/fa";
+import { FaSearchDollar, FaSignOutAlt, FaStore } from "react-icons/fa";
 import UPLayout from "@/components/Pages/EndUserPage/UPLayout";
 import axios from "axios";
 import { useState } from "react";
 import Alert from "@/components/Alert";
+import Router from "next/dist/server/router";
 
-export default function ({ setSelected, user, setRefreshUser }) {
+export default function ({ setSelected, user, setRefreshUser, setAuth }) {
   const [alert, setAlert] = useState("");
   const [userName, setUserName] = useState(user?.name);
   return (
     <>
       <BackButton setSelected={setSelected} select={"Options"} />
-      <UPLayout className="pageContainer">
+      <UPLayout>
         <div className="form">
           <Label title={"full name"} />
           <Input
@@ -65,6 +66,22 @@ export default function ({ setSelected, user, setRefreshUser }) {
               </Link>
             )}
           </div>
+
+          <div
+            className="signout"
+            onClick={() =>
+              axios
+                .post("/api/auth/Logout")
+                .then((res) => res.data === "done" && Router.push("/"))
+                .then(() => setAuth(false))
+                .then(() => setSelected("Options"))
+            }
+          >
+            <div>Log out</div>
+            <div className="signoutIcon">
+              <FaSignOutAlt />
+            </div>
+          </div>
         </div>
       </UPLayout>
       <style jsx>{`
@@ -76,10 +93,6 @@ export default function ({ setSelected, user, setRefreshUser }) {
           -ms-flex-direction: column;
           flex-direction: column;
           max-width: 20rem;
-          position: relative;
-          height: -webkit-fit-content;
-          height: -moz-fit-content;
-          height: fit-content;
           padding-bottom: 5rem;
           background: white;
         }
@@ -98,6 +111,17 @@ export default function ({ setSelected, user, setRefreshUser }) {
         }
         .goto {
           padding: 2rem;
+        }
+        .signout {
+          color: ${styles.secondaryColor};
+          font-size: 1.2rem;
+          ${styles.flexBothcenter}
+          cursor: pointer;
+          padding: 2rem;
+        }
+
+        .signoutIcon {
+          transform: translate(0.5rem, 0.2rem);
         }
       `}</style>
     </>

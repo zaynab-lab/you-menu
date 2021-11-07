@@ -14,9 +14,6 @@ export default function UPLayout({ children }) {
           flex-direction: column;
           max-width: 100vw;
           position: relative;
-          height: -webkit-fit-content;
-          height: -moz-fit-content;
-          height: fit-content;
           padding-bottom: 2rem;
           padding: 3.5rem 0;
         }

@@ -137,8 +137,9 @@ export default function BusinessInfo({
         />
         <Label title={"location"} />
         <Location />
-
-        {!back && (
+        {back ? (
+          <div className="after"></div>
+        ) : (
           <div
             className="signout"
             onClick={() =>
@@ -196,6 +197,9 @@ export default function BusinessInfo({
           max-width: 22rem;
           ${styles.flexBothcenter}
           gap:1rem;
+        }
+        .after {
+          padding-bottom: 4rem;
         }
       `}</style>
     </>
