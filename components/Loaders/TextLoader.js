@@ -2,6 +2,7 @@ import ContentLoader from "react-content-loader";
 
 const TextLoader = () => (
   <ContentLoader
+    uniqueKey="text"
     speed={2}
     width={"100%"}
     height={"100%"}
@@ -17,6 +18,7 @@ export default TextLoader;
 
 export const ProductDescriptionLoader = () => (
   <ContentLoader
+    uniqueKey="productdescription"
     speed={2}
     width={"100%"}
     height={"100%"}
@@ -30,6 +32,7 @@ export const ProductDescriptionLoader = () => (
 
 export const ProductNameLoader = () => (
   <ContentLoader
+    uniqueKey="productName"
     speed={2}
     width={"100%"}
     height={"100%"}
@@ -43,6 +46,7 @@ export const ProductNameLoader = () => (
 
 export const ProductPriceLoader = () => (
   <ContentLoader
+    uniqueKey="productPrice"
     speed={2}
     width={"15%"}
     height={"15%"}

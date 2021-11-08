@@ -8,7 +8,7 @@ const MenuModal = dynamic(import("@/components/MenuModal"));
 // const HorizontalScroll = dynamic(import("@/components/HorizontalScroll"));
 const VerticalScroll = dynamic(import("@/components/VerticalScroll"));
 
-export default function Index({ countries }) {
+export default function Index() {
   const [openModal, setOpenModal] = useState(false);
 
   return (

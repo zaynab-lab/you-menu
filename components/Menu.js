@@ -65,8 +65,8 @@ export default function Menu({ categories, products, businessCode }) {
             >
               {category.image && (
                 <Image
-                  height="200"
-                  width="200"
+                  height="300"
+                  width="300"
                   src={`/img/products/${category.image}.png`}
                   alt={category.name}
                 />
@@ -91,16 +91,25 @@ export default function Menu({ categories, products, businessCode }) {
                           {currency === "$"
                             ? product.price
                             : product.price * exRate}
-                          {+" " + currency}
+                          {currency}
                         </div>
                       )}
                     </div>
 
                     {product.hasImg ? (
                       <div className="productPartImg">
-                        <img
-                          height="80"
-                          width="80"
+                        <Image
+                          height="120"
+                          width="120"
+                          loader={() =>
+                            `${
+                              firebaseLink +
+                              businessCode +
+                              `%2F${
+                                product?._id + product?.imgLink
+                              }.png?alt=media`
+                            }`
+                          }
                           src={`${
                             firebaseLink +
                             businessCode +
@@ -117,7 +126,7 @@ export default function Menu({ categories, products, businessCode }) {
                           {currency === "$"
                             ? product.price
                             : product.price * exRate}
-                          {+" " + currency}
+                          {currency}
                         </div>
                       )
                     )}
@@ -160,18 +169,17 @@ export default function Menu({ categories, products, businessCode }) {
       
       .description {
         color: grey;
-        font-size: 0.8em;
+        font-size: 0.9rem;
         width:100%;
+        line-height:.9rem;
       }
       .productName {
-        font-size: 1.2em;
+        font-size: 1.4rem;
         padding:0.3rem 0;
       }
       .price{
         padding:.2rem 0;
-        color: grey;
         font-size: 1rem;
-
       }
       .product {
         padding: 0.8rem;

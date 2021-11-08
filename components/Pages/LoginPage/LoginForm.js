@@ -7,6 +7,7 @@ import axios from "axios";
 import timer from "@/util/timer";
 import { countries } from "@/util/countryCode";
 import Label from "@/components/Label";
+import Image from "next/image";
 
 export default function LoginForm({
   setAuth,
@@ -103,7 +104,11 @@ export default function LoginForm({
     <>
       <div className="form">
         <div className="msg">{alertMsg && alertMsg}</div>
-        <img className="img" src="/img/ptrn.png" alt="pattern" />
+        {Loginfrom && (
+          <div className="img">
+            <Image height="800" width="800" src="/img/ptrn.png" alt="pattern" />
+          </div>
+        )}
         <Phone
           waiting={waiting}
           phone={phoneNumber}
@@ -137,31 +142,37 @@ export default function LoginForm({
         />
       </div>
 
-      <style>{`
-      .form{
-        padding:${Loginfrom === "signBusiness" ? "0 1rem" : "3rem 1rem"};
-        ${styles.flexAligncenter}
-        -webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;
-        max-width:100vw;
-        position:relative;
-        height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;
-      }
-      .img{
-        opacity:.03;
-        position:absolute;
-        top:0;
-        max-height:70vh;
-        min-width:100vw;
-        width:100%;
-        z-index:-1;
-      }
-   
-      .msg{
-        font-size:.8rem;
-        color:${styles.secondaryColor};
-        text-align:center;
-        padding-top:.3rem;
-      }
+      <style jsx>{`
+        .form {
+          padding: ${Loginfrom === "signBusiness" ? "0 1rem" : "3rem 1rem"};
+          ${styles.flexAligncenter}
+          -webkit-box-orient:vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          max-width: 100vw;
+          position: relative;
+          height: -webkit-fit-content;
+          height: -moz-fit-content;
+          height: fit-content;
+          overflow: hidden;
+        }
+        .img {
+          opacity: 0.03;
+          position: absolute;
+          top: 0;
+          max-height: 70vh;
+          min-width: 100vw;
+          width: 100%;
+          z-index: -1;
+        }
+
+        .msg {
+          font-size: 0.8rem;
+          color: ${styles.secondaryColor};
+          text-align: center;
+          padding-top: 0.3rem;
+        }
       `}</style>
     </>
   );

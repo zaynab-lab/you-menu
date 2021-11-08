@@ -3,6 +3,7 @@ import { useState } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "@/util/firebase";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Logo({
   uploading,
@@ -54,11 +55,18 @@ export default function Logo({
           {image ? (
             <img id="img" alt="" height="100%" width="100%" src={image} />
           ) : hasImg ? (
-            <img
+            <Image
               id="img"
               alt=""
-              height="100%"
-              width="100%"
+              width="130"
+              height="130"
+              loader={() =>
+                `${
+                  firebaseLink +
+                  businessCode +
+                  `%2FLogo${imgLink}.png?alt=media`
+                }`
+              }
               src={`${
                 firebaseLink + businessCode + `%2FLogo${imgLink}.png?alt=media`
               }`}
@@ -113,6 +121,7 @@ export default function Logo({
           ${styles.flexBothcenter}
           ${styles.boxshadow}
           cursor: pointer;
+          overflow: hidden;
         }
       `}</style>
     </>
