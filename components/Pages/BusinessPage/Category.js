@@ -89,9 +89,18 @@ export default function Category({
                   </div>
                   {product?.hasImg ? (
                     <div className="productPartImg">
-                      <img
-                        height="60"
-                        width="60"
+                      <Image
+                        height="70"
+                        width="70"
+                        loader={() =>
+                          `${
+                            firebaseLink +
+                            businessCode +
+                            `%2F${
+                              product?._id + product?.imgLink
+                            }.png?alt=media`
+                          }`
+                        }
                         src={`${
                           firebaseLink +
                           businessCode +
@@ -254,9 +263,10 @@ export default function Category({
           color: grey;
         }
         .productPartImg {
-          width: 5rem;
-          height: 5rem;
+          width: 6rem;
+          height: 6rem;
           ${styles.flexBothcenter}
+          z-index:-1;
         }
       `}</style>
     </>

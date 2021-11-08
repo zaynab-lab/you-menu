@@ -16,11 +16,13 @@ export default function ProductModal({
   setAlert
 }) {
   const [state, setState] = useState({});
+  const [initState, setInitState] = useState({});
   const [refreshProduct, setRefreshProduct] = useState(false);
 
   useEffect(() => {
     setState({});
     setState(currentProduct);
+    setInitState(currentProduct);
   }, [currentProduct, refreshProduct]);
 
   return (
@@ -70,21 +72,24 @@ export default function ProductModal({
           <Button
             content={"save changes"}
             onclick={() =>
-              axios
-                .put(
-                  "/api/products/all",
-                  {
-                    businessCode,
-                    productID: currentProduct._id,
-                    state
-                  },
-                  { "content-type": "application/json" }
-                )
-                .then((res) => {
-                  res.data === "done" &&
-                    setRefreshProducts((refresh) => !refresh);
-                  res.data === "done" && setOpenModal(false);
-                })
+              initState !== state
+                ? axios
+                    .put(
+                      "/api/products/all",
+                      {
+                        businessCode,
+                        productID: currentProduct._id,
+                        state
+                      },
+                      { "content-type": "application/json" }
+                    )
+                    .then((res) => {
+                      res.data === "done" && setAlert("change done");
+                      res.data === "done" &&
+                        setRefreshProducts((refresh) => !refresh);
+                      res.data === "done" && setOpenModal(false);
+                    })
+                : setOpenModal(false)
             }
             color={styles.secondaryColor}
           />
@@ -100,7 +105,7 @@ export default function ProductModal({
                 { "content-type": "application/json" }
               )
               .then((res) => {
-                res.data === "done" && setAlert("you'r all done");
+                res.data === "done" && setAlert("product removed");
                 res.data === "done" &&
                   setRefreshProducts((refresh) => !refresh);
                 res.data === "done" && setOpenModal(false);
