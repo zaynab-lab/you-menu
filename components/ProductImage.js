@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "@/util/firebase";
 import axios from "axios";
+import Image from "next/image";
 
 export default function ProductImage({
   uploading,
@@ -64,16 +65,21 @@ export default function ProductImage({
           {image ? (
             <img id="img" height="100%" width="100%" alt="" src={image} />
           ) : state?.hasImg ? (
-            <img
+            <Image
               id="img"
-              alt=""
-              height="100%"
-              width="100%"
-              src={`${
-                firebaseLink +
-                businessCode +
-                `%2F${state?._id + state?.imgLink}.png?alt=media`
-              }`}
+              alt={state.name}
+              height="140"
+              width="140"
+              loader={({ src, width }) =>
+                `${
+                  firebaseLink +
+                  src +
+                  `%2F${
+                    state?._id + state?.imgLink
+                  }.png?alt=media&tr=w-${width}`
+                }`
+              }
+              src={businessCode}
             />
           ) : (
             "product"

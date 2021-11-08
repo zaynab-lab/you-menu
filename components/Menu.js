@@ -101,22 +101,16 @@ export default function Menu({ categories, products, businessCode }) {
                         <Image
                           height="120"
                           width="120"
-                          loader={() =>
+                          loader={({ src, width }) =>
                             `${
                               firebaseLink +
-                              businessCode +
+                              src +
                               `%2F${
                                 product?._id + product?.imgLink
-                              }.png?alt=media`
+                              }.png?alt=media&tr=w-${width}`
                             }`
                           }
-                          src={`${
-                            firebaseLink +
-                            businessCode +
-                            `%2F${
-                              product?._id + product?.imgLink
-                            }.png?alt=media`
-                          }`}
+                          src={businessCode}
                           alt={product.name}
                         />
                       </div>

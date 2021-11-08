@@ -60,16 +60,14 @@ export default function Logo({
               alt=""
               width="130"
               height="130"
-              loader={() =>
+              loader={({ src, width }) =>
                 `${
                   firebaseLink +
-                  businessCode +
-                  `%2FLogo${imgLink}.png?alt=media`
+                  src +
+                  `%2FLogo${imgLink}.png?alt=media&tr=w-${width}`
                 }`
               }
-              src={`${
-                firebaseLink + businessCode + `%2FLogo${imgLink}.png?alt=media`
-              }`}
+              src={businessCode}
             />
           ) : (
             "logo"

@@ -92,20 +92,16 @@ export default function Category({
                       <Image
                         height="70"
                         width="70"
-                        loader={() =>
+                        loader={({ src, width }) =>
                           `${
                             firebaseLink +
                             businessCode +
                             `%2F${
-                              product?._id + product?.imgLink
-                            }.png?alt=media`
+                              src + product?.imgLink
+                            }.png?alt=media&tr=w-${width}`
                           }`
                         }
-                        src={`${
-                          firebaseLink +
-                          businessCode +
-                          `%2F${product?._id + product?.imgLink}.png?alt=media`
-                        }`}
+                        src={product?._id}
                         alt={product.name}
                       />
                     </div>
