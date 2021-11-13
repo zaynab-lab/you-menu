@@ -2,6 +2,7 @@ import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
+import ActionModal from "./ActionModal";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
@@ -18,6 +19,7 @@ export default function ProductModal({
   const [state, setState] = useState({});
   const [initState, setInitState] = useState({});
   const [refreshProduct, setRefreshProduct] = useState(false);
+  const [removeModal, setRemoveModal] = useState(false);
 
   useEffect(() => {
     setState({});
@@ -95,29 +97,34 @@ export default function ProductModal({
           />
         </div>
 
-        <div
-          className="remove"
-          onClick={() => {
-            axios
-              .put(
-                "/api/products/remove",
-                { productID: currentProduct._id, businessCode },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                res.data === "done" && setAlert("product removed");
-                res.data === "done" &&
-                  setRefreshProducts((refresh) => !refresh);
-                res.data === "done" && setOpenModal(false);
-              });
-          }}
-        >
+        <div className="remove" onClick={() => setRemoveModal(true)}>
           <div className="trash">
             <FaTrashAlt />
           </div>
           <div>remove product</div>
         </div>
       </div>
+      <ActionModal
+        setRemoveModal={setRemoveModal}
+        removeModal={removeModal}
+        title={"remove product"}
+        action={() => {
+          axios
+            .put(
+              "/api/products/remove",
+              { productID: currentProduct._id, businessCode },
+              { "content-type": "application/json" }
+            )
+            .then((res) => {
+              res.data === "done"
+                ? setAlert("product removed")
+                : setAlert("something went wrong");
+              res.data === "done" && setRefreshProducts((refresh) => !refresh);
+              res.data === "done" && setOpenModal(false);
+              setRemoveModal(false);
+            });
+        }}
+      />
 
       <style jsx>{`
         .modal {

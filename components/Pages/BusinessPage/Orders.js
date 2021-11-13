@@ -7,7 +7,7 @@ import {
   FaReceipt,
   FaShippingFast
 } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrdersList from "./OrdersList";
 import { styles } from "../../../public/js/styles";
 
@@ -20,21 +20,27 @@ const steps = [
   { name: "not accepted", icon: <FaBackward /> }
 ];
 const orderfromdb = [
-  // {
-  //   items: [
-  //     { name: "milkshack" },
-  //     { name: "hot choclate" },
-  //     { name: "ice tee" }
-  //   ],
-  //   type: "delivery",
-  //   state: "waiting to confirm",
-  //   total: 50
-  // }
+  {
+    items: [
+      { name: "milkshack" },
+      { name: "hot choclate" },
+      { name: "ice tee" }
+    ],
+    type: "delivery",
+    status: "waiting to confirm",
+    steps: { name: "waiting to confirm", time: Date.now() },
+    total: 50
+  }
 ];
 
 export default function Orders() {
   const [currentStep, setCurrentStep] = useState("waiting to confirm");
-  const [orders, setOrders] = useState(orderfromdb);
+  const [orders, setOrders] = useState([0, 0]);
+
+  useEffect(() => {
+    setOrders(orderfromdb);
+  }, []);
+
   return (
     <>
       <div className="orderPage">
@@ -43,9 +49,12 @@ export default function Orders() {
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
         />
-        {orders === [] ? (
-          <div className="empty">
-            <FaBoxOpen />
+        {!orders ? (
+          <div className="noOrder">
+            <div className="empty">
+              <FaBoxOpen />
+            </div>
+            <div>You have no orders</div>
           </div>
         ) : (
           <div className="ordersContainer">
@@ -57,21 +66,25 @@ export default function Orders() {
           </div>
         )}
       </div>
-      <style>{`
-      .orderPage{
-        padding-top:.4rem;
-      }
-      .empty{
-        font-size:10rem;
-        text-align:center;
-        padding-top:4rem;
-        color:${styles.grey};
-        opacity:.5;
-      }
-      .ordersContainer{
-        overflow:scroll;
-        height:fit-content;
-      }
+      <style jsx>{`
+        .orderPage {
+          padding-top: 0.4rem;
+        }
+        .noOrder {
+          text-align: center;
+          color: ${styles.secondaryColor};
+        }
+        .empty {
+          font-size: 10rem;
+          line-height: 0rem;
+          padding-top: 5rem;
+          color: ${styles.grey};
+          opacity: 0.5;
+        }
+        .ordersContainer {
+          overflow: scroll;
+          height: fit-content;
+        }
       `}</style>
     </>
   );

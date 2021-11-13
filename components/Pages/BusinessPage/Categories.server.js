@@ -169,13 +169,14 @@ export function RenameModal({
         .renameModal {
           position: fixed;
           top: 0;
-          width: 96vw;
+          width: 100vw;
           height: 100vh;
           z-index: -1;
           opacity: 0;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
           transition: all 0.5s ease-out;
+          background: #2222;
         }
 
         .showRenameModal {

@@ -10,13 +10,14 @@ export default function OrdersList({ steps, currentStep, orders }) {
         )}{" "}
         {currentStep}
       </div>
-      {currentStep === "waiting to confirm" && (
-        <div className="orderList">
-          {orders?.map((order, i) => (
+      <div className="orderList">
+        {orders
+          ?.filter((order) => order?.status === currentStep)
+          .map((order, i) => (
             <OrderCard key={i} order={order} />
           ))}
-        </div>
-      )}
+      </div>
+
       <style>{`
       .inform{
         text-align:center;

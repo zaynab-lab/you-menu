@@ -11,6 +11,7 @@ import axios from "axios";
 import Color from "./Color";
 import Alert from "@/components/Alert";
 import Image from "next/image";
+import ActionModal from "@/components/ActionModal";
 
 export default function Category({
   category,
@@ -27,6 +28,7 @@ export default function Category({
   const [currentProduct, setCurrentProduct] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [colors, setColors] = useState(category?.colors);
+  const [removeModal, setRemoveModal] = useState(false);
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
@@ -166,9 +168,17 @@ export default function Category({
             setAlert={setAlert}
           />
           <Alert alert={alert} setAlert={setAlert} />
-          <div
-            className="remove"
-            onClick={() =>
+          <div className="remove" onClick={() => setRemoveModal(true)}>
+            <div className="trash">
+              <FaTrashAlt />
+            </div>
+            <div>remove category</div>
+          </div>
+          <ActionModal
+            setRemoveModal={setRemoveModal}
+            removeModal={removeModal}
+            title={"remove category"}
+            action={() =>
               axios
                 .put(
                   "/api/categories/remove",
@@ -176,17 +186,17 @@ export default function Category({
                   { "content-type": "application/json" }
                 )
                 .then((res) => {
-                  res.data === "done" && setAlert("you'r all done");
-                  res.data === "done" && setRefreshCat((refresh) => !refresh);
                   res.data === "done" && setCurrentCat("");
+                  res.data === "done" && setRefreshCat((refresh) => !refresh);
+                  res.data === "done" &&
+                    setRefreshProducts((refresh) => !refresh);
+                  res.data === "done"
+                    ? setAlert("you'r all done")
+                    : setAlert("something went wrong");
+                  setRemoveModal(false);
                 })
             }
-          >
-            <div className="trash">
-              <FaTrashAlt />
-            </div>
-            <div>remove category</div>
-          </div>
+          />
         </>
       )}
 

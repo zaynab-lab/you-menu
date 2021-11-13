@@ -9,7 +9,7 @@ export default function Button({ content, onclick, color }) {
         className={`button ${color ? "color" : "black"}`}
         onClick={() => {
           setDots(true);
-          onclick();
+          onclick && onclick();
           const clearMessage = setTimeout(() => {
             setDots(false);
           }, 1200);

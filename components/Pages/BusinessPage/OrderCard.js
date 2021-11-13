@@ -9,9 +9,8 @@ export default function OrderCard({ order }) {
       <div className="orderCard">
         <div className="orderCard-item">
           <div>{order.type}</div>
-
           <div className="orderItems">
-            {order.items.map((item, i) => (
+            {order?.items?.map((item, i) => (
               <div key={i} className="orderItem">
                 {item.name}
               </div>
@@ -44,7 +43,12 @@ export default function OrderCard({ order }) {
         </div>
 
         <div className="buttonContainer">
-          <Button content={"decline"} />
+          <Button
+            content={"decline"}
+            onclick={() => {
+              alert("removed");
+            }}
+          />
 
           <Button color={styles.secondaryColor} content={"confirm"} />
         </div>
