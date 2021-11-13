@@ -51,11 +51,11 @@ export default async (req, res) => {
               const receptor = body.ccode + body.phoneNumber;
               await axios.get(
                 process.env.SMS_URL +
-                  "to=" +
+                  "to=00" +
                   receptor +
                   "&message=your activation code is : " +
                   otp +
-                  " (you menu)"
+                  " (za-menu.com)"
               );
             }
             return res.status(200).end("done");
@@ -92,11 +92,11 @@ export default async (req, res) => {
         const receptor = body.ccode + body.phoneNumber;
         await axios.get(
           process.env.SMS_URL +
-            "to=" +
+            "to=00" +
             receptor +
             "&message=your activation code is : " +
             otp +
-            " (you menu)"
+            " (za-menu.com)"
         );
 
         // .then((response) => {

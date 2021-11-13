@@ -24,8 +24,9 @@ export default function LoginForm({
 
   const checkNumber = (action) => {
     setMsg(" ");
-    const parfixList = countries.filter((country) => country.code === ccode)[0]
-      .parafix;
+    const parfixList = countries.filter(
+      (country) => country.usedCode === ccode
+    )[0].parafix;
     if (parfixList.includes(phoneNumber.length)) {
       setMsg(`wait to recieve the code using SMS`);
       action();
