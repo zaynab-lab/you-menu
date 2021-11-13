@@ -6,7 +6,7 @@ import Dots from "./Loaders/Dots";
 import Line from "./Line";
 
 const LoginForm = dynamic(() =>
-  import("@/components/Pages/LoginPage/LoginForm.server")
+  import("@/components/Pages/LoginPage/LoginForm")
 );
 const Options = dynamic(() => import("@/components/Pages/EndUserPage/Options"));
 const Profile = dynamic(() => import("@/components/Pages/EndUserPage/Profile"));
