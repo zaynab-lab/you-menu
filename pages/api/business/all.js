@@ -8,13 +8,12 @@ export default async function Businesses(req, res) {
   const { method } = req;
 
   if (method === "GET") {
-    console.log(req.headers["cf-ipcountry"] === "LB");
-    const country = await countries.filter(
-      (c) => c?.code === req.headers["cf-ipcountry"]
-    );
+    // const country = await countries.filter(
+    //   (c) => c?.code === req.headers["cf-ipcountry"]
+    // );
     const businesses = await Business.find({
-      // verified: true,
-      ccode: country[0]?.usedCode,
+      // verified: true
+      // ccode: country[0]?.usedCode,
       "brand.hasImg": true
     }).exec();
     const LoB = await businesses?.map((business) => ({
