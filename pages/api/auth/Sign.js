@@ -51,7 +51,7 @@ export default async (req, res) => {
               const receptor = body.ccode + body.phoneNumber;
               await axios.get(
                 process.env.SMS_URL +
-                  "to=00" +
+                  "to=" +
                   receptor +
                   "&message=your activation code is : " +
                   otp +
@@ -92,7 +92,7 @@ export default async (req, res) => {
         const receptor = body.ccode + body.phoneNumber;
         await axios.get(
           process.env.SMS_URL +
-            "to=00" +
+            "to=" +
             receptor +
             "&message=your activation code is : " +
             otp +
