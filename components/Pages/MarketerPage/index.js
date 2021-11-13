@@ -1,6 +1,6 @@
 import Line from "@/components/Line";
 import { styles } from "@/public/js/styles";
-import LoginForm from "../LoginPage/LoginForm";
+import LoginForm from "../LoginPage/LoginForm.server";
 import ListOfBusinesses from "./ListOfBusinesses";
 import { marketerMotivation } from "@/util/motivation";
 import { useState } from "react";
