@@ -14,6 +14,19 @@ export default function Menu({ categories, products, businessCode }) {
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
+  useEffect(() => {
+    const sections = document.querySelectorAll(".title");
+    categories &&
+      categories.map(
+        (category, i) =>
+          (sectionsRefs.current = {
+            ...sectionsRefs.current,
+            [category.name]: sections[i]
+          })
+      );
+    categories && setCurrentCat(categories?.[0]?.name);
+  }, [categories]);
+
   useEffect(
     () =>
       businessCode !== undefined &&
@@ -25,9 +38,6 @@ export default function Menu({ categories, products, businessCode }) {
         }),
     [businessCode]
   );
-  useEffect(() => {
-    setCurrentCat(categories?.[0]?.name);
-  }, [categories]);
 
   return (
     <>
@@ -42,12 +52,6 @@ export default function Menu({ categories, products, businessCode }) {
         {categories?.map((category, i) => (
           <div key={i}>
             <div
-              ref={(el) =>
-                (sectionsRefs.current = {
-                  ...sectionsRefs.current,
-                  [category.name]: el
-                })
-              }
               id={category.name}
               className="title"
               style={{
@@ -72,7 +76,6 @@ export default function Menu({ categories, products, businessCode }) {
                 />
               )}
             </div>
-
             <div
               className="productList"
               style={{
@@ -131,9 +134,9 @@ export default function Menu({ categories, products, businessCode }) {
         ))}
       </div>
 
-      {/* <Link href="https://www.za-apps.com">
+      {/* <div ref={setRef} href="https://www.za-apps.com">
         <div className="watermark">Made with ❤ by za-apps.com</div>
-      </Link> */}
+      </div> */}
       <style jsx>{`
       .productList {
         width: 100vw;

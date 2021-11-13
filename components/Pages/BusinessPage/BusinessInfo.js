@@ -11,7 +11,14 @@ import Router from "next/router";
 import Alert from "@/components/Alert";
 import BPLayout from "./BPLayout";
 
-const BusinessTypes = ["cafe", "resturant", "store", "retail", "other"];
+const BusinessTypes = [
+  "cafe",
+  "resturant",
+  "store",
+  "retail",
+  "online",
+  "others"
+];
 const Currency = ["$", "LBP", "AED", "OMR", "CAD"];
 
 export default function BusinessInfo({

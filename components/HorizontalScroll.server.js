@@ -20,7 +20,7 @@ export default function HorizontalScroll({ title }) {
           <Label title={title} />
         </div>
         <div className="Hbusinesses">
-          {businesses.map((business, i) => (
+          {businesses?.map((business, i) => (
             <div key={i}>
               <Link
                 href={

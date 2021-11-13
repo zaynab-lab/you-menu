@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 
-const Category = dynamic(() => import("./Category"));
+const Category = dynamic(() => import("./Category.server"));
 
 export default function Categories({ categories, businessCode, setRefresh }) {
   const [currentCat, setCurrentCat] = useState(categories?.[0]?.name);

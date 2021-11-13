@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Categories from "./Categories";
+import Categories from "./Categories.server";
 
 export default function Add({ back, businessCode }) {
   const [category, setCategory] = useState("");

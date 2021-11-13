@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Menu = dynamic(() => import("@/components/Menu"));
+const Menu = dynamic(() => import("@/components/Menu.server"));
 
 export default function Index() {
   const businessName = "za menu";

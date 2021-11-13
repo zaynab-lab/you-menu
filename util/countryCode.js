@@ -1,31 +1,35 @@
 export const countries = [
   {
-    code: "961",
-    shownCode: "+961",
+    usedCode: "961",
+    dial_code: "+961",
+    code: "LB",
     flag: "🇱🇧",
     name: "Lebanon",
     parafix: [7, 8],
     currency: "LBP"
   },
   {
-    code: "971",
-    shownCode: "+971",
+    usedCode: "971",
+    dial_code: "+971",
+    code: "AE",
     flag: "🇦🇪",
     name: "United Arab Emirates",
     parafix: [9],
     currency: "AED"
   },
   {
-    code: "968",
-    shownCode: "+968",
+    usedCode: "968",
+    dial_code: "+968",
+    code: "OM",
     flag: "🇴🇲",
     name: "Oman",
     parafix: [7, 8, 9],
     currency: "OMR"
   },
   {
-    code: "1",
-    shownCode: "+1",
+    usedCode: "1",
+    dial_code: "+1",
+    code: "CA",
     flag: "🇨🇦",
     name: "Canada",
     parafix: [10],

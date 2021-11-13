@@ -22,7 +22,8 @@ export default function TopBar({
             }}
             onClick={() => {
               setCurrentCat(category.name);
-              sectionsRefs.current[category.name].scrollIntoView();
+              sectionsRefs.current[category.name] &&
+                sectionsRefs.current[category.name].scrollIntoView();
             }}
           >
             {category.name || <TextLoader />}

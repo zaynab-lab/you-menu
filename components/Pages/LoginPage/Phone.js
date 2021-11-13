@@ -29,8 +29,8 @@ export default function Phone({
             disabled={waiting}
           >
             {countries.map((country, i) => (
-              <option key={i} value={country.code}>
-                {country.flag + " " + country.shownCode}
+              <option key={i} value={country.usedCode}>
+                {country.flag + " " + country.dial_code}
               </option>
             ))}
           </select>
