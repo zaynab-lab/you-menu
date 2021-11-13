@@ -1,7 +1,6 @@
 import OrdersSteps from "./OrdersSteps";
 import {
   FaBackward,
-  FaBoxOpen,
   FaCheck,
   FaHandHoldingHeart,
   FaReceipt,
@@ -49,38 +48,15 @@ export default function Orders() {
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
         />
-        {!orders ? (
-          <div className="noOrder">
-            <div className="empty">
-              <FaBoxOpen />
-            </div>
-            <div>You have no orders</div>
-          </div>
-        ) : (
-          <div className="ordersContainer">
-            <OrdersList
-              steps={steps}
-              currentStep={currentStep}
-              orders={orders}
-            />
-          </div>
-        )}
+        <div className="ordersContainer">
+          <OrdersList steps={steps} currentStep={currentStep} orders={orders} />
+        </div>
       </div>
       <style jsx>{`
         .orderPage {
           padding-top: 0.4rem;
         }
-        .noOrder {
-          text-align: center;
-          color: ${styles.secondaryColor};
-        }
-        .empty {
-          font-size: 10rem;
-          line-height: 0rem;
-          padding-top: 5rem;
-          color: ${styles.grey};
-          opacity: 0.5;
-        }
+
         .ordersContainer {
           overflow: scroll;
           height: fit-content;

@@ -25,7 +25,7 @@ export default function Index() {
           font={"1.4rem"}
         />
         {/* <HorizontalScroll title={"new brands"} /> */}
-        <VerticalScroll />
+        <VerticalScroll search={search} />
         <MenuModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>
       <style jsx>{`

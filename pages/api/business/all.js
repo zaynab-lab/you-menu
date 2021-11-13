@@ -18,7 +18,8 @@ export default async function Businesses(req, res) {
     }).exec();
     const LoB = await businesses?.map((business) => ({
       businessCode: business?.businessCode,
-      brand: business?.brand
+      brand: business?.brand,
+      businessType: business?.businessType
     }));
     return res.status(200).end(JSON.stringify(LoB));
   } else {
