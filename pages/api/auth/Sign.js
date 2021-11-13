@@ -15,7 +15,7 @@ export default async (req, res) => {
     const { body } = req;
     try {
       const parfixList = countries.filter(
-        (country) => country.code === body.ccode
+        (country) => country.usedCode === body.ccode
       )[0].parafix;
 
       if (parfixList.includes(body.phoneNumber.length)) {
@@ -51,11 +51,11 @@ export default async (req, res) => {
               const receptor = body.ccode + body.phoneNumber;
               await axios.get(
                 process.env.SMS_URL +
-                  "to=" +
+                  "to=00" +
                   receptor +
-                  "&message=your activation code is : " +
+                  "&message=your activation code is: " +
                   otp +
-                  " (za-menu.com)"
+                  " https://za-menu.com"
               );
             }
             return res.status(200).end("done");
@@ -92,11 +92,11 @@ export default async (req, res) => {
         const receptor = body.ccode + body.phoneNumber;
         await axios.get(
           process.env.SMS_URL +
-            "to=" +
+            "to=00" +
             receptor +
-            "&message=your activation code is : " +
+            "&message=your activation code is: " +
             otp +
-            " (za-menu.com)"
+            " https://za-menu.com"
         );
 
         // .then((response) => {
