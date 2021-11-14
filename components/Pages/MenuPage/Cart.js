@@ -20,7 +20,7 @@ export default function Cart({ cart, exRate, currency }) {
           <div className="cartTitle" onClick={() => setOpen(!open)}>
             <div>Total</div>
             <div>
-              {Math.round(total * exRate, 2)}
+              {currency === "$" ? total : Math.round(total * exRate, 2)}
               {currency}
             </div>
           </div>
@@ -34,7 +34,9 @@ export default function Cart({ cart, exRate, currency }) {
                     <Addremove />
                   </div>
                   <div className="price">
-                    {Math.round(item.price * exRate)}
+                    {currency === "$"
+                      ? item.price
+                      : Math.round(item.price * exRate)}
                     {currency}
                   </div>
                 </div>
@@ -61,7 +63,6 @@ export default function Cart({ cart, exRate, currency }) {
           ${styles.boxshadow}
           border-radius: 1rem 1rem 0 0;
           z-index: 100;
-          border: 1px solid ${styles.secondaryColor};
           overflow:auto;
         }
 
@@ -69,28 +70,28 @@ export default function Cart({ cart, exRate, currency }) {
           width: 100%;
           font-size: 1.2rem;
           padding: 0.5rem 2rem;
-          background: white;
+          background: ${styles.lineargradeint};
           border-bottom: 1px solid ${styles.secondaryColor};
-          color: ${styles.secondaryColor};
+          color: white;
           ${styles.flexAligncenter};
           -webkit-box-pack: justify;
           -ms-flex-pack: justify;
           justify-content: space-between;
           border-radius: 1rem 1rem 0 0;
           cursor: pointer;
-          height: 10vh;
+          height: 8vh;
         }
         .closeBox {
           height: 0px;
           transition: all 0.5s ease-out;
         }
         .openBox {
-          height: 89vh;
+          height: 91vh;
           transition: all 0.5s ease-out;
         }
 
         .cartBox {
-          min-height: 89vh;
+          min-height: 91vh;
           width: 100%;
           max-width: 30rem;
           font-size: 1rem;

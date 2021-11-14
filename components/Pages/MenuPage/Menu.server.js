@@ -122,6 +122,7 @@ export default function Menu({ businessCode }) {
 
       <style jsx>{`
         .cartContainer {
+          padding: 1.6rem;
           ${styles.flexJustifycenter}
         }
         .title {
@@ -141,6 +142,7 @@ export default function Menu({ businessCode }) {
     </>
   );
 }
+
 export function ProductList({
   category,
   products,
