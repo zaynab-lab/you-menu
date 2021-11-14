@@ -21,7 +21,8 @@ export default async (req, res) => {
       const arrayofCategories = categories?.map((category) => category._id);
       const products = await Product.find({
         categoryID: { $in: arrayofCategories },
-        deleted: false
+        deleted: false,
+        appear: true
       });
       return res.status(200).end(JSON.stringify(products));
     } else {

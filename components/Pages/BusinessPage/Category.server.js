@@ -1,8 +1,7 @@
-import { FaTrashAlt } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTrashAlt } from "react-icons/fa";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import {
-  ProductDescriptionLoader,
   ProductNameLoader,
   ProductPriceLoader
 } from "@/components/Loaders/TextLoader";
@@ -12,6 +11,7 @@ import Color from "./Color";
 import Alert from "@/components/Alert";
 import Image from "next/image";
 import ActionModal from "@/components/ActionModal";
+import Controller from "@/components/Controller";
 
 export default function Category({
   category,
@@ -66,30 +66,26 @@ export default function Category({
                     !!product && setOpenModal(true);
                   }}
                 >
-                  <div>
-                    <div className="namePrice">
-                      <div className="name">
-                        {product.name || <ProductNameLoader />}
-                      </div>
-                      {product.hasImg && typeof product.price === "number" && (
-                        <div className="price">
-                          $
-                          {typeof product.price === "number" ? (
-                            product.price
-                          ) : (
-                            <ProductPriceLoader />
-                          )}
-                        </div>
-                      )}
+                  <div className="nameSection">
+                    <div className="name">
+                      {product.name || <ProductNameLoader />}
                     </div>
-
                     {product.description && (
-                      <div className="description">
-                        {product.description || <ProductDescriptionLoader />}
+                      <div className="description">{product.description}</div>
+                    )}
+                    {typeof product.price === "number" && (
+                      <div className="price">
+                        $
+                        {typeof product.price === "number" ? (
+                          product.price
+                        ) : (
+                          <ProductPriceLoader />
+                        )}
                       </div>
                     )}
                   </div>
-                  {product?.hasImg ? (
+
+                  {product?.hasImg && (
                     <div className="productPartImg">
                       <Image
                         height="70"
@@ -107,11 +103,13 @@ export default function Category({
                         alt={product.name}
                       />
                     </div>
-                  ) : (
-                    typeof product.price === "number" && (
-                      <div className="price">${product.price}</div>
-                    )
                   )}
+                  <div>
+                    <Controller
+                      appear={product?.appear}
+                      exist={product?.exist}
+                    />
+                  </div>
                 </div>
               ))}
 
@@ -233,17 +231,16 @@ export default function Category({
           -ms-flex-pack: justify;
           justify-content: space-between;
           border-bottom: 1px solid lightgrey;
-          padding: 0.2rem 1rem;
+          padding: 0.1rem 0.8rem;
+          gap: 0.8rem;
           cursor: pointer;
         }
-
+        .nameSection {
+          text-align: left;
+          flex: 1 1 100%;
+        }
         .name {
           color: ${styles.secondaryColor};
-        }
-
-        .namePrice {
-          ${styles.flexAligncenter}
-          gap:.4rem;
           font-size: 1.2rem;
         }
 

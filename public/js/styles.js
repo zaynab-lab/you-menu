@@ -14,7 +14,7 @@ export const styles = {
   flexBothcenter:
     "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center; -ms-flex-align:center; align-items:center;",
   flexColumn:
-    "-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;"
+    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;"
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",

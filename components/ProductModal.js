@@ -1,7 +1,7 @@
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaDoorOpen, FaEyeSlash, FaStore, FaTrashAlt } from "react-icons/fa";
 import ActionModal from "./ActionModal";
 import Button from "./Button";
 import Input from "./Input";
@@ -69,6 +69,26 @@ export default function ProductModal({
             onchange={(e) => setState({ ...state, price: e.target.value })}
             font={"1.2rem"}
           />
+        </div>
+        <div className="appearExist">
+          <div
+            className="appear"
+            onClick={() => setState({ ...state, appear: !state?.appear })}
+          >
+            {state?.appear ? (
+              <div className="eyes">{"👀"}</div>
+            ) : (
+              <FaEyeSlash />
+            )}
+          </div>
+          <div>
+            <div
+              className="exist"
+              onClick={() => setState({ ...state, exist: !state?.exist })}
+            >
+              {state?.exist ? <FaStore /> : "SOLD"}
+            </div>
+          </div>
         </div>
         <div className="btnCont">
           <Button
@@ -140,6 +160,8 @@ export default function ProductModal({
           padding: 1rem;
           transition: all 0.5s ease-out;
           font-size: 1.2rem;
+          overflow: hidden;
+          overflow-y: auto;
         }
         .modal.show {
           top: 0vh;
@@ -154,6 +176,25 @@ export default function ProductModal({
           line-height: 1.2rem;
           padding-bottom: 0.4rem;
           cursor: pointer;
+        }
+        .appearExist {
+          font-size: 1.4rem;
+          margin-top: 1rem;
+          ${styles.flexBothcenter}
+          gap:2rem;
+        }
+        .appear {
+          padding: 0.5rem;
+          color: ${!state?.appear && styles.secondaryColor};
+          cursor: pointer;
+        }
+        .exist {
+          padding: 0.5rem;
+          color: ${!state?.exist && styles.secondaryColor};
+          font-size: ${!state?.exist && "1rem"};
+          cursor: pointer;
+        }
+        .eyes {
         }
         .btnCont {
           text-align: center;

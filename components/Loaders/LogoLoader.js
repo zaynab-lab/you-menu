@@ -73,8 +73,8 @@ export default function LogoLoader() {
             z-index: 19;
           }
           100% {
+            z-index: -1;
             opacity: 0;
-            z-index: 0;
           }
         }
 
@@ -87,8 +87,8 @@ export default function LogoLoader() {
             z-index: 20;
           }
           100% {
+            z-index: -1;
             opacity: 0;
-            z-index: 0;
           }
         }
       `}</style>

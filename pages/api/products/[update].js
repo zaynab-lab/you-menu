@@ -35,7 +35,9 @@ export default async (req, res) => {
                   {
                     name: body.state.name,
                     price: body.state.price,
-                    description: body.state?.description
+                    description: body.state?.description,
+                    exist: body.state?.exist,
+                    appear: body.state?.appear
                   },
                   (err) => console.log(err)
                 );
