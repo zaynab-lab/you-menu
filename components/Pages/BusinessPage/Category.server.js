@@ -1,4 +1,4 @@
-import { FaEye, FaEyeSlash, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 import {
@@ -263,6 +263,8 @@ export default function Category({
         }
 
         .description {
+          font-size: 0.9rem;
+          line-height: 0.9rem;
           color: grey;
         }
         .productPartImg {

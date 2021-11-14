@@ -127,10 +127,11 @@ export default function Cart({ cart, exRate, currency }) {
           -webkit-box-flex: 1;
           -ms-flex: 1 1 100%;
           flex: 1 1 100%;
+          white-space:nowrap;
         }
 
         .control {
-          text-align: left;
+          text-align: right;
           -webkit-box-flex: 1;
           -ms-flex: 1 1 100%;
           flex: 1 1 100%;
