@@ -12,9 +12,9 @@ export default async function Businesses(req, res) {
     //   (c) => c?.code === req.headers["cf-ipcountry"]
     // );
     const businesses = await Business.find({
-      // verified: true
+      verified: true
       // ccode: country[0]?.usedCode,
-      "brand.hasImg": true
+      // "brand.hasImg": true
     }).exec();
     const LoB = await businesses?.map((business) => ({
       businessCode: business?.businessCode,
