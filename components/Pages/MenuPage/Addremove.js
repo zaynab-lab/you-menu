@@ -1,23 +1,15 @@
-import { useState } from "react";
 import { styles } from "@/public/js/styles";
 
-export default function Addremove() {
-  const [quantity, setQuantity] = useState(1);
+export default function Addremove({ id, count, action }) {
   return (
     <>
       <div className="Controlar">
-        <div
-          className="cbtn plus"
-          onClick={() => quantity < 5 && setQuantity(quantity + 1)}
-        >
+        <div className="cbtn plus" onClick={() => action(id, true)}>
           +
         </div>
 
-        <div>{quantity}</div>
-        <div
-          className="cbtn min"
-          onClick={() => quantity > 0 && setQuantity(quantity - 1)}
-        >
+        <div>{count}</div>
+        <div className="cbtn min" onClick={() => action(id, false)}>
           -
         </div>
       </div>

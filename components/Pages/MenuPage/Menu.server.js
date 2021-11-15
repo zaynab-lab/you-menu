@@ -7,7 +7,7 @@ import TextLoader from "@/components/Loaders/TextLoader";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Alert from "@/components/Alert";
-import AddOne from "./AddOne";
+import FadeAlert from "./FadeAlert";
 
 const Cart = dynamic(() => import("./Cart"));
 
@@ -17,12 +17,20 @@ export default function Menu({ businessCode }) {
   const sectionsRefs = useRef({});
   const [categories, setCategories] = useState([0, 0, 0]);
   const [products, setProducts] = useState([0, 0]);
-  const [cart, setCart] = useState([]);
   const [alert, setAlert] = useState("");
-  const [addOne, setAddOne] = useState("");
+  const [fadeAlert, setFadeAlert] = useState("");
+  const [cartItems, setCartItems] = useState({});
 
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
+
+  const action = (id, add) => {
+    // products.map(
+    //   (product) =>
+    //     product._id === id &&
+    //     setCartItems([...cartItems, { id: id, quantity: 1 }])
+    // );
+  };
 
   useEffect(() => {
     businessCode &&
@@ -43,7 +51,6 @@ export default function Menu({ businessCode }) {
             setBusiness((business) => Object({ ...business, ...res.data }));
         });
   }, [businessCode]);
-
   useEffect(() => {
     if (categories) {
       const sections = document.querySelectorAll(".title");
@@ -115,29 +122,30 @@ export default function Menu({ businessCode }) {
             <ProductList
               category={category}
               products={products}
+              cartItems={cartItems}
               currency={business.currency}
               exRate={business.exRate}
               firebaseLink={firebaseLink}
               businessCode={businessCode}
-              setCart={setCart}
               setAlert={setAlert}
-              setAddOne={setAddOne}
+              setFadeAlert={setFadeAlert}
+              action={action}
             />
           </div>
         ))}
       </div>
       <Alert setAlert={setAlert} alert={alert} />
-      <AddOne addOne={addOne} setAddOne={setAddOne} />
-      {/* <div className="cartContainer">
+      <FadeAlert fadeAlert={fadeAlert} setFadeAlert={setFadeAlert} />
+      <div className="cartContainer">
         <Cart
-          cart={cart}
           currency={business.currency}
           exRate={business.exRate}
+          setCartItems={setCartItems}
         />
-      </div> */}
+      </div>
 
       <div href="https://www.za-apps.com">
-        <div className="watermark">Made with ❤ by You</div>
+        <div className="watermark">Made with ❤ for You</div>
       </div>
 
       <style jsx>{`
@@ -186,9 +194,9 @@ export function ProductList({
   exRate,
   firebaseLink,
   businessCode,
-  setCart,
+  action,
   setAlert,
-  setAddOne
+  setFadeAlert
 }) {
   return (
     <>
@@ -205,10 +213,10 @@ export function ProductList({
               key={j}
               className="product"
               onClick={() => {
+                product.exist && action(product._id, true);
                 product.exist
-                  ? setCart((cart) => [...cart, product])
+                  ? setFadeAlert("+1")
                   : setAlert("the product is out of stock");
-                product.exist && setAddOne("+1");
               }}
             >
               <div className="productPart">

@@ -3,19 +3,35 @@ import { styles } from "@/public/js/styles";
 import Link from "next/link";
 import Addremove from "./Addremove";
 
-export default function Cart({ cart, currency, exRate }) {
+export default function Cart({
+  cartItems,
+  currency,
+  exRate,
+  addOne,
+  removeOne
+}) {
   const [open, setOpen] = useState(false);
   const [total, setTotal] = useState(0);
+
   useEffect(() => {
-    if (cart.length > 0) {
-      const tot = cart?.map((item) => item.price).reduce((a, b) => a + b);
+    if (cartItems?.length > 0) {
+      const tot = cartItems
+        ?.map((item) => item?.product?.price)
+        .reduce((a, b) => a + b);
       setTotal(tot);
+
+      //   const map = cartItems.reduce(
+      //     (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+      //     new Map()
+      //   );
+      //   setCartItems([...map.entries()]);
+      // }
     }
-  }, [cart]);
+  }, [cartItems]);
 
   return (
     <>
-      {cart.length > 0 && (
+      {cartItems?.length > 0 && (
         <div className="cartContainer">
           <div className="cartTitle" onClick={() => setOpen(!open)}>
             <div>Total</div>
@@ -27,16 +43,21 @@ export default function Cart({ cart, currency, exRate }) {
 
           <div className={`closeBox ${open && "openBox"}`}>
             <div className="cartBox">
-              {cart?.map((item, index) => (
+              {cartItems?.map((item, index) => (
                 <div key={index} className="row">
-                  <div className="name">{item.name}</div>
+                  <div className="name">{item[0]?.name}</div>
                   <div className="control">
-                    <Addremove />
+                    <Addremove
+                      id={item[0]?._id}
+                      count={item[1]}
+                      addOne={addOne}
+                      removeOne={removeOne}
+                    />
                   </div>
                   <div className="price">
                     {currency === "$"
-                      ? item.price
-                      : Number((item.price * exRate).toFixed(2))}
+                      ? Number((item[0]?.price * item[1]).toFixed(2))
+                      : Number((item[0]?.price * item[1] * exRate).toFixed(2))}
                     {currency}
                   </div>
                 </div>

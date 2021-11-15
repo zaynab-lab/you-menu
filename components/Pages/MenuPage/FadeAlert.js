@@ -2,21 +2,21 @@ import { useEffect } from "react";
 
 import { styles } from "@/public/js/styles";
 
-export default function AddOne({ addOne, setAddOne }) {
+export default function FadeAlert({ fadeAlert, setFadeAlert }) {
   useEffect(() => {
     const clearMessage = setTimeout(() => {
-      setAddOne("");
+      setFadeAlert("");
     }, 1000);
 
     return () => clearTimeout(clearMessage);
-  }, [addOne, setAddOne]);
+  }, [fadeAlert, setFadeAlert]);
 
   return (
     <>
       {
         <div className="alertContainer">
-          <div className={`addOne ${addOne !== "" && "showAddOne"}`}>
-            {addOne}
+          <div className={`fadeAlert ${fadeAlert !== "" && "showAddOne"}`}>
+            {fadeAlert}
           </div>
         </div>
       }
@@ -27,7 +27,7 @@ export default function AddOne({ addOne, setAddOne }) {
           ${styles.flexJustifycenter}
         }
 
-        .addOne {
+        .fadeAlert {
           position: fixed;
           text-align: center;
           left: 30vw;
