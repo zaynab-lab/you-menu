@@ -13,8 +13,7 @@ const Cart = dynamic(() => import("./Cart"));
 
 export default function Menu({ businessCode }) {
   const [currentCat, setCurrentCat] = useState("");
-  const [currency, setCurrency] = useState("");
-  const [exRate, setExRate] = useState(1);
+  const [business, setBusiness] = useState({ currency: "", exRate: "1" });
   const sectionsRefs = useRef({});
   const [categories, setCategories] = useState([0, 0, 0]);
   const [products, setProducts] = useState([0, 0]);
@@ -38,16 +37,16 @@ export default function Menu({ businessCode }) {
 
     businessCode &&
       axios
-        .get(`/api/business/currency?businessCode=${businessCode}`)
+        .get(`/api/business/getBusinessInfo?businessCode=${businessCode}`)
         .then((res) => {
-          res?.data?.currency && setCurrency(res.data.currency);
-          res?.data?.exRate && setExRate(res.data.exRate);
+          res?.data.brand &&
+            setBusiness((business) => Object({ ...business, ...res.data }));
         });
   }, [businessCode]);
 
   useEffect(() => {
-    const sections = document.querySelectorAll(".title");
-    categories &&
+    if (categories) {
+      const sections = document.querySelectorAll(".title");
       categories.map(
         (category, i) =>
           (sectionsRefs.current = {
@@ -55,20 +54,37 @@ export default function Menu({ businessCode }) {
             [category.name]: sections[i]
           })
       );
-
-    categories && setCurrentCat(categories?.[0]?.name);
+      setCurrentCat(categories?.[0]?.name);
+    }
   }, [categories]);
 
   return (
     <>
       <Line />
-      <TopBar
-        sectionsRefs={sectionsRefs}
-        categories={categories}
-        currentCat={currentCat}
-        setCurrentCat={setCurrentCat}
-      />
-      <div>
+      <div className="categoriesContainer">
+        <div className="brand">
+          <Image
+            alt=""
+            width="100"
+            height="100"
+            loader={({ src, width }) =>
+              `${
+                firebaseLink +
+                src +
+                `%2FLogo${business.imgLink}.png?alt=media&tr=w-${width}`
+              }`
+            }
+            src={businessCode || "/logo"}
+          />
+
+          <div>{business.brand}</div>
+        </div>
+        <TopBar
+          sectionsRefs={sectionsRefs}
+          categories={categories}
+          currentCat={currentCat}
+          setCurrentCat={setCurrentCat}
+        />
         {categories?.map((category, i) => (
           <div key={i}>
             <div
@@ -99,8 +115,8 @@ export default function Menu({ businessCode }) {
             <ProductList
               category={category}
               products={products}
-              exRate={exRate}
-              currency={currency}
+              currency={business.currency}
+              exRate={business.exRate}
               firebaseLink={firebaseLink}
               businessCode={businessCode}
               setCart={setCart}
@@ -112,17 +128,33 @@ export default function Menu({ businessCode }) {
       </div>
       <Alert setAlert={setAlert} alert={alert} />
       <AddOne addOne={addOne} setAddOne={setAddOne} />
-      <div className="cartContainer">
-        <Cart cart={cart} exRate={exRate} currency={currency} />
-      </div>
-
-      {/* <div href="https://www.za-apps.com">
-        <div className="watermark">Made with ❤ by za-apps.com</div>
+      {/* <div className="cartContainer">
+        <Cart
+          cart={cart}
+          currency={business.currency}
+          exRate={business.exRate}
+        />
       </div> */}
 
+      <div href="https://www.za-apps.com">
+        <div className="watermark">Made with ❤ by You</div>
+      </div>
+
       <style jsx>{`
+        .categoriesContainer {
+          min-height: 100vh;
+        }
+        .brand {
+          padding: 0.8rem 1rem;
+          ${styles.flexBothcenter}
+          font-size:2.6rem;
+          color: ${business?.color || "gray"};
+          background: ${business?.background || "#fefefe"};
+          gap: 10vw;
+          white-space: nowrap;
+        }
+
         .cartContainer {
-          padding: 1.6rem;
           ${styles.flexJustifycenter}
         }
         .title {
@@ -133,10 +165,14 @@ export default function Menu({ businessCode }) {
         }
 
         .watermark {
-          font-size: 0.8em;
+          font-size: 0.8rem;
           text-align: center;
           padding: 0.5rem;
           cursor: pointer;
+          position: sticky;
+          bottom: 0;
+          color: white;
+          background: gray;
         }
       `}</style>
     </>
@@ -146,8 +182,8 @@ export default function Menu({ businessCode }) {
 export function ProductList({
   category,
   products,
-  exRate,
   currency,
+  exRate,
   firebaseLink,
   businessCode,
   setCart,
@@ -184,7 +220,7 @@ export function ProductList({
                     <div className="price">
                       {currency === "$"
                         ? product.price
-                        : product.price * exRate}
+                        : Number((product.price * exRate).toFixed(2))}
                       {currency}
                     </div>
                   ) : (
@@ -214,7 +250,9 @@ export function ProductList({
                 product.price &&
                 (product.exist ? (
                   <div className="price">
-                    {currency === "$" ? product.price : product.price * exRate}
+                    {currency === "$"
+                      ? product.price
+                      : Number((product.price * exRate).toFixed(2))}
                     {currency}
                   </div>
                 ) : (

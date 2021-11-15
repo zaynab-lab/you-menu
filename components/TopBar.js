@@ -31,12 +31,9 @@ export default function TopBar({
         ))}
       </div>
 
-      <div className="topbar"></div>
-
       <style jsx>{`
         .bar {
-          padding: 0.3rem;
-          padding-top: 0.8rem;
+          padding: 0.5rem 0.3rem;
           overflow: auto;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -46,11 +43,13 @@ export default function TopBar({
           align-items: center;
           gap: 0.8rem;
           width: 100%;
-          position: fixed;
-          position: -webkit-fixed;
+          position: sticky;
+          position: -webkit-sticky;
           top: 0;
           background: white;
           z-index: 10;
+          border: solid ${categories[0]?.colors?.tbt};
+          border-width: 1px 0;
         }
 
         .item {

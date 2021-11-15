@@ -8,7 +8,9 @@ const businessSchema = new mongoose.Schema(
     brand: {
       name: { type: String },
       hasImg: { type: Boolean },
-      imgLink: { type: Number }
+      imgLink: { type: Number },
+      color: { type: String },
+      background: { type: String }
     },
     businessCode: { type: String },
     businessType: { type: String },

@@ -3,7 +3,7 @@ import { styles } from "@/public/js/styles";
 import Link from "next/link";
 import Addremove from "./Addremove";
 
-export default function Cart({ cart, exRate, currency }) {
+export default function Cart({ cart, currency, exRate }) {
   const [open, setOpen] = useState(false);
   const [total, setTotal] = useState(0);
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Cart({ cart, exRate, currency }) {
           <div className="cartTitle" onClick={() => setOpen(!open)}>
             <div>Total</div>
             <div>
-              {currency === "$" ? total : Math.round(total * exRate, 2)}
+              {currency === "$" ? total : Number((total * exRate).toFixed(2))}
               {currency}
             </div>
           </div>
@@ -36,7 +36,7 @@ export default function Cart({ cart, exRate, currency }) {
                   <div className="price">
                     {currency === "$"
                       ? item.price
-                      : Math.round(item.price * exRate)}
+                      : Number((item.price * exRate).toFixed(2))}
                     {currency}
                   </div>
                 </div>
