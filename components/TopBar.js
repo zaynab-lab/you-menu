@@ -1,5 +1,6 @@
 import { styles } from "@/public/js/styles";
 import TextLoader from "./Loaders/TextLoader";
+import useInveiw from "@/util/useInveiw";
 
 export default function TopBar({
   sectionsRefs,
@@ -7,9 +8,13 @@ export default function TopBar({
   currentCat,
   setCurrentCat
 }) {
+  const [setRef, visible] = useInveiw({ threshold: 0 });
+
   return (
     <>
-      <div className="bar">
+      <div ref={setRef}></div>
+
+      <div className={`bar ${!visible && "visible"}`}>
         {categories?.map((category, i) => (
           <div
             key={i}
@@ -34,6 +39,7 @@ export default function TopBar({
       <style jsx>{`
         .bar {
           padding: 0.5rem 0.3rem;
+          padding-top: 0.8rem;
           overflow: auto;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -43,13 +49,19 @@ export default function TopBar({
           align-items: center;
           gap: 0.8rem;
           width: 100%;
-          position: sticky;
-          position: -webkit-sticky;
+          position: fixed;
+          position: -webkit-fixed;
           top: 0;
           background: white;
           z-index: 10;
           border: solid ${categories[0]?.colors?.tbt};
           border-width: 1px 0;
+          transition: opacity 0.5s ease-out;
+          opacity: 0;
+        }
+        .visible {
+          opacity: 1;
+          transition: opacity 0.5s ease-out;
         }
 
         .item {
@@ -60,10 +72,6 @@ export default function TopBar({
           border-radius: 10rem;
           font-size: 1rem;
           cursor: pointer;
-        }
-
-        .topbar {
-          margin-top: 2.7rem;
         }
 
         .active {
