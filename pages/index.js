@@ -16,6 +16,7 @@ export default function Index() {
   return (
     <>
       <BurgerButton setOpenModal={setOpenModal} />
+      <div>some new stuff</div>
       <LogoBar size={true} />
       <div className="pageContainer">
         <Input
