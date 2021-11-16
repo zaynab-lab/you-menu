@@ -1,5 +1,5 @@
 import { styles } from "@/public/js/styles";
-import TextLoader from "./Loaders/TextLoader";
+import TextLoader from "@/components/Loaders/TextLoader";
 import useInveiw from "@/util/useInveiw";
 
 export default function TopBar({
@@ -13,7 +13,6 @@ export default function TopBar({
   return (
     <>
       <div ref={setRef}></div>
-
       <div className={`bar ${!visible && "visible"}`}>
         {categories?.map((category, i) => (
           <div
@@ -27,6 +26,7 @@ export default function TopBar({
             }}
             onClick={() => {
               setCurrentCat(category.name);
+
               sectionsRefs.current[category.name] &&
                 sectionsRefs.current[category.name].scrollIntoView();
             }}
@@ -59,6 +59,7 @@ export default function TopBar({
           transition: opacity 0.5s ease-out;
           opacity: 0;
         }
+
         .visible {
           opacity: 1;
           transition: opacity 0.5s ease-out;

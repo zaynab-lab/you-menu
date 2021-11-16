@@ -1,45 +1,30 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import LoginPage from "@/components/Pages/LoginPage";
 import axios from "axios";
-import LogoLoader from "@/components/Loaders/LogoLoader";
+import { useRouter } from "next/router";
 
-const MarketerPage = dynamic(() => import("@/components/Pages/MarketerPage"));
+const ManagementPage = dynamic(() =>
+  import("@/components/Pages/ManagementPage")
+);
 
 export default function Index() {
-  const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState(false);
-  const [alertMsg, setAlertmsg] = useState(" ");
+  const router = useRouter();
 
   useEffect(
     () =>
       axios.get("/api/auth").then((res) => {
         res?.data?.number &&
-        res?.data?.permissions?.includes("EnterMarketingPage")
+        res?.data?.permissions?.includes("EnterManagementPage")
           ? setAuth(true)
-          : setAuth(false);
-        res?.data.number &&
-          setAlertmsg(`you can't login here if you are'nt a marketer`);
-        setLoading(false);
+          : router.replace("/");
       }),
-    [auth]
+    [auth, router]
   );
 
   return (
     <>
-      <div className="page">
-        {loading ? (
-          <LogoLoader />
-        ) : auth ? (
-          <MarketerPage />
-        ) : (
-          <LoginPage
-            setAuth={setAuth}
-            Loginfrom={"marketing"}
-            alertMsg={alertMsg}
-          />
-        )}
-      </div>
+      <div className="page">{auth && <ManagementPage />}</div>
 
       <style jsx>{`
         .page {

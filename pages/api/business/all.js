@@ -10,7 +10,7 @@ export default async function Businesses(req, res) {
   if (method === "GET") {
     // const country = await countries.filter(
     //   (c) => c?.code === req.headers["cf-ipcountry"]
-    // );
+    // );//
     const businesses = await Business.find({
       verified: true
       // ccode: country[0]?.usedCode,

@@ -19,13 +19,13 @@ export default function MarketerBusinessPage({ business, setRefreshBusiness }) {
         <BusinessInfo
           setRefreshBusiness={setRefreshBusiness}
           business={business}
-          back={"/management"}
+          back={"/marketing"}
         />
       )}
       {selected === "Add" && (
-        <Add back={"/management"} businessCode={business?.businessCode} />
+        <Add back={"/marketing"} businessCode={business?.businessCode} />
       )}
-      {selected === "Qr" && <Qr back={"/management"} business={business} />}
+      {selected === "Qr" && <Qr back={"/marketing"} business={business} />}
       <MenuBar selected={selected} setSelected={setSelected} />
     </>
   );
