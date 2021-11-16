@@ -1,5 +1,5 @@
 import Image from "next/image";
-import TopBar from "@/components/TopBar";
+import TopBar from "./TopBar";
 import { useEffect, useRef, useState } from "react";
 import Line from "@/components/Line";
 import { styles } from "@/public/js/styles";

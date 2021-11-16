@@ -3,7 +3,7 @@ import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
 import Link from "next/link";
-import { FaSearchDollar, FaSignOutAlt, FaStore } from "react-icons/fa";
+import { FaBook, FaSearchDollar, FaSignOutAlt, FaStore } from "react-icons/fa";
 import UPLayout from "@/components/Pages/EndUserPage/UPLayout";
 import axios from "axios";
 import { useState } from "react";
@@ -18,6 +18,17 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
       <BackButton setSelected={setSelected} select={"Options"} />
       <UPLayout>
         <div className="form">
+          {user?.permissions?.includes("EnterManagementPage") && (
+            <Link href="/management">
+              <div className="Bbtn">
+                <div className="Bbtn-icon">
+                  <FaBook />
+                </div>
+                <div>management</div>
+              </div>
+            </Link>
+          )}
+
           <Label title={"full name"} />
           <Input
             value={userName}
@@ -55,8 +66,9 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
                 </div>
               </Link>
             )}
+
             {user?.permissions?.includes("EnterMarketingPage") && (
-              <Link href="/management">
+              <Link href="/marketing">
                 <div className="Bbtn">
                   <div className="Bbtn-icon">
                     <FaSearchDollar />
