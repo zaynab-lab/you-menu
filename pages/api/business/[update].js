@@ -24,7 +24,8 @@ export default async (req, res) => {
         const user = await User.findById(decoded.id).exec();
         if (
           user.number === business.ownerNumber ||
-          user.promoCode === business.addedby
+          user.promoCode === business.addedby ||
+          user.role === "GM"
         ) {
           if (method === "PUT") {
             switch (update) {
@@ -70,6 +71,15 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
+              case "verified":
+                user.role === "GM" &&
+                  Business.findByIdAndUpdate(
+                    business._id,
+                    { verified: body.verified },
+                    (err) => console.log(err)
+                  ).exec();
+                return res.status(200).end("done");
+
               default:
                 return res.status(200).end("done");
             }

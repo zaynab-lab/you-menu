@@ -1,7 +1,7 @@
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaDoorOpen, FaEyeSlash, FaStore, FaTrashAlt } from "react-icons/fa";
+import { FaEyeSlash, FaStore, FaTrashAlt } from "react-icons/fa";
 import ActionModal from "./ActionModal";
 import Button from "./Button";
 import Input from "./Input";

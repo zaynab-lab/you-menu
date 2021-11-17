@@ -21,7 +21,7 @@ export default function MarketerPage() {
       </div>
       {addbusiness && <LoginForm Loginfrom={"signBusiness"} />}
       <div className="businesesTitle">your active businesses</div>
-      <ListOfBusinesses />
+      <ListOfBusinesses from={"marketing"} />
       <style jsx>{`
         .motivation {
           font-size: 1.2rem;

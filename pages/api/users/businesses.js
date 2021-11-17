@@ -16,11 +16,13 @@ export default async function (req, res) {
       const user = await User.findById(decoded.id).exec();
       if (user) {
         const role = await Role.findOne({ role: user.role }).exec();
-        if (role?.permissions.includes("EnterMarketingPage")) {
+        if (user.role === "GM") {
+          const businesses = await Business.find().exec();
+          return res.status(200).end(JSON.stringify(businesses));
+        } else if (role?.permissions.includes("EnterMarketingPage")) {
           const businesses = await Business.find({
             addedby: user.promoCode
           }).exec();
-
           return res.status(200).end(JSON.stringify(businesses));
         }
       } else {

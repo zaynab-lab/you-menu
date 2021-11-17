@@ -1,22 +1,26 @@
 import Line from "@/components/Line";
+import { useState } from "react";
 import TopBar from "./TopBar";
-// import ListOfBusinesses from "./ListOfBusinesses";
+import ListOfBusinesses from "../MarketerPage/ListOfBusinesses";
+import dynamic from "next/dynamic";
+
+const ListOfUsers = dynamic(() => import("./ListOfUsers"));
+const ListOfProducts = dynamic(() => import("./ListOfProducts"));
 
 export default function ManagementPage() {
+  const [page, setPage] = useState("Businesses");
   return (
     <>
       <Line />
-      <TopBar />
-      <div className="businesesTitle">This is GM Page</div>
-
-      {/* <ListOfBusinesses /> */}
-
+      <TopBar page={page} setPage={setPage} />
+      <div className="pageContainer">
+        {page === "Businesses" && <ListOfBusinesses from={"management"} />}
+        {page === "Users" && <ListOfUsers />}
+        {page === "Deleted" && <ListOfProducts />}
+      </div>
       <style jsx>{`
-        .businesesTitle {
-          font-size: 1.2rem;
-          width: 100%;
-          text-align: center;
-          padding: 0.5rem;
+        .pageContainer {
+          padding-top: 3rem;
         }
       `}</style>
     </>

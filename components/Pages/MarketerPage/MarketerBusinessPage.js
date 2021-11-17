@@ -9,7 +9,11 @@ const BusinessInfo = dynamic(() =>
 const Add = dynamic(() => import("@/components/Pages/BusinessPage/Add"));
 const Qr = dynamic(() => import("@/components/Pages/BusinessPage/Qr"));
 
-export default function MarketerBusinessPage({ business, setRefreshBusiness }) {
+export default function MarketerBusinessPage({
+  business,
+  setRefreshBusiness,
+  from
+}) {
   const [selected, setSelected] = useState("Add");
 
   return (
@@ -19,13 +23,13 @@ export default function MarketerBusinessPage({ business, setRefreshBusiness }) {
         <BusinessInfo
           setRefreshBusiness={setRefreshBusiness}
           business={business}
-          back={"/marketing"}
+          back={`/${from}`}
         />
       )}
       {selected === "Add" && (
-        <Add back={"/marketing"} businessCode={business?.businessCode} />
+        <Add back={`/${from}`} businessCode={business?.businessCode} />
       )}
-      {selected === "Qr" && <Qr back={"/marketing"} business={business} />}
+      {selected === "Qr" && <Qr back={`/${from}`} business={business} />}
       <MenuBar selected={selected} setSelected={setSelected} />
     </>
   );

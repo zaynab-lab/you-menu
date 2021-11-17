@@ -11,7 +11,7 @@ export default function MBPage() {
   const router = useRouter();
   const [refreshBusiness, setRefreshBusiness] = useState(false);
   const [business, setBusiness] = useState({});
-  const { businessCode } = router.query;
+  const { businessCode, from } = router.query;
 
   useEffect(
     () =>
@@ -26,6 +26,7 @@ export default function MBPage() {
       <MarketerBusinessPage
         setRefreshBusiness={setRefreshBusiness}
         business={business}
+        from={from}
       />
     </>
   );
