@@ -12,7 +12,7 @@ export default function Support({ setSelected, select }) {
           we are availble in any time on whatsapp, but if we are late in
           response please wait for us.
         </div>
-        <Link href="https://wa.me/+96181026095?text=dear za menu: ">
+        <Link href="https://wa.me/+96170097533">
           <div className="contact">contact us on Whatsapp</div>
         </Link>
       </div>
