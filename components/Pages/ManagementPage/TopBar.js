@@ -3,7 +3,8 @@ import { styles } from "@/public/js/styles";
 const pages = [
   { name: "Manage Busnisses", page: "Businesses" },
   { name: "Manage Users", page: "Users" },
-  { name: "Manage deleted items", page: "Deleted" }
+  { name: "Manage deleted items", page: "Deleted" },
+  { name: "Manage Orders", page: "Orders" }
 ];
 export default function TopBar({ setPage, page }) {
   return (

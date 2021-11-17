@@ -17,6 +17,7 @@ export default function ManagementPage() {
         {page === "Businesses" && <ListOfBusinesses from={"management"} />}
         {page === "Users" && <ListOfUsers />}
         {page === "Deleted" && <ListOfProducts />}
+        {page === "Orders" && <div></div>}
       </div>
       <style jsx>{`
         .pageContainer {
