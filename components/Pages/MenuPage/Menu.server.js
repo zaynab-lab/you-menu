@@ -8,6 +8,7 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import Alert from "@/components/Alert";
 import FadeAlert from "./FadeAlert";
+import Logo from "@/components/Logo";
 
 const Cart = dynamic(() => import("./Cart"));
 
@@ -70,21 +71,17 @@ export default function Menu({ businessCode }) {
       <Line />
       <div className="categoriesContainer">
         <div className="brand">
-          <Image
-            alt=""
-            width="100"
-            height="100"
-            loader={({ src, width }) =>
-              `${
-                firebaseLink +
-                src +
-                `%2FLogo${business.imgLink}.png?alt=media&tr=w-${width}`
-              }`
-            }
-            src={businessCode || "/logo"}
-          />
+          {business?.brand?.imgLink ? (
+            <Logo
+              businessCode={business?.businessCode}
+              hasImg={business?.brand?.hasImg}
+              imgLink={business?.brand?.imgLink}
+            />
+          ) : (
+            <div></div>
+          )}
 
-          <div>{business.brand}</div>
+          <div>{business?.brand?.name}</div>
         </div>
         <TopBar
           sectionsRefs={sectionsRefs}
@@ -281,6 +278,7 @@ export function ProductList({
           -webkit-flex-wrap;
           flex-wrap: wrap;
           gap:1rem;
+          padding:.3rem 0;
           }
           
         .description {

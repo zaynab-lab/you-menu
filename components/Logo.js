@@ -54,7 +54,7 @@ export default function Logo({
         <div className="logo">
           {image ? (
             <img id="img" alt="" height="100%" width="100%" src={image} />
-          ) : hasImg ? (
+          ) : hasImg && businessCode && imgLink ? (
             <Image
               id="img"
               alt=""

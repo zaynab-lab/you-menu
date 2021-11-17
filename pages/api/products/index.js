@@ -36,7 +36,8 @@ export default async (req, res) => {
             const user = await User.findById(decoded.id).exec();
             if (
               user.number === business.ownerNumber ||
-              user.promoCode === business.addedby
+              user.promoCode === business.addedby ||
+              user.role === "GM"
             ) {
               if (method === "POST") {
                 const product = new Product({

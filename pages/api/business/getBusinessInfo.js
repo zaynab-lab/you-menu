@@ -13,9 +13,8 @@ export default async function Businesses(req, res) {
       JSON.stringify({
         currency: business.currency,
         exRate: business.exRate,
-        brand: business.brand.name,
-        imgLink: business.brand.imgLink,
-        color: business.brand.color
+        brand: business.brand,
+        businessCode: business.businessCode
       })
     );
   } else {
