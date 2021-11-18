@@ -10,12 +10,14 @@ import QrCode from "@/components/QrCode";
 import Share from "@/components/Share";
 import Link from "next/link";
 import BPLayout from "./BPLayout";
+import Alert from "@/components/Alert";
 
 const bType = ["resturant", "cafe"];
 
 export default function Qr({ setSelected, back, business }) {
   const [tableNumber, setTableNumber] = useState(1);
   const [tables, setTables] = useState([1]);
+  const [alert, setAlert] = useState("");
 
   const exportImg = (number) => {
     toPng(document.getElementById("table" + number)).then((dataUrl) => {
@@ -81,7 +83,13 @@ export default function Qr({ setSelected, back, business }) {
                     </div>
                   </div>
                 </div>
-                <div className="fadownload" onClick={() => exportImg(obj)}>
+                <div
+                  className="fadownload"
+                  onClick={() => {
+                    setAlert("downloading");
+                    exportImg(obj);
+                  }}
+                >
                   <FaDownload /> {"   "}{" "}
                   {bType.includes(business?.businessType)
                     ? `table ${obj}`
@@ -91,6 +99,7 @@ export default function Qr({ setSelected, back, business }) {
             ))}
           </div>
         </div>
+        <Alert setAlert={setAlert} alert={alert} />
       </BPLayout>
       <style jsx>{`
         .setTables {
