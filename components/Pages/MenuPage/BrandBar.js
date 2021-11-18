@@ -44,7 +44,7 @@ export default function BrandBar({ business }) {
       {business.acceptOrders ? (
         <div className="accept">online orders accepted</div>
       ) : (
-        <div className="daccept">online orders not accept right now</div>
+        <div className="daccept">online orders not accepted right now</div>
       )}
       <style jsx>{`
         .brand {
