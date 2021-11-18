@@ -14,6 +14,7 @@ import BPLayout from "./BPLayout";
 const BusinessTypes = [
   "cafe",
   "resturant",
+  "resto cafe",
   "store",
   "retail",
   "online",

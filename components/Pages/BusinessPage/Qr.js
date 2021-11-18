@@ -12,7 +12,7 @@ import Link from "next/link";
 import BPLayout from "./BPLayout";
 import Alert from "@/components/Alert";
 
-const bType = ["resturant", "cafe"];
+const bType = ["resturant", "cafe", "resto cafe"];
 
 export default function Qr({ setSelected, back, business }) {
   const [tableNumber, setTableNumber] = useState(1);

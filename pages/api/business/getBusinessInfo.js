@@ -14,7 +14,10 @@ export default async function Businesses(req, res) {
         currency: business.currency,
         exRate: business.exRate,
         brand: business.brand,
-        businessCode: business.businessCode
+        businessCode: business.businessCode,
+        businessType: business.businessType,
+        ownerNumber: business.ownerNumber,
+        acceptOrders: business.acceptOrders
       })
     );
   } else {
