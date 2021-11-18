@@ -156,7 +156,7 @@ export default function Menu({ businessCode }) {
           font-size:2.6rem;
           color: ${business?.color || "gray"};
           background: ${business?.background || "#fefefe"};
-          gap: 10vw;
+          gap: 8vw;
           overflow: hidden;
           line-height: 2.3rem;
         }
