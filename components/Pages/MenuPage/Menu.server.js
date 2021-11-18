@@ -314,7 +314,12 @@ export function ProductList({
           gap: 1rem;
           cursor:pointer;
         }
-
+        .productPartImg {
+          border-radius:.5rem;
+          overflow:hidden;
+          width:120px;
+          height:120px;
+        }
         .productPart {
           flex: 1 1 65%;
         }

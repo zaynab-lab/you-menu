@@ -112,7 +112,7 @@ export default function Logo({
           width: 8rem;
           min-width: 8rem;
           height: 8rem;
-          background: #eee;
+          background: ${hasImg ? "white" : "#eee"};
           font-size: 3rem;
           border-radius: 2rem;
           color: ${styles.grey};
