@@ -150,13 +150,15 @@ export default function Menu({ businessCode }) {
           min-height: 100vh;
         }
         .brand {
+          max-width: 100%;
           padding: 0.8rem 1rem;
           ${styles.flexBothcenter}
           font-size:2.6rem;
           color: ${business?.color || "gray"};
           background: ${business?.background || "#fefefe"};
           gap: 10vw;
-          white-space: nowrap;
+          overflow: hidden;
+          line-height: 2.3rem;
         }
 
         .cartContainer {
