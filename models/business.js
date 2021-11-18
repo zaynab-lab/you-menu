@@ -27,11 +27,13 @@ const businessSchema = new mongoose.Schema(
       long: { type: Number },
       lat: { type: Number }
     },
-    subscribe: {
-      date: { type: Date },
-      plan: { type: String },
-      validTill: { type: Number }
-    },
+    subscribe: [
+      {
+        date: { type: Date },
+        plan: { type: String },
+        validation: { type: Number }
+      }
+    ],
     messages: [
       {
         reciverNumber: { type: String },

@@ -2,12 +2,14 @@ import Alert from "@/components/Alert";
 import BackButton from "@/components/BackButton";
 import BPLayout from "@/components/Pages/BusinessPage/BPLayout";
 import { styles } from "@/public/js/styles";
-import { useState } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FaCheck, FaGem } from "react-icons/fa";
 const Usage = [
-  { name: "products", use: "26", of: "/40" },
-  { name: "categories", use: "8", of: "/10" },
-  { name: "qr code", use: "", of: "30" }
+  { name: "products" },
+  { name: "categories" },
+  { name: "qr code", of: "30" }
 ];
 const Plans = [
   {
@@ -23,80 +25,141 @@ const Plans = [
       "pos system",
       "accounting system"
     ],
-    description: "69$/month - 690$/year"
+    planProducts: 200,
+    planCategories: 30,
+    description: "89$/month - 890$/year",
+    rank: 1
   },
 
   {
     name: "Plan B",
     options: [
-      "150 product",
-      "30 category",
-      "3 employee",
+      "120 product",
+      "25 category",
       "editing theme",
       "digital menu",
       "order system"
     ],
-    description: "49$/month 490$/year"
+    planProducts: 120,
+    planCategories: 25,
+    description: "49$/month 490$/year",
+    rank: 2
   },
   {
     name: "Plan C",
     options: ["80 product", "15 category", "editing theme", "digital menu"],
-    description: "29$/month 290$/year"
+    planProducts: 80,
+    planCategories: 15,
+    description: "29$/month 290$/year",
+    rank: 3
   },
   {
     name: "free plan",
     options: ["40 product", "10 category", "editing theme", "digital menu"],
-    check: true
+    planProducts: 40,
+    planCategories: 10,
+    rank: 4
   }
 ];
 
-export default function History({ setSelected }) {
+export default function Subscribe({ setSelected, business }) {
   const [alert, setAlert] = useState("");
-  const [open, setOpen] = useState(false);
+  const [count, setCount] = useState({});
+  const [subPlan, setPlan] = useState("free plan");
+  const [rank, setRank] = useState(4);
+  const [days, setDays] = useState(1);
+  const [of, setOf] = useState({});
+  useEffect(() => {
+    business?.businessCode &&
+      axios
+        .get(`/api/categories/getCounts?businessCode=${business.businessCode}`)
+        .then((res) => res?.data?.categories && setCount(res.data));
+
+    business?.subscribe[business?.subscribe?.length - 1]
+      ? setPlan(business?.subscribe[business?.subscribe?.length - 1]?.plan)
+      : setPlan("free plan");
+
+    setDays(
+      business?.subscribe[business?.subscribe.length - 1]?.validation -
+        Math.ceil(
+          (new Date(Date.now()) -
+            new Date(
+              business?.subscribe[business?.subscribe.length - 1]?.date
+            )) /
+            (1000 * 60 * 60 * 24)
+        )
+    );
+  }, [business]);
+
+  useEffect(() => {
+    Plans.map((plan) => plan.name === subPlan && setRank(plan.rank));
+    Plans.map(
+      (plan) =>
+        plan.name === subPlan &&
+        setOf({
+          products: plan.planProducts,
+          categories: plan.planCategories,
+          "qr code": 30
+        })
+    );
+  }, [subPlan]);
+
   return (
     <>
       <BackButton setSelected={setSelected} select={"More"} />
       <BPLayout>
+        {business?.subscribe[business?.subscribe?.length - 1] ? (
+          days > 0 ? (
+            <div className="greenNoty">
+              {"you still have " + days + " days validation for current plan"}
+            </div>
+          ) : (
+            <div className="redNoty">your subscribtion is over from {days}</div>
+          )
+        ) : (
+          <div className="greenNoty">you have the free plan</div>
+        )}
         <div className="planContainer">
           {Plans.map((plan, i) => (
             <div key={i} className="plan">
               {plan.name}
-              {plan.check ? (
+              {subPlan === plan.name ? (
                 <div className="check">
                   <FaCheck />
                 </div>
               ) : (
-                <div
-                  className="buy"
-                  onClick={() => {
-                    setAlert("comming soon");
-                  }}
-                >
-                  buy
-                </div>
+                rank >= plan.rank && (
+                  <Link
+                    href={`https://wa.me/+96170097533?text=I want to upgrade to ${plan.name}`}
+                  >
+                    <div className="upgrade">upgrade</div>
+                  </Link>
+                )
               )}
             </div>
           ))}
         </div>
 
         <div className="planContainer">
-          <div className="usage" onClick={() => setOpen(!open)}>
+          <div className="usage">
             <div className="gem">
               <FaGem />
             </div>
             <div>usage</div>
           </div>
-          {open &&
-            Usage.map((use, i) => (
-              <div key={i} className="plan">
-                <div>{use.name}</div>
-                <div className="useValue">{use.use + use.of}</div>
+          {Usage.map((use, j) => (
+            <div key={j} className="plan">
+              <div>{use.name}</div>
+              <div className={count[use.name] > of[use.name] ? "red" : "green"}>
+                {count[use.name] && count[use.name]}
+                {"/" + of[use.name]}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
 
-        {Plans.map((plan, i) => (
-          <div key={i} className="planContainer">
+        {Plans.map((plan, k) => (
+          <div key={k} className="planContainer">
             <div className="planHeader">
               {plan.name} <div className="description">{plan.description}</div>
             </div>
@@ -125,6 +188,23 @@ export default function History({ setSelected }) {
           font-size: 1.2rem;
           margin: 1rem 0rem;
         }
+        .greenNoty {
+          margin-top: 1rem;
+          padding: 0.2rem;
+          color: green;
+          background: #ddffdd;
+          width: 100%;
+          text-align: center;
+        }
+        .redNoty {
+          margin-top: 1rem;
+          padding: 0.2rem;
+          color: red;
+          background: #ffdddd;
+          width: 100%;
+          text-align: center;
+        }
+
         .plan {
           padding: 0.2rem 0.8rem;
           border-bottom: 1px solid lightgrey;
@@ -141,12 +221,13 @@ export default function History({ setSelected }) {
         .check {
           color: green;
           line-height: 0;
-          padding-right: 1rem;
+          padding-right: 2rem;
         }
-        .buy {
+        .upgrade {
           color: ${styles.secondaryColor};
           padding: 0.2rem 0.8rem;
           border-radius: 0.3rem;
+          font-size: 1rem;
         }
         .usage {
           padding: 0rem 0.8rem;
@@ -156,12 +237,16 @@ export default function History({ setSelected }) {
           font-size: 1.2rem;
           ${styles.flexAligncenter}
           gap:.5rem;
+          cursor: pointer;
         }
         .gem {
           padding-top: 0.8rem;
         }
-        .useValue {
+        .green {
           color: green;
+        }
+        .red {
+          color: red;
         }
         .options {
           font-size: 1.1rem;

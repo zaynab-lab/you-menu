@@ -15,9 +15,8 @@ export default function ListOfBusinesses({ from }) {
     <>
       <div className="businessList">
         {businesses.map((business, i) => (
-          <div className="wholeBusinessCard">
+          <div key={i} className="wholeBusinessCard">
             <Link
-              key={i}
               href={`management/business/${business.businessCode}?from=${from}`}
             >
               <div className="businessCard">
@@ -33,7 +32,6 @@ export default function ListOfBusinesses({ from }) {
                     {business?.brand?.name ? business?.brand?.name : "Brand"}
                   </div>
                   <div>{business?.ownerNumber}</div>
-                  <div>{console.log(business)}</div>
                 </div>
               </div>
             </Link>

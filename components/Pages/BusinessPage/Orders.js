@@ -11,7 +11,7 @@ import OrdersList from "./OrdersList";
 import { styles } from "../../../public/js/styles";
 
 const steps = [
-  { name: "waiting to confirm", icon: <FaCheck />, count: 1 },
+  { name: "waiting to confirm", icon: <FaCheck />, count: 0 },
   { name: "pending to pay", icon: <FaReceipt /> },
   { name: "preparing", icon: <FaHandHoldingHeart /> },
   { name: "delivering", icon: <FaShippingFast /> },
@@ -19,17 +19,17 @@ const steps = [
   { name: "not accepted", icon: <FaBackward /> }
 ];
 const orderfromdb = [
-  {
-    items: [
-      { name: "milkshack" },
-      { name: "hot choclate" },
-      { name: "ice tee" }
-    ],
-    type: "delivery",
-    status: "waiting to confirm",
-    steps: { name: "waiting to confirm", time: Date.now() },
-    total: 50
-  }
+  // {
+  //   items: [
+  //     { name: "milkshack" },
+  //     { name: "hot choclate" },
+  //     { name: "ice tee" }
+  //   ],
+  //   type: "delivery",
+  //   status: "waiting to confirm",
+  //   steps: { name: "waiting to confirm", time: Date.now() },
+  //   total: 50
+  // }
 ];
 
 export default function Orders() {
