@@ -1,7 +1,7 @@
 import Logo from "@/components/Logo";
 import { styles } from "@/public/js/styles";
 import {
-  FaClock,
+  FaCircle,
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaRegClock
@@ -26,6 +26,22 @@ export default function BrandBar({ business }) {
           <div className="bType">{business.businessType}</div>
         </div>
       </div>
+      {business?.acceptOrders ? (
+        <div className="accept">
+          <span className="dot">
+            <FaCircle />{" "}
+          </span>{" "}
+          online orders accepted
+        </div>
+      ) : (
+        <div className="daccept">
+          <span className="dot">
+            <FaCircle />{" "}
+          </span>{" "}
+          online orders not accepted right now
+        </div>
+      )}
+
       <div className="details">
         <a href={`tel:${business.ownerNumber}`}>
           <div className="detailsItem">
@@ -35,28 +51,24 @@ export default function BrandBar({ business }) {
         </a>
         <div className="detailsItem">
           <FaRegClock />
+          <div className="time">9:00AM - 12:00PM</div>
         </div>
         <div className="detailsItem">
-          <FaMapMarkerAlt />
+          <FaMapMarkerAlt /> <div>Beirut</div>
         </div>
       </div>
 
-      {business.acceptOrders ? (
-        <div className="accept">online orders accepted</div>
-      ) : (
-        <div className="daccept">online orders not accepted right now</div>
-      )}
       <style jsx>{`
         .brand {
           max-width: 100%;
           padding: 0.8rem 1rem;
           ${styles.flexBothcenter}
-          font-size:2.6rem;
+          font-size:2.5rem;
           color: ${business?.color || "gray"};
           background: ${business?.background || "#fefefe"};
-          gap: 8vw;
+          gap: 7vw;
           overflow: hidden;
-          line-height: 2.3rem;
+          line-height: 2.4rem;
         }
         .bType {
           padding: 0.2rem;
@@ -69,35 +81,70 @@ export default function BrandBar({ business }) {
           font-size: 1.1rem;
           color: black;
           line-height: 1rem;
-          ${styles.flexBothcenter};
-          gap: 2rem;
+          ${styles.flexAligncenter};
           flex-wrap: wrap;
-          background: #eee;
+          background: #f6f6f6;
         }
         .detailsItem {
           ${styles.flexAligncenter}
           gap:.6rem;
           padding: 0.2rem 0;
+          flex: 1 1 10rem;
+          padding: 0.2rem 1.4rem;
         }
         .accept {
-          width: 100%;
           text-align: center;
-          background: green;
-          color: white;
-          opacity: 70%;
-          font-size: 1.1rem;
+          padding: 0.2rem;
+          width: 100%;
+          color: green;
+          opacity: 90%;
+          font-size: 1rem;
+          line-height: 1rem;
         }
         .daccept {
-          width: 100%;
           text-align: center;
-          background: orange;
-          color: white;
-          opacity: 90%;
-          font-size: 1.1rem;
+          padding: 0.2rem;
+          width: 100%;
+          color: orange;
+          opacity: 100%;
+          font-size: 1rem;
+          line-height: 1rem;
+        }
+        .dot {
+          font-size: 0.6rem;
+          padding: 0rem 0.2rem;
+          animation: flash 2s infinite;
+          line-height: 0rem;
         }
         a {
           color: black;
           text-decoration: none !important;
+        }
+        .time {
+          font-size: 1rem;
+        }
+
+        @keyframes flash {
+          0% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+        @-webkit-keyframes flash {
+          0% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
         }
       `}</style>
     </>

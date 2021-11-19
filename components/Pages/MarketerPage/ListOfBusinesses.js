@@ -3,7 +3,12 @@ import { styles } from "@/public/js/styles";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaEyeSlash } from "react-icons/fa";
+import {
+  FaCartArrowDown,
+  FaEyeSlash,
+  FaTrello,
+  FaUpload
+} from "react-icons/fa";
 
 export default function ListOfBusinesses({ from }) {
   const [businesses, setBusinesses] = useState([]);
@@ -31,27 +36,54 @@ export default function ListOfBusinesses({ from }) {
                   <div className="brand">
                     {business?.brand?.name ? business?.brand?.name : "Brand"}
                   </div>
-                  <div>{business?.ownerNumber}</div>
+                  <div>
+                    <span>+{business.ccode}</span>{" "}
+                    <span>{business?.ownerNumber}</span>
+                  </div>
+                  <div className="green">
+                    {business?.subscribe[business?.subscribe?.length - 1]?.plan}
+                  </div>
+                  <div className="moreInfo">
+                    <div>
+                      <div className="moreInfoIcon">
+                        <FaTrello />
+                      </div>
+                      {business?.categories}
+                    </div>
+                    <div>
+                      <div className="moreInfoIcon">
+                        <FaCartArrowDown />
+                      </div>
+                      {business?.products}
+                    </div>
+                  </div>
                 </div>
               </div>
             </Link>
             {from === "management" && (
-              <div
-                className="eye"
-                onClick={() =>
-                  axios
-                    .put(
-                      "/api/business/verified",
-                      {
-                        verified: !business?.verified,
-                        businessCode: business?.businessCode
-                      },
-                      { "content-type": "application/json" }
-                    )
-                    .then((res) => res.data === "done" && setRefresh(!refresh))
-                }
-              >
-                {business.verified ? "👀" : <FaEyeSlash />}
+              <div>
+                <div className="eye green" onClick={() => {}}>
+                  <FaUpload />
+                </div>
+                <div
+                  className="eye"
+                  onClick={() =>
+                    axios
+                      .put(
+                        "/api/business/verified",
+                        {
+                          verified: !business?.verified,
+                          businessCode: business?.businessCode
+                        },
+                        { "content-type": "application/json" }
+                      )
+                      .then(
+                        (res) => res.data === "done" && setRefresh(!refresh)
+                      )
+                  }
+                >
+                  {business.verified ? "👀" : <FaEyeSlash />}
+                </div>
               </div>
             )}
           </div>
@@ -74,7 +106,7 @@ export default function ListOfBusinesses({ from }) {
         }
         .eye {
           cursor: pointer;
-          padding: 1rem;
+          padding: 0.5rem 1rem;
         }
         .businessCard {
           width: 100%;
@@ -84,12 +116,25 @@ export default function ListOfBusinesses({ from }) {
           gap: 2rem;
           cursor: pointer;
         }
+        .moreInfo {
+          ${styles.flexAligncenter}
+          gap:2rem;
+          line-height: 1rem;
+        }
+        .moreInfo div {
+          ${styles.flexAligncenter}
+        }
+        .moreInfoIcon {
+          padding: 0.2rem;
+          line-height: 0.7rem;
+        }
         .businessCardItems {
         }
         .brand {
           font-size: 1.6rem;
         }
-        .eye {
+        .green {
+          color: green;
         }
       `}</style>
     </>

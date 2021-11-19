@@ -1,6 +1,7 @@
 import { styles } from "@/public/js/styles";
 
 const pages = [
+  { name: "General Management", page: "General" },
   { name: "Manage Busnisses", page: "Businesses" },
   { name: "Manage Users", page: "Users" },
   { name: "Manage deleted items", page: "Deleted" },

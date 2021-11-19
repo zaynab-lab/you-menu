@@ -27,6 +27,8 @@ const businessSchema = new mongoose.Schema(
       long: { type: Number },
       lat: { type: Number }
     },
+    products: { type: Number },
+    categories: { type: Number },
     subscribe: [
       {
         date: { type: Date },
@@ -43,7 +45,6 @@ const businessSchema = new mongoose.Schema(
     ],
     addedby: { type: String }
   },
-
   { collection: "businesses" }
 );
 

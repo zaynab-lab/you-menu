@@ -25,11 +25,19 @@ export default function Menu({ businessCode }) {
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
   const action = (id, add) => {
-    // products.map(
-    //   (product) =>
-    //     product._id === id &&
-    //     setCartItems([...cartItems, { id: id, quantity: 1 }])
-    // );
+    if (business?.acceptOrders) {
+      setAlert("item has been added");
+      const alter = { ...cartItems };
+      !add && cartItems[id] === 1 && delete alter[id];
+
+      add
+        ? cartItems[id] === undefined
+          ? setCartItems({ ...cartItems, [id]: 1 })
+          : setCartItems({ ...cartItems, [id]: cartItems[id] + 1 })
+        : cartItems[id] === 1
+        ? setCartItems(alter)
+        : setCartItems({ ...cartItems, [id]: cartItems[id] - 1 });
+    }
   };
 
   useEffect(() => {
@@ -51,6 +59,7 @@ export default function Menu({ businessCode }) {
             setBusiness((business) => Object({ ...business, ...res.data }));
         });
   }, [businessCode]);
+
   useEffect(() => {
     if (categories) {
       const sections = document.querySelectorAll(".title");
@@ -92,9 +101,12 @@ export default function Menu({ businessCode }) {
       <FadeAlert fadeAlert={fadeAlert} setFadeAlert={setFadeAlert} />
       <div className="cartContainer">
         <Cart
+          business={business}
           currency={business.currency}
           exRate={business.exRate}
-          setCartItems={setCartItems}
+          products={products}
+          cartItems={cartItems}
+          action={action}
         />
       </div>
 
