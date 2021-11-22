@@ -28,7 +28,6 @@ export default function ProductList({
               className="product"
               onClick={() => {
                 product.exist && action(product._id, true);
-
                 product.exist
                   ? setFadeAlert("+1")
                   : setAlert("the product is out of stock");

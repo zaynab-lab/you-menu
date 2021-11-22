@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { styles } from "@/public/js/styles";
 import Addremove from "./Addremove";
+import Proceed from "./Proceed";
 import Button from "@/components/Button";
-import { useRouter } from "next/router";
-import Questions from "./Questions";
-// import dynamic from "next/dynamic";
-
-// const QrReader = dynamic(() => import("react-qr-reader"));
 
 export default function Cart({
   business,
@@ -18,11 +14,7 @@ export default function Cart({
 }) {
   const [open, setOpen] = useState(false);
   const [total, setTotal] = useState(0);
-  const [camera, setCamera] = useState(false);
-  const [url, setUrl] = useState("");
-  const [state, setState] = useState({});
-  const router = useRouter();
-  const { table } = router.query;
+  const [proceed, setProceed] = useState(false);
 
   useEffect(() => {
     if (Object.keys(cartItems).length > 0) {
@@ -32,12 +24,6 @@ export default function Cart({
         .reduce((a, b) => a + b);
       setTotal(tot);
     }
-    //   const map = cartItems.reduce(
-    //     (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
-    //     new Map()
-    //   );
-    //   setCartItems([...map.entries()]);
-    // }
   }, [products, cartItems]);
 
   return (
@@ -54,75 +40,48 @@ export default function Cart({
 
           <div className={`closeBox ${open && "openBox"}`}>
             <div className="cartBox">
-              {products
-                ?.filter((product) => cartItems[product._id] !== undefined)
-                .map((product, index) => (
-                  <div key={index} className="row">
-                    <div className="name">{product?.name}</div>
-                    <div className="control">
-                      <Addremove
-                        id={product?._id}
-                        count={cartItems[product._id]}
-                        action={action}
-                      />
-                    </div>
-                    <div className="price">
-                      {currency === "$"
-                        ? Number(
-                            (product?.price * cartItems[product._id]).toFixed(2)
-                          )
-                        : Number(
-                            (
-                              product?.price *
-                              cartItems[product._id] *
-                              exRate
-                            ).toFixed(2)
-                          )}
-                      {currency}
-                    </div>
-                  </div>
-                ))}
-
-              {/* ///////////////////////////////// */}
-
-              {state[1] === undefined && (
-                <Questions
-                  content={`are you in the ${business?.businessType} shop or near to the seller ?`}
-                  setState={setState}
-                  Q={1}
+              {proceed ? (
+                <Proceed
+                  setProceed={setProceed}
+                  business={business}
+                  products={products}
+                  cartItems={cartItems}
                 />
-              )}
-              {state[1] === "yes" &&
-                (table ? (
-                  <Questions
-                    content={`are you on the table ${table} ?`}
-                    setState={setState}
-                    Q={2}
-                  />
-                ) : (
-                  <>Scan</>
-                ))}
-              {state[1] === "no" && !business.acceptDelivery && (
-                <div className="note">No delivery in this business</div>
-              )}
-              {state[2] === "no" && <>Scan</>}
-              {state[2] === "yes" && <>login</>}
-              {/* {camera && (
+              ) : (
                 <>
-                  <div>scan qr code to make sure on which table</div>
-                  <QrReader
-                    delay={300}
-                    onError={(err) => console.error(err)}
-                    onScan={(data) => {
-                      data && setUrl(data);
-                      data === url && setCamera(false);
-                      data === url && console.log(url);
-                    }}
-                    style={{ width: "100%" }}
-                  />
+                  {products
+                    ?.filter((product) => cartItems[product._id] !== undefined)
+                    .map((product, index) => (
+                      <div key={index} className="row">
+                        <div className="name">{product?.name}</div>
+                        <div className="control">
+                          <Addremove
+                            id={product?._id}
+                            count={cartItems[product._id]}
+                            action={action}
+                          />
+                        </div>
+                        <div className="price">
+                          {currency === "$"
+                            ? Number(
+                                (
+                                  product?.price * cartItems[product._id]
+                                ).toFixed(2)
+                              )
+                            : Number(
+                                (
+                                  product?.price *
+                                  cartItems[product._id] *
+                                  exRate
+                                ).toFixed(2)
+                              )}
+                          {currency}
+                        </div>
+                      </div>
+                    ))}
+                  <Button content="proceed" onclick={() => setProceed(true)} />
                 </>
-              )} */}
-              {/* ///////////////////////////////// */}
+              )}
             </div>
           </div>
         </div>
@@ -232,12 +191,7 @@ export default function Cart({
           ${styles.flexBothcenter}
           gap:1rem;
         }
-        .note{
-          color:black;
-          text-align:center;
-          padding-top:2rem;
-        }
-
+    
       `}</style>
     </>
   );

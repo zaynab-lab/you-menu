@@ -11,13 +11,14 @@ export default function ProductImage({
   setAlert,
   setRefreshProducts,
   setRefreshProduct,
-  state
+  state,
+  id
 }) {
   const [image, setImage] = useState();
 
   useEffect(() => {
     setImage();
-  }, [state?._id]);
+  }, [id]);
 
   const firebaseLink =
     "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
@@ -60,59 +61,84 @@ export default function ProductImage({
 
   return (
     <>
-      <label id="imglabel" htmlFor="imgInput">
-        <div className="product">
-          {image ? (
-            <img id="img" height="100%" width="100%" alt="" src={image} />
-          ) : state?.hasImg ? (
-            <Image
-              id="img"
-              alt={state.name}
-              height="140"
-              width="140"
-              loader={({ src, width }) =>
-                `${
-                  firebaseLink +
-                  src +
-                  `%2F${
-                    state?._id + state?.imgLink
-                  }.png?alt=media&tr=w-${width}`
-                }`
+      <div className="pImg">
+        <label id="imglabel" htmlFor="imgInput">
+          <div className="product">
+            {image ? (
+              <img id="img" height="100%" width="100%" alt="" src={image} />
+            ) : state?.hasImg && state?._id && state?.imgLink ? (
+              <Image
+                id="img"
+                alt={state.name}
+                height="140"
+                width="140"
+                loader={({ src, width }) =>
+                  `${
+                    firebaseLink +
+                    src +
+                    `%2F${
+                      state?._id + state?.imgLink
+                    }.png?alt=media&tr=w-${width}`
+                  }`
+                }
+                src={businessCode}
+              />
+            ) : (
+              "product"
+            )}
+          </div>
+        </label>
+
+        {uploading && (
+          <input
+            type="file"
+            id="imgInput"
+            onChange={(e) => {
+              var file = e.target.files[0];
+              const reader = new FileReader();
+              reader.onload = () => {
+                reader.readyState === 2 && setImage(reader.result);
+              };
+
+              if (file && file.size < 300000) {
+                reader.readAsDataURL(file);
+                var blob = file.slice(0, file.size);
+                var newFile = new File([blob], "file");
+                setImage(newFile);
+                uploadImg(file, state?.imgLink, businessCode, state?._id);
+              } else if (file && file.size > 300000) {
+                setAlert("more than 300k is not allowed");
+              } else {
+                setImage();
+                uploadImg();
               }
-              src={businessCode}
-            />
-          ) : (
-            "product"
-          )}
-        </div>
-      </label>
+            }}
+          />
+        )}
+      </div>
+      <div
+        className="removeImg"
+        onClick={() =>
+          axios
 
-      {uploading && (
-        <input
-          type="file"
-          id="imgInput"
-          onChange={(e) => {
-            var file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = () => {
-              reader.readyState === 2 && setImage(reader.result);
-            };
+            .put(
+              "/api/products/removeImg",
+              { productID: id, businessCode },
+              { "content-type": "application/json" }
+            )
 
-            if (file && file.size < 300000) {
-              reader.readAsDataURL(file);
-              var blob = file.slice(0, file.size);
-              var newFile = new File([blob], "file");
-              setImage(newFile);
-              uploadImg(file, state?.imgLink, businessCode, state?._id);
-            } else if (file && file.size > 300000) {
-              setAlert("more than 300k is not allowed");
-            } else {
-              setImage();
-              uploadImg();
-            }
-          }}
-        />
-      )}
+            .then((res) => {
+              res.data === "done" && setImage();
+              res.data === "done"
+                ? setAlert("Image removed")
+                : setAlert("something went wrong");
+
+              res.data === "done" && setRefreshProducts((refresh) => !refresh);
+            })
+        }
+      >
+        remove image
+      </div>
 
       <style jsx>{`
         #imgInput {
@@ -135,6 +161,19 @@ export default function ProductImage({
           ${styles.flexBothcenter}
           ${styles.boxshadow}
           cursor: pointer;
+          overflow: hidden;
+        }
+        .pImg {
+          ${styles.flexJustifycenter}
+        }
+
+        .removeImg {
+          color: ${styles.secondaryColor};
+          margin-top: 0.5rem;
+          cursor: pointer;
+          ${styles.flexBothcenter}
+          gap:.6rem;
+          font-size: 1rem;
         }
       `}</style>
     </>

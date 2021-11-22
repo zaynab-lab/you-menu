@@ -60,7 +60,13 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
-
+              case "removeImg":
+                Product.findByIdAndUpdate(
+                  body.productID,
+                  { hasImg: false },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
               default:
                 res.status(200).end("invalid");
             }

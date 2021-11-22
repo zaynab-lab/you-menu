@@ -34,16 +34,18 @@ export default function ProductModal({
           x
         </div>
         <div>
-          <div className="pImg">
+          <div>
             <ProductImage
               uploading={true}
               setAlert={setAlert}
               state={state}
+              id={state?._id}
               businessCode={businessCode}
               setRefreshProducts={setRefreshProducts}
               setRefreshProduct={setRefreshProduct}
             />
           </div>
+
           <Label title={"product name"} />
           <Input
             value={state?.name}
@@ -167,9 +169,7 @@ export default function ProductModal({
           top: 0vh;
           transition: all 0.5s ease-out;
         }
-        .pImg {
-          ${styles.flexJustifycenter}
-        }
+
         .X {
           text-align: right;
           font-size: 1.6rem;

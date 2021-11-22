@@ -13,7 +13,7 @@
     "@fontsource/reem-kufi": "4.5.1",
     "axios": "0.24.0",
     "cookie": "0.4.1",
-    "firebase": "9.3.0",
+    "firebase": "9.5.0",
     "geoip-lite": "1.4.2",
     "html-to-image": "1.9.0",
     "jsonwebtoken": "8.5.1",

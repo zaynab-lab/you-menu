@@ -27,6 +27,7 @@ export default function Button({ content, onclick, color }) {
         font-size:1.2rem;
         cursor:pointer;
         margin:1rem 0;
+        white-space:nowrap;
       }
       .color{
         border:1px solid ${color};
