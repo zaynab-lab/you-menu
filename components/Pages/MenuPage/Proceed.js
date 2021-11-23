@@ -15,7 +15,7 @@ const Payment = dynamic(() => import("./Payment"));
 
 export default function Proceed({ business, setProceed, products, cartItems }) {
   const [camera, setCamera] = useState(true);
-  const [url, setUrl] = useState("");
+  const [userTable, setUserTable] = useState();
   const [state, setState] = useState({});
   const router = useRouter();
   const { table } = router.query;
@@ -65,16 +65,10 @@ export default function Proceed({ business, setProceed, products, cartItems }) {
                 <div className="note">
                   <Scan
                     camera={camera}
-                    setUrl={setUrl}
+                    setUserTable={setUserTable}
+                    userTable={userTable}
                     setCamera={setCamera}
-                    url={url}
                   />
-
-                  <div>
-                    table
-                    {!isNaN(Number(url[url.length - 1])) &&
-                      Number(url[url.length - 1])}
-                  </div>
                 </div>
               ))}
 
@@ -87,16 +81,10 @@ export default function Proceed({ business, setProceed, products, cartItems }) {
                 <div className="note">
                   <Scan
                     camera={camera}
-                    setUrl={setUrl}
+                    setUserTable={setUserTable}
+                    userTable={userTable}
                     setCamera={setCamera}
-                    url={url}
                   />
-
-                  <div>
-                    table
-                    {!isNaN(Number(url[url.length - 1])) &&
-                      Number(url[url.length - 1])}
-                  </div>
                 </div>
               </>
             )}

@@ -18,7 +18,7 @@ export default function Payment({ user }) {
       </div>
       <div className="payfrom">
         <div>credit remained</div>
-        <div>{user.credit + "$"}</div>
+        <div>{user?.credit + "$"}</div>
       </div>
       <style jsx>{`
         .payfrom {
