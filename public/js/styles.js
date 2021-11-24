@@ -14,7 +14,10 @@ export const styles = {
   flexBothcenter:
     "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center; -ms-flex-align:center; align-items:center;",
   flexColumn:
-    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;"
+    "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;",
+  userSelect:
+    "-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;"
+
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",

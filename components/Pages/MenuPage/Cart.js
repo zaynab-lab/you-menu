@@ -47,40 +47,51 @@ export default function Cart({
                   products={products}
                   cartItems={cartItems}
                   total={total}
+                  action={action}
                 />
               ) : (
                 <>
-                  {products
-                    ?.filter((product) => cartItems[product._id] !== undefined)
-                    .map((product, index) => (
-                      <div key={index} className="row">
-                        <div className="name">{product?.name}</div>
-                        <div className="control">
-                          <Addremove
-                            id={product?._id}
-                            count={cartItems[product._id]}
-                            action={action}
-                          />
+                  <div className="productList">
+                    {products
+                      ?.filter(
+                        (product) => cartItems[product._id] !== undefined
+                      )
+                      .map((product, index) => (
+                        <div key={index} className="productRow">
+                          <div className="name">{product?.name}</div>
+                          <div className="control">
+                            <Addremove
+                              id={product?._id}
+                              count={cartItems[product._id]}
+                              action={action}
+                            />
+                          </div>
+                          <div className="price">
+                            {currency === "$"
+                              ? Number(
+                                  (
+                                    product?.price * cartItems[product._id]
+                                  ).toFixed(2)
+                                )
+                              : Number(
+                                  (
+                                    product?.price *
+                                    cartItems[product._id] *
+                                    exRate
+                                  ).toFixed(2)
+                                )}
+                            {currency}
+                          </div>
                         </div>
-                        <div className="price">
-                          {currency === "$"
-                            ? Number(
-                                (
-                                  product?.price * cartItems[product._id]
-                                ).toFixed(2)
-                              )
-                            : Number(
-                                (
-                                  product?.price *
-                                  cartItems[product._id] *
-                                  exRate
-                                ).toFixed(2)
-                              )}
-                          {currency}
-                        </div>
-                      </div>
-                    ))}
-                  <Button content="proceed" onclick={() => setProceed(true)} />
+                      ))}
+                  </div>
+                  <div className="proceedbtn">
+                    <Button
+                      content="proceed"
+                      onclick={() => setProceed(true)}
+                      color={styles.secondaryColor}
+                    />
+                  </div>
                 </>
               )}
             </div>
@@ -92,7 +103,6 @@ export default function Cart({
           width: 100%;
           max-width: 30rem;
           font-size: 1.2rem;
-          color: white;
           position: fixed;
           bottom: 0;
           ${styles.flexColumn}
@@ -136,30 +146,27 @@ export default function Cart({
           font-size: 1rem;
           padding: 0.2rem 2rem;
           background: white;
-          color: ${styles.secondaryColor};
           overflow:hidden
           overflow-y: scroll;
           ${styles.flexColumn}
         }
-
-        .cartBtn {
-          width: 100%;
-          background: white;
-          color: ${styles.secondaryColor};
-          border: none;
-          border-top: 1px solid ${styles.secondaryColor};
-          font-size: 1rem;
-          padding: 0.4rem;
-          cursor: pointer;
+        .productList{
+          border-bottom:1px solid gray;
+          padding:1rem 0;
         }
-
-        .row {
-          font-size: 1rem;
+        
+        .proceedbtn{
+          padding-top:1rem;
+          text-align:center;
+        }
+    
+        .productRow {
+          font-size: 1.2rem;
           width: 100%;
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
-          padding: 0.2rem 0;
+          padding: 0.3rem 0;
         }
 
         .name {

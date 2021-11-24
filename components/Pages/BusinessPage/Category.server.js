@@ -270,6 +270,7 @@ export default function Category({
         .productPartImg {
           width: 6rem;
           height: 6rem;
+          border-radius: 0.6rem;
           ${styles.flexBothcenter}
           z-index:-1;
         }

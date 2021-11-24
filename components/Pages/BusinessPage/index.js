@@ -36,7 +36,9 @@ export default function BusinessPage({ setAuth }) {
   return (
     <>
       <Line />
-      {selected === "Orders" && <Orders />}
+      {selected === "Orders" && (
+        <Orders businessCode={business?.businessCode} />
+      )}
       {selected === "Add" && <Add businessCode={business?.businessCode} />}
       {selected === "More" && <More setSelected={setSelected} />}
       {toggleMenu && <MenuBar selected={selected} setSelected={setSelected} />}

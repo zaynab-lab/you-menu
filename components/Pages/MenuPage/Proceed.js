@@ -6,14 +6,13 @@ import dynamic from "next/dynamic";
 import BackButton from "@/components/BackButton";
 import LoginForm from "../LoginPage/LoginForm";
 import axios from "axios";
-import Button from "@/components/Button";
 import { styles } from "@/public/js/styles";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaMotorcycle, FaPhoneAlt } from "react-icons/fa";
 
 const Scan = dynamic(() => import("./Scan"));
 const Invoice = dynamic(() => import("./Invoice"));
-const Address = dynamic(() => import("./Address"));
-const Payment = dynamic(() => import("./Payment"));
+const OrderProceed = dynamic(() => import("./OrderProceed"));
+
 const bType = ["resturant", "cafe", "resto cafe"];
 
 export default function Proceed({
@@ -21,7 +20,8 @@ export default function Proceed({
   business,
   setProceed,
   products,
-  cartItems
+  cartItems,
+  action
 }) {
   const [camera, setCamera] = useState(true);
   const [userTable, setUserTable] = useState();
@@ -71,8 +71,8 @@ export default function Proceed({
                 no={false}
               />
             ) : (
-              !hasTable &&
-              orderType === undefined && (
+              orderType === undefined &&
+              !hasTable && (
                 <Questions
                   content={`are you in the ${business?.businessType} or near to the seller ?`}
                   setState={setOrderType}
@@ -82,8 +82,11 @@ export default function Proceed({
               )
             )}
 
-            {orderType === "delivery" && !business.acceptDelivery && (
+            {orderType === "delivery" && !business.acceptDelivery ? (
               <div className="noDelivery">
+                <div className="icon">
+                  <FaMotorcycle />
+                </div>
                 <div> this business dosen't accept delivery right now</div>
                 <div>
                   contact them on{" "}
@@ -95,18 +98,19 @@ export default function Proceed({
                   </a>
                 </div>
               </div>
+            ) : (
+              orderType === "delivery" && (
+                <OrderProceed
+                  user={user}
+                  total={total}
+                  businessCode={business?.businessCode}
+                  orderType={orderType}
+                  table={userTable}
+                  cartItems={cartItems}
+                  action={action}
+                />
+              )
             )}
-
-            {(hasTable || !bType?.includes(business?.businessType)) &&
-              (orderType === "dine in" ||
-                bType?.includes(business?.businessType)) && (
-                <>
-                  <Payment user={user} total={total} />
-                  <div className="orderbtn">
-                    <Button content="order" />
-                  </div>
-                </>
-              )}
 
             {orderType === "dine in" &&
               !hasTable &&
@@ -120,6 +124,20 @@ export default function Proceed({
                     setHasTable={setHasTable}
                   />
                 </div>
+              )}
+
+            {(hasTable || !bType?.includes(business?.businessType)) &&
+              (orderType === "dine in" ||
+                bType?.includes(business?.businessType)) && (
+                <OrderProceed
+                  user={user}
+                  total={total}
+                  businessCode={business?.businessCode}
+                  orderType={orderType}
+                  table={userTable}
+                  cartItems={cartItems}
+                  action={action}
+                />
               )}
           </div>
         )}
@@ -139,13 +157,14 @@ export default function Proceed({
           text-align: center;
           padding-top: 2rem;
         }
-        .orderbtn {
-          padding-top: 1rem;
-          text-align: center;
-        }
+
         .noDeliverydetails {
           ${styles.flexBothcenter}
           gap:.5rem;
+          padding: 1rem;
+        }
+        .icon {
+          font-size: 3rem;
         }
       `}</style>
     </>

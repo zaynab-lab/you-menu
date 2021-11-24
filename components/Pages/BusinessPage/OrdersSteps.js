@@ -7,8 +7,10 @@ export default function OrdersSteps({ steps, currentStep, setCurrentStep }) {
         {steps?.map((step, i) => (
           <div
             key={i}
-            onClick={() => setCurrentStep(step.name)}
-            className={`stepContainer ${step.name === currentStep && "active"}`}
+            onClick={() => setCurrentStep(step.state)}
+            className={`stepContainer ${
+              step.state === currentStep && "active"
+            }`}
           >
             <div className="stepIcon">{step.icon}</div>
             <div className="stepName">{step.name}</div>

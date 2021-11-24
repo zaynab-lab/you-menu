@@ -31,7 +31,7 @@ export default function Scan({
     <>
       {camera && !accessDenied ? (
         <>
-          <div>scan the qr code to verify</div>
+          <div>scan the qr code to get the table</div>
           <QrReader
             delay={300}
             onError={(err) => console.log(err)}

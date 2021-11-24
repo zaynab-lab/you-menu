@@ -1,6 +1,7 @@
 import OrdersSteps from "./OrdersSteps";
 import {
   FaBackward,
+  FaBan,
   FaCheck,
   FaHandHoldingHeart,
   FaReceipt,
@@ -8,36 +9,52 @@ import {
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import OrdersList from "./OrdersList";
-import { styles } from "../../../public/js/styles";
+import axios from "axios";
 
 const steps = [
-  { name: "waiting to confirm", icon: <FaCheck />, count: 0 },
-  { name: "pending to pay", icon: <FaReceipt /> },
-  { name: "preparing", icon: <FaHandHoldingHeart /> },
-  { name: "delivering", icon: <FaShippingFast /> },
-  { name: "done", icon: <FaCheck /> },
-  { name: "not accepted", icon: <FaBackward /> }
-];
-const orderfromdb = [
-  // {
-  //   items: [
-  //     { name: "milkshack" },
-  //     { name: "hot choclate" },
-  //     { name: "ice tee" }
-  //   ],
-  //   type: "delivery",
-  //   status: "waiting to confirm",
-  //   steps: { name: "waiting to confirm", time: Date.now() },
-  //   total: 50
-  // }
+  {
+    name: "waiting to confirm",
+    state: "confirmation",
+    icon: <FaCheck />,
+    count: 0
+  },
+  { name: "pending to pay", state: "payment", icon: <FaReceipt /> },
+  {
+    name: "preparing",
+    state: "preparing",
+
+    icon: <FaHandHoldingHeart />
+  },
+  {
+    name: "delivering",
+    state: "delivering",
+
+    icon: <FaShippingFast />
+  },
+  {
+    name: "done",
+    state: "received",
+    icon: <FaCheck />
+  },
+  {
+    name: "canceled",
+    state: "canceled",
+    icon: <FaBan />
+  },
+  {
+    name: "not accepted",
+    state: "returned",
+    icon: <FaBackward />
+  }
 ];
 
-export default function Orders() {
-  const [currentStep, setCurrentStep] = useState("waiting to confirm");
+export default function Orders({ businessCode }) {
+  const [currentStep, setCurrentStep] = useState("confirmation");
   const [orders, setOrders] = useState([0, 0]);
-
   useEffect(() => {
-    setOrders(orderfromdb);
+    axios
+      .get("/api/order")
+      .then((res) => Array.isArray(res.data) && setOrders(res.data));
   }, []);
 
   return (
@@ -49,7 +66,12 @@ export default function Orders() {
           setCurrentStep={setCurrentStep}
         />
         <div className="ordersContainer">
-          <OrdersList steps={steps} currentStep={currentStep} orders={orders} />
+          <OrdersList
+            steps={steps}
+            currentStep={currentStep}
+            orders={orders}
+            businessCode={businessCode}
+          />
         </div>
       </div>
       <style jsx>{`

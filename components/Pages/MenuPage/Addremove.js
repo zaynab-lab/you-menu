@@ -8,7 +8,7 @@ export default function Addremove({ id, count, action }) {
           +
         </div>
 
-        <div>{count}</div>
+        <div className="count">{count}</div>
         <div className="cbtn min" onClick={() => action(id, false)}>
           -
         </div>
@@ -27,14 +27,21 @@ export default function Addremove({ id, count, action }) {
           ${styles.flexBothcenter};
           padding-bottom: 0.2rem;
           cursor: pointer;
+          ${styles.userSelect}
         }
 
         .plus {
-          color: ${styles.secondaryColor};
+          color: white;
+          background: ${styles.secondaryColor};
         }
 
         .min {
           color: ${styles.secondaryColor};
+          border: 1px solid ${styles.secondaryColor};
+        }
+        .count {
+          width: 2rem;
+          text-align: center;
         }
       `}</style>
     </>

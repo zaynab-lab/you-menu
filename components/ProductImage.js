@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "@/util/firebase";
 import axios from "axios";
 import Image from "next/image";
+import { firebaseLink } from "@/util/links";
 
 export default function ProductImage({
   uploading,
@@ -19,9 +20,6 @@ export default function ProductImage({
   useEffect(() => {
     setImage();
   }, [id]);
-
-  const firebaseLink =
-    "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
   const uploadImg = (image, Link, businessCode, productID) => {
     const newLink = Link ? Link + 1 : 1;

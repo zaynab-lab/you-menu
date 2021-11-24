@@ -1,26 +1,51 @@
 import { styles } from "@/public/js/styles";
 import Button from "@/components/Button";
 import { useState } from "react";
+import Image from "next/image";
+import { firebaseLink } from "@/util/links";
 
-export default function OrderCard({ order }) {
+export default function OrderCard({ order, businessCode }) {
   const [time, setTime] = useState(10);
   return (
     <>
       <div className="orderCard">
         <div className="orderCard-item">
-          <div>{order.type}</div>
+          <div className="orderType">{order.orderType}</div>
+          <div>{order.table && "table " + order.table}</div>
           <div className="orderItems">
-            {order?.items?.map((item, i) => (
-              <div key={i} className="orderItem">
-                {item.name}
+            {order?.products?.map((product, i) => (
+              <div key={i} className="product">
+                {product?.hasImg ? (
+                  <div className="productPartImg">
+                    <Image
+                      height="100"
+                      width="100"
+                      loader={({ src, width }) =>
+                        `${
+                          firebaseLink +
+                          src +
+                          `%2F${
+                            product?.defaultID + product?.imgLink
+                          }.png?alt=media&tr=w-${width}`
+                        }`
+                      }
+                      src={businessCode}
+                      alt={product?.name}
+                    />
+                  </div>
+                ) : (
+                  <div>product</div>
+                )}
+                <div>x{product.quantity}</div>
+                <div>{product.name}</div>
               </div>
             ))}
           </div>
         </div>
 
         <div className="information">
-          <div>total: {order.total} $</div>
-
+          <div>total: {order?.total?.amount} $</div>
+          <div>should pay: {order.shouldPay} $</div>
           <div className="preperationTime">
             <div>prepration time </div>
             <div className="timeControlar">

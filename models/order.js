@@ -7,7 +7,16 @@ const orderSchema = new mongoose.Schema(
     ownerName: { type: String },
     ownerNumber: { type: String },
     businessID: { type: String },
-    products: { type: [Object] },
+    products: [
+      {
+        defaultID: { type: String },
+        name: { type: String },
+        hasImg: { type: Boolean },
+        imgLink: { type: Number },
+        price: { type: Number },
+        quantity: { type: Number }
+      }
+    ],
     date: { type: Date, default: Date.now },
     total: { currency: { type: String }, amount: { type: Number } },
     address: {
@@ -15,15 +24,54 @@ const orderSchema = new mongoose.Schema(
       lang: { type: Number },
       lat: { type: Number }
     },
-    type: { type: String },
+    paymentMethod: { type: String },
+    orderType: { type: String },
+    shouldPay: { type: Number },
+    useCredit: { type: Boolean },
+    table: { type: Number },
     status: {
-      confirmation: { done: { type: Boolean }, date: { type: Date } },
-      payment: { done: { type: Boolean }, date: { type: Date } },
-      preparing: { done: { type: Boolean }, date: { type: Date } },
-      delivering: { done: { type: Boolean }, date: { type: Date } },
-      received: { done: { type: Boolean }, date: { type: Date } },
-      canceled: { done: { type: Boolean }, date: { type: Date } },
-      returned: { done: { type: Boolean }, date: { type: Date } }
+      confirmation: {
+        done: { type: Boolean },
+        pending: { type: Boolean, default: true },
+        startDate: { type: Date, default: Date.now },
+        doneDate: { type: Date }
+      },
+      payment: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      },
+      preparing: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      },
+      delivering: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      },
+      received: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      },
+      canceled: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      },
+      returned: {
+        done: { type: Boolean },
+        pending: { type: Boolean },
+        startDate: { type: Date },
+        doneDate: { type: Date }
+      }
     }
   },
   { collection: "orders" }

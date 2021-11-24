@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "@/util/firebase";
 import axios from "axios";
 import Image from "next/image";
+import { firebaseLink } from "@/util/links";
 
 export default function Logo({
   uploading,
@@ -14,9 +15,6 @@ export default function Logo({
   setAlert
 }) {
   const [image, setImage] = useState();
-
-  const firebaseLink =
-    "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
 
   const setFile = (image, Link) => {
     const newLink = Link ? Link + 1 : 1;

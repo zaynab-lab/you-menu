@@ -12,11 +12,11 @@ export default function Invoice({ business, products, cartItems }) {
           ?.filter((product) => cartItems[product._id] !== undefined)
           .map((product, i) => (
             <div key={i} className="product">
-              {product.hasImg ? (
+              {product?.hasImg ? (
                 <div className="productPartImg">
                   <Image
-                    height="60"
-                    width="60"
+                    height="100"
+                    width="100"
                     loader={({ src, width }) =>
                       `${
                         firebaseLink +
@@ -27,7 +27,7 @@ export default function Invoice({ business, products, cartItems }) {
                       }`
                     }
                     src={business?.businessCode}
-                    alt={product.name}
+                    alt={product?.name}
                   />
                 </div>
               ) : (
@@ -42,6 +42,7 @@ export default function Invoice({ business, products, cartItems }) {
         .productList {
           border: solid ${styles.secondaryColor};
           border-width: 1px 0px;
+          padding: 0.2rem 0;
           ${styles.flexAligncenter}
           gap:1.2rem;
           overflow: auto;
@@ -50,8 +51,13 @@ export default function Invoice({ business, products, cartItems }) {
           ${styles.flexColumn};
           ${styles.flexAligncenter}
           justify-content:flex-end;
-
+          line-height: 1rem;
+          font-size: 0.9rem;
           white-space: nowrap;
+        }
+        .productPartImg {
+          width: 6rem;
+          height: 6rem;
         }
       `}</style>
     </>

@@ -25,6 +25,7 @@ export default function FadeAlert({ fadeAlert, setFadeAlert }) {
         .alertContainer {
           width: 100%;
           ${styles.flexJustifycenter}
+          ${styles.userSelect}
         }
 
         .fadeAlert {

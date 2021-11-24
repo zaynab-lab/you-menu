@@ -8,6 +8,7 @@ import Alert from "@/components/Alert";
 import FadeAlert from "./FadeAlert";
 import BrandBar from "./BrandBar";
 import CategoryList from "./CategoryList";
+import { firebaseLink } from "@/util/links";
 
 const Cart = dynamic(() => import("./Cart"));
 
@@ -21,10 +22,7 @@ export default function Menu({ businessCode }) {
   const [fadeAlert, setFadeAlert] = useState("");
   const [cartItems, setCartItems] = useState({});
 
-  const firebaseLink =
-    "https://firebasestorage.googleapis.com/v0/b/za-menu-images.appspot.com/o/";
-
-  const action = (id, add) => {
+  const action = (id, add, reset) => {
     if (business?.acceptOrders) {
       setAlert("item has been added");
       const alter = { ...cartItems };
@@ -38,6 +36,8 @@ export default function Menu({ businessCode }) {
         ? setCartItems(alter)
         : setCartItems({ ...cartItems, [id]: cartItems[id] - 1 });
     }
+    reset && setCartItems({});
+    reset && setAlert("your order has been submited");
   };
 
   useEffect(() => {
