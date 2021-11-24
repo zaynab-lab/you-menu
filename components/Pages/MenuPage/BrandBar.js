@@ -46,15 +46,15 @@ export default function BrandBar({ business }) {
         <a href={`tel:${business.ownerNumber}`}>
           <div className="detailsItem">
             <FaPhoneAlt />
-            <div>{business.ownerNumber}</div>
+            <div>{business?.ownerNumber}</div>
           </div>
         </a>
         <div className="detailsItem">
           <FaRegClock />
-          <div className="time">9:00AM - 12:00PM</div>
+          <div className="time">11:00AM - 12:00PM</div>
         </div>
         <div className="detailsItem">
-          <FaMapMarkerAlt /> <div>Beirut</div>
+          <FaMapMarkerAlt /> <div>{business?.address?.content || "online"}</div>
         </div>
       </div>
 

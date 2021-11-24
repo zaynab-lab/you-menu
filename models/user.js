@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
     otptimes: { type: Number },
     ordertimes: { type: Number },
     jwt: { type: String },
-    credit: { type: Number, default: 5 },
+    credit: { type: Number, default: 1 },
     mail: { type: String },
     workingtimes: { type: Number, default: 1 },
     addresses: [

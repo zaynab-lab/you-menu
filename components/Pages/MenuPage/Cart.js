@@ -46,6 +46,7 @@ export default function Cart({
                   business={business}
                   products={products}
                   cartItems={cartItems}
+                  total={total}
                 />
               ) : (
                 <>

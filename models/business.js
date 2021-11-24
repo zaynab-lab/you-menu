@@ -13,7 +13,7 @@ const businessSchema = new mongoose.Schema(
       background: { type: String }
     },
     businessCode: { type: String },
-    businessType: { type: String },
+    businessType: { type: String, default: "cafe" },
     verified: { type: Boolean, default: false },
     exRate: { type: Number, default: 1 },
     currency: { type: String },

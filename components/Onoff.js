@@ -1,26 +1,24 @@
-import { useState } from "react";
 import { styles } from "@/public/js/styles";
 
-export default function Onoff() {
-  const [on, setOn] = useState(false);
+export default function Onoff({ setOn, on }) {
   return (
     <>
       <div className="toggle" onClick={() => setOn(!on)}>
         {on ? (
           <>
-            <div className="circle on"></div>
             <div className="ontxt">on</div>
+            <div className="circle on"></div>
           </>
         ) : (
           <>
-            <div className="offtxt">off</div>
             <div className="circle off"></div>
+            <div className="offtxt">off</div>
           </>
         )}
       </div>
       <style jsx>{`
         .toggle {
-          width: 4.2rem;
+          width: 4rem;
           ${styles.flexAligncenter}
           -webkit-box-pack:space-between;
           -ms-flex-pack: space-between;
@@ -40,7 +38,7 @@ export default function Onoff() {
         }
 
         .ontxt {
-          padding-right: 0.5rem;
+          padding-left: 0.6rem;
         }
 
         .off {
@@ -48,7 +46,7 @@ export default function Onoff() {
         }
 
         .offtxt {
-          padding-left: 0.3rem;
+          padding-right: 0.5rem;
         }
       `}</style>
     </>

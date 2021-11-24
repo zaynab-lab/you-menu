@@ -5,7 +5,13 @@ import Button from "../../Button";
 import Input from "../../Input";
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
-export default function Scan({ camera, setCamera, setUserTable, userTable }) {
+export default function Scan({
+  camera,
+  setCamera,
+  setUserTable,
+  userTable,
+  setHasTable
+}) {
   const [accessDenied, setAccessDenied] = useState(false);
   const [url, setUrl] = useState("");
   useEffect(() => {
@@ -32,21 +38,19 @@ export default function Scan({ camera, setCamera, setUserTable, userTable }) {
             onScan={(data) => {
               data && setUrl(data);
               data === url && setCamera(false);
+              data === url &&
+                !isNaN(Number(url.slice(-1))) &&
+                setUserTable(Number(url.slice(-1)));
             }}
             style={{ width: "100%" }}
           />
-          <div>
-            are you on table{" "}
-            {!isNaN(Number(url.slice(-1))) ? Number(url.slice(-1)) : userTable}{" "}
-            ?
-          </div>
-          <Button content="retry" />
+          {userTable && <div>are you on table {userTable} ?</div>}
         </>
       ) : (
         <>
           <div className="insert">
             {" "}
-            your table number
+            <div>your table number is</div>
             <Input
               placeholder="insert table number"
               type="Number"
@@ -54,8 +58,9 @@ export default function Scan({ camera, setCamera, setUserTable, userTable }) {
               onchange={(e) => setUserTable(e.target.value)}
               value={userTable}
             />
-            <Button content="confirm" />
+            <div> ?</div>
           </div>
+          <Button content="confirm" onclick={() => setHasTable(true)} />
         </>
       )}
       <style jsx>{`

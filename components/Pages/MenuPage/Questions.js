@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { styles } from "@/public/js/styles";
 
-export default function Questions({ content, setState, Q }) {
+export default function Questions({ content, setState, yes, no }) {
   return (
     <>
       <div className="question">
@@ -11,13 +11,13 @@ export default function Questions({ content, setState, Q }) {
           <Button
             content="no"
             onclick={() => {
-              setState((state) => ({ ...state, [Q]: "no" }));
+              setState(no);
             }}
           />
           <Button
             content="yes"
             onclick={() => {
-              setState((state) => ({ ...state, [Q]: "yes" }));
+              setState(yes);
             }}
           />
         </div>

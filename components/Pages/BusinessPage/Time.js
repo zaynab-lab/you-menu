@@ -1,5 +1,6 @@
 import BackButton from "@/components/BackButton";
 import { styles } from "@/public/js/styles";
+import { useState } from "react";
 import Accept from "./Accept";
 import BPLayout from "./BPLayout";
 
@@ -40,13 +41,16 @@ const time = [
     to: { h: 10, m: 0, AM: false }
   }
 ];
-export default function Time({ setSelected }) {
+export default function Time({ business, setSelected }) {
+  const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
+  const [orderOn, setOrderOn] = useState(business.acceptOrders);
+
   return (
     <>
       <BackButton setSelected={setSelected} select="More" />
       <BPLayout>
-        <Accept />
-        <Accept delivery={true} />
+        <Accept on={orderOn} setOn={setOrderOn} />
+        <Accept delivery={true} on={deliveryOn} setOn={setDeliveryOn} />
         <div className="timeTitle">Select Openning Time</div>
         <div className="dayContainer">
           {time.map((day, i) => (

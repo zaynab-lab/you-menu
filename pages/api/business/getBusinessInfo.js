@@ -17,7 +17,9 @@ export default async function Businesses(req, res) {
         businessCode: business.businessCode,
         businessType: business.businessType,
         ownerNumber: business.ownerNumber,
-        acceptOrders: business.acceptOrders
+        acceptOrders: business.acceptOrders,
+        acceptDelivery: business.acceptDelivery,
+        address: business.address
       })
     );
   } else {

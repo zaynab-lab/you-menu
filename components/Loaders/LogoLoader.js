@@ -1,3 +1,4 @@
+import { styles } from "@/public/js/styles";
 import Image from "next/image";
 
 export default function LogoLoader() {
@@ -5,7 +6,14 @@ export default function LogoLoader() {
     <>
       <div className="container">
         <div className="menu">
-          <Image height="500" width="500" src="/img/ZaLogo.svg" alt="za menu" />
+          <div className="imgContainer">
+            <Image
+              height="500"
+              width="500"
+              src="/img/ZaLogo.svg"
+              alt="za menu"
+            />
+          </div>
         </div>
       </div>
 
@@ -33,6 +41,7 @@ export default function LogoLoader() {
 
         .menu {
           width: 20rem;
+          padding: 0.6rem;
           max-height: 80vh;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -46,7 +55,7 @@ export default function LogoLoader() {
           -ms-flex-align: center;
           align-items: center;
           border-radius: 2.6rem;
-          background: white;
+          background: ${styles.lineargradeint};
           -webkit-box-shadow: 0px 10px 14.1px 0.9px rgba(0, 0, 0, 0.24),
             0px 4px 19.6px 0.4px rgba(0, 0, 0, 0.16);
           box-shadow: 0px 10px 14.1px 0.9px rgba(0, 0, 0, 0.24),
@@ -55,6 +64,12 @@ export default function LogoLoader() {
           animation-iteration-count: 1;
           animation-fill-mode: forwards;
           z-index: 19;
+        }
+        .imgContainer {
+          width: 100%;
+          height: 100%;
+          background: white;
+          border-radius: 2.4rem;
         }
 
         .image {
