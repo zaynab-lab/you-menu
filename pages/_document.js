@@ -11,6 +11,8 @@ export default class extends Document {
     return (
       <Html lang="en" dir="ltr">
         <Head>
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="shortcut icon" href="/icons/favicon.ico" />
           <meta name="application-name" content={APP_NAME} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
@@ -23,15 +25,17 @@ export default class extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#FFFFFF" />
           {/* TIP: set viewport head meta tag in _app.js, otherwise it will show a warning */}
-          {/* <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover' /> */}
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
+          />
 
           <link
             rel="apple-touch-icon"
             sizes="180x180"
             href="/icons/apple-touch-icon.png"
           />
-          <link rel="manifest" href="/manifest.json" />
-          <link rel="shortcut icon" href="/icons/favicon.ico" />
+
           <style>{`
             html, body, #__next {
               height: 100%;
