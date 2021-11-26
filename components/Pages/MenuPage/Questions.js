@@ -13,12 +13,14 @@ export default function Questions({ content, setState, yes, no }) {
             onclick={() => {
               setState(no);
             }}
+            noLoading={true}
           />
           <Button
             content="yes"
             onclick={() => {
               setState(yes);
             }}
+            noLoading={true}
           />
         </div>
       </div>

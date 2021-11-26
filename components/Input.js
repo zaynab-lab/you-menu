@@ -21,6 +21,7 @@ export default function Input({
           onChange={onchange}
           onBlur={onblur && onblur}
           placeholder={placeholder}
+          autoComplete="none"
         />
       </div>
       <style jsx>

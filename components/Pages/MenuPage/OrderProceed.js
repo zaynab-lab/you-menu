@@ -69,7 +69,6 @@ export default function OrderProceed({
       <style jsx>{`
         .invoiceAddon {
           border-bottom: 1px solid ${styles.secondaryColor};
-
           font-size: 1.2rem;
         }
         .invoiceAddonRow {

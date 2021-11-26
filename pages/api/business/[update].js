@@ -79,6 +79,20 @@ export default async (req, res) => {
                     (err) => console.log(err)
                   ).exec();
                 return res.status(200).end("done");
+              case "acceptOrders":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { acceptOrders: body.acceptOrders },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+              case "acceptDelivery":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { acceptDelivery: body.acceptDelivery },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
 
               default:
                 return res.status(200).end("done");

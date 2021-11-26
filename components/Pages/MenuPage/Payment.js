@@ -15,7 +15,7 @@ export default function Payment({ total, user, setUseCredit, useCredit }) {
         </div> */}
         <div className="payItem">
           <div>use credit</div>
-          <Onoff setOn={setUseCredit} on={useCredit} />
+          <Onoff setOn={() => setUseCredit(!useCredit)} on={useCredit} />
         </div>
         <div className="payItem">
           <div>current credit</div>

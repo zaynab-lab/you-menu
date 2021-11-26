@@ -22,6 +22,26 @@ export default async (req, res) => {
               console.log(err)
             ).exec();
             return res.status(200).end("done");
+          case "address":
+            let address = {};
+            let addresses = [];
+            if (user?.addresses?.length > 0) {
+              address = {
+                id: user?.addresses?.length + 1,
+                content: body.address
+              };
+              addresses = [...user?.addresses];
+            } else {
+              address = { id: 1, content: body.address };
+            }
+            addresses.push(address);
+
+            await User.findByIdAndUpdate(
+              user._id,
+              { addresses: addresses },
+              (err) => console.log(err)
+            ).exec();
+            return res.status(200).end("done");
           default:
             return res.status(200).end("done");
         }

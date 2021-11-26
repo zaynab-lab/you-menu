@@ -121,6 +121,7 @@ export default function OrderCard({ order, businessCode }) {
       ${styles.flexBothcenter};
       padding-bottom:.2rem;
       cursor:pointer;
+      ${styles.userSelect}
     }
     .plus{
       color:white;

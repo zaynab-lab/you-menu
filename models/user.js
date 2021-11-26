@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema(
     workingtimes: { type: Number, default: 1 },
     addresses: [
       {
+        id: { type: Number },
+        deleted: { type: Boolean },
         content: { type: String },
         long: { type: Number },
         lat: { type: Number }

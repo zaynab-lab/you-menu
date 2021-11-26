@@ -46,6 +46,11 @@ export default async (req, res) => {
                 ? 0
                 : Math.abs(Number((user?.credit - total).toFixed(2)))
               : Number(total.toFixed(2));
+            const newCredit = body.useCredit
+              ? Number((user?.credit - total).toFixed(2)) < 0
+                ? 0
+                : Number((user?.credit - total).toFixed(2))
+              : Number((user?.credit).toFixed(2));
 
             const order = new Order({
               ownerID: user._id,
@@ -60,7 +65,8 @@ export default async (req, res) => {
               shouldPay: shouldPay,
               useCredit: body.useCredit
             });
-            order.save().catch((err) => console.log(err));
+            await order.save().catch((err) => console.log(err));
+            await User.findByIdAndUpdate(user._id, { credit: newCredit });
             return res.status(200).end("done");
           } else {
             return res.status(200).end("invalid");

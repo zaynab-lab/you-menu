@@ -47,7 +47,13 @@ const Plans = [
   },
   {
     name: "Plan C",
-    options: ["80 product", "15 category", "editing theme", "digital menu"],
+    options: [
+      "80 product",
+      "15 category",
+      "editing theme",
+      "digital menu",
+      "order system"
+    ],
     planProducts: 80,
     planCategories: 15,
     description: "29$/month 290$/year",
@@ -55,8 +61,8 @@ const Plans = [
   },
   {
     name: "free plan",
-    options: ["40 product", "10 category", "editing theme", "digital menu"],
-    planProducts: 40,
+    options: ["50 product", "10 category", "editing theme", "digital menu"],
+    planProducts: 50,
     planCategories: 10,
     rank: 4
   }

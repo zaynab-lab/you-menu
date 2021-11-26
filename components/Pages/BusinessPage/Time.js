@@ -1,46 +1,67 @@
 import BackButton from "@/components/BackButton";
+import Onoff from "@/components/Onoff";
 import { styles } from "@/public/js/styles";
+import axios from "axios";
 import { useState } from "react";
 import Accept from "./Accept";
+import SelectTime from "./SelectTime";
+
 import BPLayout from "./BPLayout";
+import { FaRegClock } from "react-icons/fa";
 
 const time = [
   {
-    name: "Sat",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
   {
-    name: "Sun",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
   {
-    name: "Mon",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
+
   {
-    name: "Tue",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
+
   {
-    name: "Wed",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
+
   {
-    name: "Thu",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   },
+
   {
-    name: "Fri",
-    from: { h: 9, m: 0, AM: true },
-    to: { h: 10, m: 0, AM: false }
+    availble: true,
+    intervals: [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
   }
 ];
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export default function Time({ business, setSelected }) {
   const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
   const [orderOn, setOrderOn] = useState(business.acceptOrders);
@@ -49,85 +70,79 @@ export default function Time({ business, setSelected }) {
     <>
       <BackButton setSelected={setSelected} select="More" />
       <BPLayout>
-        <Accept on={orderOn} setOn={setOrderOn} />
-        <Accept delivery={true} on={deliveryOn} setOn={setDeliveryOn} />
-        <div className="timeTitle">Select Openning Time</div>
+        <Accept
+          on={orderOn}
+          setOn={() => {
+            axios.put(
+              `/api/business/acceptOrders`,
+              {
+                acceptOrders: !orderOn,
+                businessCode: business?.businessCode
+              },
+              { "content-type": "application/json" }
+            );
+            setOrderOn(!orderOn);
+          }}
+        />
+        <Accept
+          delivery={true}
+          on={deliveryOn}
+          setOn={() => {
+            axios.put(
+              `/api/business/acceptDelivery`,
+              {
+                acceptDelivery: !deliveryOn,
+                businessCode: business?.businessCode
+              },
+              { "content-type": "application/json" }
+            );
+            setDeliveryOn(!deliveryOn);
+          }}
+        />
+        <div className="timeTitle">
+          <FaRegClock />
+          select availble time
+        </div>
         <div className="dayContainer">
           {time.map((day, i) => (
             <div className="day" key={i}>
-              <div className="dayname">{day.name}</div>
+              <div className="dayname">{days[i]}</div>
+              <SelectTime
+                defaultIntervals={day.intervals}
+                availble={day.availble}
+              />
+              <Onoff on={day.availble} noText="true" />
             </div>
           ))}
         </div>
       </BPLayout>
       <style jsx>{`
         .timeTitle {
+          width: 100%;
           padding: 1rem;
-          color: ${styles.secondaryColor};
           font-size: 1.2rem;
+          ${styles.flexAligncenter}
+          gap:.8rem;
         }
         .dayContainer {
           width: 100%;
           align-text: left;
+          padding: 0.5rem;
         }
         .day {
-          padding: 0.2rem;
+          padding: 1rem 0.5rem;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
           ${styles.flexAligncenter}
-          gap:10vw;
+          border-bottom: 1px solid #eee;
         }
         .dayname {
           width: 2rem;
+          font-size: 1.4rem;
+          color: gray;
         }
       `}</style>
     </>
   );
 }
-// export function SelectTime({ time }) {
-//   const [h, setH] = useState(time.h < 10 ? "0" + time.h : time.h);
-//   const [m, setM] = useState(time.m < 10 ? "0" + time.m : time.m);
-//   const [select, setSelect] = useState(time.AM ? "AM" : "PM");
-
-//   return (
-//     <>
-//       <input
-//         className="timeInput"
-//         value={h}
-//         onChange={(e) =>
-//           e.target.value > -1 && e.target.value < 13 && setH(e.target.value)
-//         }
-//         onBlur={(e) =>
-//           parseInt(e.target.value, 1) < 10
-//             ? "0" + e.target.value
-//             : e.target.value
-//         }
-//       />
-//       {" : "}
-//       <input
-//         className="timeInput"
-//         value={m}
-//         onChange={(e) =>
-//           e.target.value > -1 && e.target.value < 60 && setM(e.target.value)
-//         }
-//       />
-
-//       <select
-//         className="select"
-//         value={select}
-//         onChange={(e) => setSelect(e.target.value)}
-//       >
-//         <option value="AM">AM</option>
-//         <option value="PM">PM</option>
-//       </select>
-//       <style jsx>{`
-//         .select {
-//           background: none;
-//           border: none;
-//         }
-//         .timeInput {
-//           width: 1rem;
-//           border: none;
-//         }
-//       `}</style>
-//     </>
-//   );
-// }

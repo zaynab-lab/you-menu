@@ -9,6 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import Alert from "@/components/Alert";
 import Router from "next/dist/server/router";
+import Address from "../MenuPage/Address";
 
 export default function ({ setSelected, user, setRefreshUser, setAuth }) {
   const [alert, setAlert] = useState("");
@@ -18,17 +19,6 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
       <BackButton setSelected={setSelected} select={"Options"} />
       <UPLayout>
         <div className="form">
-          {user?.permissions?.includes("EnterManagementPage") && (
-            <Link href="/management">
-              <div className="Bbtn">
-                <div className="Bbtn-icon">
-                  <FaBook />
-                </div>
-                <div>management</div>
-              </div>
-            </Link>
-          )}
-
           <Label title={"full name"} />
           <Input
             value={userName}
@@ -53,6 +43,7 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
           />
           <Label title={"phone number"} />
           <Input value={user?.number} onchange={() => {}} />
+          <Address user={user} options={true} />
           <Alert setAlert={setAlert} alert={alert} />
 
           <div className="goto">
@@ -63,6 +54,16 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
                     <FaStore />
                   </div>
                   <div>business page</div>
+                </div>
+              </Link>
+            )}
+            {user?.permissions?.includes("EnterManagementPage") && (
+              <Link href="/management">
+                <div className="Bbtn">
+                  <div className="Bbtn-icon">
+                    <FaBook />
+                  </div>
+                  <div>management</div>
                 </div>
               </Link>
             )}
@@ -111,7 +112,7 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
         .Bbtn {
           width: 14rem;
           margin: 0.2rem;
-          border-radius: 2rem;
+          border-radius: 0.5rem;
           border: 1px solid ${styles.secondaryColor};
           ${styles.flexBothcenter}
           gap:1rem;

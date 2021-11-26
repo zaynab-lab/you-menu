@@ -27,7 +27,8 @@ export default async function Auth(req, res) {
             name: user.name,
             number: user.number,
             permissions: role?.permissions,
-            credit: user.credit
+            credit: user.credit,
+            addresses: user.addresses
           })
         );
       } else {

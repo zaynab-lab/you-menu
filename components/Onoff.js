@@ -1,18 +1,18 @@
 import { styles } from "@/public/js/styles";
 
-export default function Onoff({ setOn, on }) {
+export default function Onoff({ setOn, on, noText }) {
   return (
     <>
-      <div className="toggle" onClick={() => setOn(!on)}>
+      <div className="toggle" onClick={setOn}>
         {on ? (
           <>
-            <div className="ontxt">on</div>
+            <div className="ontxt">{!noText && "on"}</div>
             <div className="circle on"></div>
           </>
         ) : (
           <>
             <div className="circle off"></div>
-            <div className="offtxt">off</div>
+            <div className="offtxt">{!noText && "off"}</div>
           </>
         )}
       </div>
@@ -26,6 +26,7 @@ export default function Onoff({ setOn, on }) {
           border-radius: 10rem;
           cursor: pointer;
           ${styles.boxshadow}
+          ${styles.userSelect}
         }
         .circle {
           width: 1.8rem;

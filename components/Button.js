@@ -1,14 +1,14 @@
 import { useState } from "react";
 import Dots from "@/components/Loaders/Dots";
 
-export default function Button({ content, onclick, color }) {
+export default function Button({ content, onclick, color, noLoading }) {
   const [dots, setDots] = useState(false);
   return (
     <>
       <button
         className={`button ${color ? "color" : "black"}`}
         onClick={() => {
-          setDots(true);
+          !noLoading && setDots(true);
           onclick && onclick();
           const clearMessage = setTimeout(() => {
             setDots(false);
