@@ -91,7 +91,9 @@ export default function MenuModal({ openModal, setOpenModal }) {
           right: 0;
           border-left: 1px solid ${styles.secondaryColor};
           z-index: 100;
-          transition: all 0.5s ease-out;
+          -webkit-transition: top 0.5s ease-in-out;
+          -o-transition: top 0.5s ease-in-out;
+          transition: top 0.5s ease-in-out;
           font-size: 1.2rem;
           overflow: hidden;
           overflow-y: auto;
@@ -99,7 +101,9 @@ export default function MenuModal({ openModal, setOpenModal }) {
 
         .modal.show {
           top: 0vh;
-          transition: all 0.2s ease-out;
+          -webkit-transition: top 0.2s ease-in-out;
+          -o-transition: top 0.2s ease-in-out;
+          transition: top 0.2s ease-in-out;
         }
 
         .X {

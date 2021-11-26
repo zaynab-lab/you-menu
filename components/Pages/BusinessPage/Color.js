@@ -218,12 +218,16 @@ export function ColorModal({
           opacity: 0;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
-          transition: all 0.5s ease-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
         }
         .showColorModal {
           opacity: 100;
           z-index: 100;
-          transition: all 0.5s ease-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
         }
         .Xheader {
           text-align: right;

@@ -79,7 +79,13 @@ export default function Options({ setSelected, auth, openModal, credit }) {
               style={{
                 transition: `${
                   i * 0.15
-                }s all cubic-bezier(0.76, -0.48, 0.61, 1.5)`
+                }s left cubic-bezier(0.76, -0.48, 0.61, 1.5)`,
+                WebkitTransition: `${
+                  i * 0.15
+                }s left cubic-bezier(0.76, -0.48, 0.61, 1.5)`,
+                msTransition: `${
+                  i * 0.15
+                }s left cubic-bezier(0.76, -0.48, 0.61, 1.5)`
               }}
               className={`more-item swipe ${openModal && "In"}`}
             >

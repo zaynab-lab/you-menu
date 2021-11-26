@@ -160,14 +160,18 @@ export default function ProductModal({
           border-left: 1px solid ${styles.secondaryColor};
           z-index: 100;
           padding: 1rem;
-          transition: all 0.5s ease-out;
+          -webkit-transition: top 0.5s ease-out;
+          -o-transition: top 0.5s ease-out;
+          transition: top 0.5s ease-out;
           font-size: 1.2rem;
           overflow: hidden;
           overflow-y: auto;
         }
         .modal.show {
           top: 0vh;
-          transition: all 0.5s ease-out;
+          -webkit-transition: top 0.5s ease-out;
+          -o-transition: top 0.5s ease-out;
+          transition: top 0.5s ease-out;
         }
 
         .X {

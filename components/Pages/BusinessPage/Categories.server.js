@@ -175,14 +175,18 @@ export function RenameModal({
           opacity: 0;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
-          transition: all 0.5s ease-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
           background: #2222;
         }
 
         .showRenameModal {
           opacity: 100;
           z-index: 100;
-          transition: all 0.5s ease-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
         }
         .renameContainer {
           border: 1px solid ${styles.secondaryColor};

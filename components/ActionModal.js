@@ -42,14 +42,18 @@ export default function ActionModal({
           opacity: 0;
           ${styles.flexBothcenter}
           ${styles.flexColumn}
-          transition: all 0.5s ease-out;
+          -webkit-transition: opacity 0.5s ease-in-out;
+          -o-transition: opacity 0.5s ease-in-out;
+          transition: opacity 0.5s ease-in-out;
           background: #2222;
         }
 
         .showRemoveModal {
           opacity: 100;
           z-index: 100;
-          transition: all 0.5s ease-out;
+          -webkit-transition: opacity 0.5s ease-in-out;
+          -o-transition: opacity 0.5s ease-in-out;
+          transition: opacity 0.5s ease-in-out;
         }
 
         .removeContainer {
