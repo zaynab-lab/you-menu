@@ -10,7 +10,7 @@ import { FaCheck } from "react-icons/fa";
 export default function Address({ user, options }) {
   const [addressModal, setAddressModal] = useState(false);
   const [address, setAddress] = useState("");
-  const [addressId, setAddressId] = useState(0);
+  const [selectAddress, setSelectedAddress] = useState({});
   const [edit, setEdit] = useState(false);
   return (
     <>
@@ -20,15 +20,21 @@ export default function Address({ user, options }) {
             className="selectAddress"
             onChange={(e) => {
               setAddress(e.target.value);
-              setAddressId(e.target.id);
+              setSelectedAddress(
+                ...user?.addresses.filter(
+                  (address) => address.content === e.target.value
+                )
+              );
             }}
           >
             <option value="">choose address</option>
-            {user?.addresses.map((address, i) => (
-              <option key={i} value={address._id}>
-                {address.content}
-              </option>
-            ))}
+            {user?.addresses
+              .filter((address) => !address.deleted)
+              .map((address, i) => (
+                <option key={i} value={address?.content}>
+                  {address?.content}
+                </option>
+              ))}
           </select>
         ) : (
           <div>add address</div>
@@ -45,7 +51,18 @@ export default function Address({ user, options }) {
       </div>
       {options && !!address && (
         <div className="btnContainer">
-          <div className="remove">delete address</div>
+          <div
+            className="remove"
+            onClick={() =>
+              axios.put(
+                "/api/users/deleteAddress",
+                { address },
+                { "content-type": "application/json" }
+              )
+            }
+          >
+            delete address
+          </div>
           <Button
             content="edit address"
             onclick={() => {
@@ -60,6 +77,7 @@ export default function Address({ user, options }) {
         addressModal={addressModal}
         setAddressModal={setAddressModal}
         setAddress={setAddress}
+        selectAddress={selectAddress}
         address={address}
         edit={edit}
       />
@@ -101,6 +119,7 @@ export function AddressModal({
   address,
   setAddress,
   addressModal,
+  selectAddress,
   setAddressModal,
   edit
 }) {
@@ -129,14 +148,14 @@ export function AddressModal({
               <div
                 className="addressCheck"
                 onClick={() => {
-                  !edit && !!address
+                  edit && !!address
                     ? axios.put(
-                        "/api/users/address",
-                        { address },
+                        "/api/users/editAddress",
+                        { address, addressId: selectAddress?._id },
                         { "content-type": "application/json" }
                       )
                     : axios.put(
-                        "/api/users/editAddress",
+                        "/api/users/address",
                         { address },
                         { "content-type": "application/json" }
                       );

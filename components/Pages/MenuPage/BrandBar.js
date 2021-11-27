@@ -22,7 +22,7 @@ export default function BrandBar({ business }) {
         )}
 
         <div>
-          <div>{business?.brand?.name}</div>
+          <h1>{business?.brand?.name}</h1>
           <div className="bType">{business.businessType}</div>
         </div>
       </div>
@@ -68,6 +68,10 @@ export default function BrandBar({ business }) {
           background: ${business?.background || "#fefefe"};
           gap: 7vw;
           overflow: hidden;
+          line-height: 2.4rem;
+        }
+        h1 {
+          font-size: 2.5rem;
           line-height: 2.4rem;
         }
         .bType {

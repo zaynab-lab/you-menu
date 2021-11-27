@@ -106,7 +106,6 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
           -ms-flex-direction: column;
           flex-direction: column;
           max-width: 20rem;
-          padding-bottom: 5rem;
           background: white;
         }
         .Bbtn {

@@ -34,7 +34,7 @@ export default function OrderProceed({
           </div>
         )}
       </div>
-      {orderType === "delivery" && <Address />}
+      {orderType === "delivery" && <Address user={user} />}
       <Payment
         user={user}
         total={total}

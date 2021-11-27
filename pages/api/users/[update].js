@@ -22,6 +22,23 @@ export default async (req, res) => {
               console.log(err)
             ).exec();
             return res.status(200).end("done");
+          case "editAddress":
+            return res.status(200).end("done");
+          case "deleteAddress":
+            console.log(body?.address);
+
+            // const updated = await user?.addresses.map((address) =>
+            //   address.content === body?.address
+            //     ? { ...address, deleted: true }
+            //     : address
+            // );
+
+            // User.findByIdAndUpdate(user._id, { addresses: updated }, (err) =>
+            //   console.log(err)
+            // ).exec();
+
+            return res.status(200).end("done");
+
           case "address":
             let address = {};
             let addresses = [];
