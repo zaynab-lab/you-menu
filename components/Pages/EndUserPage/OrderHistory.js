@@ -7,26 +7,26 @@ import { styles } from "@/public/js/styles";
 
 export default function OrderHistory() {
   const [orderList, setOrderList] = useState([0]);
-  const [ordersType, setOrderType] = useState("current");
+  const [ordersTab, setOrderTab] = useState("current");
   useEffect(() => {
     axios.get("/api/order/userGetOrder").then((res) => setOrderList(res.data));
   }, []);
   return (
     <>
       <UPLayout className="pageContainer">
-        <div className="orderTypes">
+        <div className="orderTabs">
           <div
-            className={`orderType ${ordersType === "current" && "activetype"}`}
+            className={`orderTab ${ordersTab === "current" && "activetype"}`}
             onClick={() => {
-              setOrderType("current");
+              setOrderTab("current");
             }}
           >
             current orders
           </div>
           <div
-            className={`orderType ${ordersType === "previous" && "activetype"}`}
+            className={`orderTab ${ordersTab === "previous" && "activetype"}`}
             onClick={() => {
-              setOrderType("previous");
+              setOrderTab("previous");
             }}
           >
             previous orders
@@ -36,7 +36,7 @@ export default function OrderHistory() {
           {orderList
             ?.filter(
               (order) =>
-                ordersType === "current" && order?.status?.cancel?.done !== true
+                ordersTab === "current" && order?.status?.cancel?.done !== true
             )
             .map((order, i) => (
               <div key={i} className="order">
@@ -54,7 +54,7 @@ export default function OrderHistory() {
         .order {
           padding: 0.2rem 0.6rem;
         }
-        .orderTypes {
+        .orderTabs {
           ${styles.flexBothcenter}
           width: 100%;
           font-size: 1.2rem;
@@ -65,7 +65,7 @@ export default function OrderHistory() {
           background: white;
           z-index: 90;
         }
-        .orderType {
+        .orderTab {
           padding: 0.5rem 2rem;
           flex: 1 1 100%;
           padding-top: 0.3rem;

@@ -31,8 +31,14 @@ export default function OrdersList({
                 order?.status && order?.status[currentStep]?.pending === true
             )
             .map((order, i) => (
-              <OrderCard key={i} order={order} businessCode={businessCode} />
+              <OrderCard
+                key={i}
+                order={order}
+                businessCode={businessCode}
+                businessPage={true}
+              />
             ))
+            .reverse()
         ) : (
           <div className="noOrder">
             <div className="empty">

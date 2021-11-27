@@ -4,6 +4,7 @@ import User from "@/models/user";
 import Order from "@/models/order";
 import Product from "@/models/product";
 import jwt from "jsonwebtoken";
+import { orderCode } from "@/util/dateChanger";
 
 dbConnection();
 
@@ -19,6 +20,7 @@ export default async (req, res) => {
 
       if (user) {
         if (method === "POST") {
+          const oCode = orderCode();
           const business = await Business.findOne({
             businessCode: body.businessCode
           }).exec();
@@ -64,7 +66,8 @@ export default async (req, res) => {
               "address.content": body?.address,
               orderType: body.orderType,
               shouldPay: shouldPay,
-              useCredit: body.useCredit
+              useCredit: body.useCredit,
+              code: oCode
             });
             await order.save().catch((err) => console.log(err));
             await User.findByIdAndUpdate(user._id, { credit: newCredit });

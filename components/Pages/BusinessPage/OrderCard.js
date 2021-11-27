@@ -5,6 +5,7 @@ import Image from "next/image";
 import { firebaseLink } from "@/util/links";
 import { steps } from "./Orders";
 import dateChanger, { timeChanger } from "@/util/dateChanger";
+import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
 
 export default function OrderCard({ order, businessCode, businessPage }) {
   const [time, setTime] = useState(10);
@@ -12,9 +13,28 @@ export default function OrderCard({ order, businessCode, businessPage }) {
     <>
       <div className="orderCard">
         <div className="orderCard-item">
-          <div className="orderType">{order?.orderType}</div>
-          <div>{order?.table && "table " + order?.table}</div>
-          <div className="orderItems">
+          <div className="orderCardHead">
+            <div>
+              <div className="orderType">{order?.orderType}</div>
+
+              <div className="orderTable">
+                table 1{order?.table && "table " + order?.table}
+              </div>
+              <div className="orderTable">{order?.code}</div>
+            </div>
+            <div className="orderDate">
+              <div className="orderDateItem">
+                <FaRegClock />
+                <div>{timeChanger(order.date)}</div>
+              </div>
+              <div className="orderDateItem">
+                <FaCalendarAlt />
+
+                <div>{dateChanger(order.date)}</div>
+              </div>
+            </div>
+          </div>
+          <div className="orderProducts">
             {order?.products
               ?.map((product, i) => (
                 <div key={i} className="product">
@@ -50,10 +70,6 @@ export default function OrderCard({ order, businessCode, businessPage }) {
           <div className="infoRow">
             <div>total: {order?.total?.amount} $</div>
             {businessPage && <div>should pay: {order?.shouldPay} $</div>}
-          </div>
-          <div className="infoRow">
-            <div>time: {timeChanger(order.date)}</div>
-            <div>date: {dateChanger(order.date)}</div>
           </div>
 
           {businessPage && (
@@ -100,17 +116,38 @@ export default function OrderCard({ order, businessCode, businessPage }) {
           ${styles.boxshadow};
           margin: 0.8rem;
         }
+        .orderCardHead {
+          ${styles.flexAligncenter}
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          padding: 0.2rem 1rem;
+          border-bottom: 1px solid lightgray;
+        }
         .orderCard-item {
           padding: 0.5rem;
         }
-        .orderItems {
+        .orderProducts {
           overflow: auto;
           ${styles.flexAligncenter};
           gap: 0.5rem;
-        }
-        .orderItem {
           white-space: nowrap;
         }
+        .orderType {
+          font-size: 1.4rem;
+          color: ${styles.secondaryColor};
+        }
+        .orderTable {
+          color: gray;
+        }
+        .orderDate {
+          color: gray;
+        }
+        .orderDateItem {
+          ${styles.flexAligncenter};
+          gap: 0.5rem;
+        }
+
         .buttonContainer {
           ${styles.flexJustifycenter};
           gap: 0.8rem;
@@ -121,6 +158,8 @@ export default function OrderCard({ order, businessCode, businessPage }) {
           padding: 0.5rem;
         }
         .preperationTime {
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
           ${styles.flexAligncenter};
         }
