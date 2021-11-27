@@ -32,7 +32,6 @@ export default async (req, res) => {
             //     ? { ...address, deleted: true }
             //     : address
             // );
-
             // User.findByIdAndUpdate(user._id, { addresses: updated }, (err) =>
             //   console.log(err)
             // ).exec();

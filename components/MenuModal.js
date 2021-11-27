@@ -13,7 +13,6 @@ const Profile = dynamic(() => import("@/components/Pages/EndUserPage/Profile"));
 const Discount = dynamic(() =>
   import("@/components/Pages/EndUserPage/Discount")
 );
-const History = dynamic(() => import("@/components/Pages/EndUserPage/History"));
 const Rights = dynamic(() => import("@/components/Pages/EndUserPage/Rights"));
 
 const Support = dynamic(() =>
@@ -72,7 +71,6 @@ export default function MenuModal({ openModal, setOpenModal }) {
           />
         )}
         {selected === "Discount" && <Discount setSelected={setSelected} />}
-        {selected === "History" && <History setSelected={setSelected} />}
         {selected === "Rights" && <Rights setSelected={setSelected} />}
         {selected === "Support" && (
           <Support select="Options" setSelected={setSelected} />

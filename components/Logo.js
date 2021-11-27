@@ -65,7 +65,7 @@ export default function Logo({
                   `%2FLogo${imgLink}.png?alt=media&tr=w-${width}`
                 }`
               }
-              src={businessCode}
+              src={businessCode || "noImg"}
             />
           ) : (
             "logo"

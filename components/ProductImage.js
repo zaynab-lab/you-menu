@@ -79,7 +79,7 @@ export default function ProductImage({
                     }.png?alt=media&tr=w-${width}`
                   }`
                 }
-                src={businessCode}
+                src={businessCode || "noImg"}
               />
             ) : (
               "product"

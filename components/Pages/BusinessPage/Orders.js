@@ -11,24 +11,21 @@ import { useEffect, useState } from "react";
 import OrdersList from "./OrdersList";
 import axios from "axios";
 
-const steps = [
+export const steps = [
   {
     name: "waiting to confirm",
     state: "confirmation",
-    icon: <FaCheck />,
-    count: 0
+    icon: <FaCheck />
   },
   { name: "pending to pay", state: "payment", icon: <FaReceipt /> },
   {
     name: "preparing",
     state: "preparing",
-
     icon: <FaHandHoldingHeart />
   },
   {
     name: "delivering",
     state: "delivering",
-
     icon: <FaShippingFast />
   },
   {

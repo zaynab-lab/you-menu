@@ -57,6 +57,7 @@ export default async (req, res) => {
               ownerName: user.name,
               ownerNumber: user.number,
               businessID: business._id,
+              businessCode: business.businessCode,
               products: cartProducts,
               "total.amount": total,
               paymentMethod: "cash",

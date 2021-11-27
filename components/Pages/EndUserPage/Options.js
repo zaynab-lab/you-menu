@@ -1,5 +1,6 @@
 import Alert from "@/components/Alert";
 import { styles } from "@/public/js/styles";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import {
@@ -36,8 +37,8 @@ const more = [
   {
     name: "order history",
     icon: <FaHistory />,
-    selected: "History",
-    auth: false
+    auth: false,
+    rt: "/user/order"
   },
   {
     name: "conditions & rights",
@@ -64,6 +65,7 @@ const more = [
 
 export default function Options({ setSelected, auth, openModal, credit }) {
   const [alert, setAlert] = useState("");
+  const router = useRouter();
   return (
     <>
       <div className="more">
@@ -73,8 +75,9 @@ export default function Options({ setSelected, auth, openModal, credit }) {
             <div
               key={i}
               onClick={() => {
-                !item.cs && setSelected(item.selected);
+                !item.cs && item.selected && setSelected(item.selected);
                 item.cs && setAlert("comming soon");
+                item.rt && router.push(item.rt);
               }}
               style={{
                 transition: `${

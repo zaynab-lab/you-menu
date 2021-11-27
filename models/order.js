@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema(
     ownerName: { type: String },
     ownerNumber: { type: String },
     businessID: { type: String },
+    businessCode: { type: String },
     products: [
       {
         defaultID: { type: String },

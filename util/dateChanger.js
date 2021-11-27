@@ -11,6 +11,20 @@ export default function dateChanger(od) {
   // const min = minute < 10 ? "0" + minute : minute;
   return day + "-" + mon + "-" + year;
 }
+export function timeChanger(od) {
+  const date = new Date(od);
+
+  const hours = date.getHours();
+
+  const minute = date.getMinutes();
+  const secound = date.getSeconds();
+
+  const hou = hours < 10 ? "0" + hours : hours;
+  const min = minute < 10 ? "0" + minute : minute;
+  const sec = secound < 10 ? "0" + secound : secound;
+
+  return hou + ":" + min + ":" + sec;
+}
 
 export function dateSub(date, validation) {
   const today = new Date();
