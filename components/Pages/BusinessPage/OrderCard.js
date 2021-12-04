@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { firebaseLink } from "@/util/links";
-import { steps } from "./Orders";
+import { initSteps } from "./Orders";
 import dateChanger, { timeChanger } from "@/util/dateChanger";
 import {
   FaCalendarAlt,
@@ -15,7 +15,22 @@ import {
 import axios from "axios";
 import Link from "next/link";
 
-export default function OrderCard({ order, businessCode, businessPage }) {
+const withBtn = [
+  "preparing",
+  "delivering",
+  "paying",
+  "confirming",
+  "reterning",
+  "serving"
+];
+
+export default function OrderCard({
+  order,
+  businessCode,
+  businessPage,
+  setRefreshOrders,
+  currentStep
+}) {
   const [time, setTime] = useState(10);
   const [openOrder, setOpenOrder] = useState(true);
   const [business, setBusiness] = useState({
@@ -34,6 +49,7 @@ export default function OrderCard({ order, businessCode, businessPage }) {
             setBusiness((business) => Object({ ...business, ...res.data }));
         });
     businessPage && setOpenOrder(false);
+    businessPage && console.log(false);
   }, [businessCode, businessPage]);
 
   return (
@@ -143,7 +159,9 @@ export default function OrderCard({ order, businessCode, businessPage }) {
                 <div>
                   total: {order?.total?.amount + " " + order?.total?.currency}
                 </div>
-                {businessPage && (
+                {order?.shouldPay === 0 ? (
+                  <div>payment done</div>
+                ) : (
                   <div>
                     should pay:{" "}
                     {order?.shouldPay + " " + order?.total?.currency}
@@ -151,7 +169,7 @@ export default function OrderCard({ order, businessCode, businessPage }) {
                 )}
               </div>
 
-              {businessPage && (
+              {businessPage && order?.status?.confirming?.pending && (
                 <div className="preperationTime">
                   <div>prepration time </div>
                   <div className="timeControlar">
@@ -173,18 +191,54 @@ export default function OrderCard({ order, businessCode, businessPage }) {
                 </div>
               )}
             </div>
-            {businessPage ? (
-              <div className="buttonContainer">
-                <Button
-                  content={"decline"}
-                  onclick={() => {
-                    alert("removed");
-                  }}
-                />
-                <Button color={styles.secondaryColor} content={"confirm"} />
-              </div>
+
+            {withBtn.includes(currentStep) ? (
+              businessPage && (
+                <div className="buttonContainer">
+                  <Button
+                    content={"decline"}
+                    onclick={() => {
+                      axios
+                        .put(
+                          "/api/order/cancel",
+                          {
+                            businessCode: businessCode,
+                            orderID: order._id,
+                            currentStep
+                          },
+                          { "content-type": "application/json" }
+                        )
+                        .then(
+                          (res) =>
+                            res.data === "done" &&
+                            setRefreshOrders((refresh) => !refresh)
+                        );
+                    }}
+                  />
+                  <Button
+                    color={styles.secondaryColor}
+                    content={"confirm"}
+                    onclick={() => {
+                      axios
+                        .put(
+                          `/api/order/${currentStep}`,
+                          {
+                            businessCode: businessCode,
+                            orderID: order._id
+                          },
+                          { "content-type": "application/json" }
+                        )
+                        .then(
+                          (res) =>
+                            res.data === "done" &&
+                            setRefreshOrders((refresh) => !refresh)
+                        );
+                    }}
+                  />
+                </div>
+              )
             ) : (
-              <ProcessBar />
+              <ProcessBar order={order} />
             )}
           </>
         )}
@@ -207,11 +261,12 @@ export default function OrderCard({ order, businessCode, businessPage }) {
         }
         .businessBrand {
           min-width: 5rem;
-          font-size: 1.8rem;
+          font-size: 1.4rem;
           color: ${styles.secondaryColor};
           padding: 0 1rem;
           cursor: pointer;
           overflow: hidden;
+          white-space: nowrap;
         }
 
         .iconsContainer {
@@ -232,7 +287,7 @@ export default function OrderCard({ order, businessCode, businessPage }) {
         .orderDetails {
           border-top: 1px solid lightgray;
           border-bottom: 1px solid lightgray;
-          padding: 0.2rem 1rem;
+          padding: 0.2rem 0.7rem;
         }
 
         .orderMoreDetails {
@@ -316,32 +371,62 @@ export default function OrderCard({ order, businessCode, businessPage }) {
   );
 }
 
-export function ProcessBar() {
+export function ProcessBar({ order }) {
   return (
     <>
       <div className="processBar">
-        {steps?.map((step, i) => (
+        {initSteps?.map((step, i) => (
           <div
             key={i}
-            className={`step ${step.state === "confirmation" && "activeStep"}`}
+            className={`step ${
+              !!order?.status && order?.status[step.state]?.done && "doneStep"
+            }`}
           >
             <div
               className={`processCircle ${
-                step.state === "confirmation" && "activeCircle"
+                !!order?.status &&
+                order?.status[step.state]?.done &&
+                "doneCircle"
               }
-                ${step.state === "payment" && "pendingCircle"}`}
+                ${
+                  (step.state === order.currentStatus ||
+                    (!!order?.status && order?.status[step.state]?.pending)) &&
+                  "pendingCircle"
+                }`}
             >
               {step.icon}
             </div>
             <div className="stepName">{step.name}</div>
+            {!!order?.status && order?.status[step.state]?.date ? (
+              <div className="stepDate">
+                <div>
+                  {!!order?.status && order?.status[step.state]?.date
+                    ? timeChanger(order?.status[step.state]?.date)
+                    : "-"}
+                </div>
+                <div className="processLineDone">
+                  {dateChanger(order?.status[step.state]?.date)}
+                </div>
+              </div>
+            ) : (
+              (step.state === order.currentStatus ||
+                (!!order?.status && order?.status[step.state]?.pending)) && (
+                <div className="stepDate">
+                  <div>-{step.state === "preparing" && " 10 min"}</div>
+                  <div className="processLine"></div>
+                </div>
+              )
+            )}
           </div>
         ))}
       </div>
       <style jsx>{`
         .processBar {
           padding: 1rem;
-          ${styles.flexAligncenter}
-          gap:1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          gap: 0.2rem;
           overflow: auto;
         }
         .processCircle {
@@ -355,16 +440,16 @@ export function ProcessBar() {
         .step {
           ${styles.flexAligncenter}
           ${styles.flexColumn}
-          width:6rem;
+          min-width:5rem;
         }
         .stepName {
           white-space: nowrap;
           font-size: 0.8rem;
         }
-        .activeStep {
+        .doneStep {
           color: green;
         }
-        .activeCircle {
+        .doneCircle {
           border: none;
           background: green;
           color: white;
@@ -373,6 +458,27 @@ export function ProcessBar() {
           border: none;
           background: orange;
           color: white;
+        }
+        .stepDate {
+          padding-top: 0.8rem;
+          font-size: 0.8rem;
+          color: gray;
+          min-width: 5rem;
+        }
+
+        .processLine {
+          border-top: 1px dashed orange;
+          min-width: 2rem;
+          white-space: nowrap;
+          min-width: fit-content;
+          font-size: 0.8rem;
+        }
+        .processLineDone {
+          border-top: 1px solid green;
+          min-width: 2rem;
+          white-space: nowrap;
+          min-width: fit-content;
+          font-size: 0.8rem;
         }
       `}</style>
     </>

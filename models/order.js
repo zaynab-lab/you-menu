@@ -30,48 +30,45 @@ const orderSchema = new mongoose.Schema(
     shouldPay: { type: Number },
     useCredit: { type: Boolean },
     table: { type: Number },
+    currentStatus: { type: String, default: "confirming" },
     status: {
-      confirmation: {
+      confirming: {
         done: { type: Boolean },
-        pending: { type: Boolean, default: true },
-        startDate: { type: Date, default: Date.now },
-        doneDate: { type: Date }
+        date: { type: Date }
       },
-      payment: {
+      paying: {
         done: { type: Boolean },
         pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
       },
       preparing: {
         done: { type: Boolean },
-        pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
       },
       delivering: {
         done: { type: Boolean },
-        pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
+      },
+      serving: {
+        done: { type: Boolean },
+        date: { type: Date }
       },
       received: {
         done: { type: Boolean },
-        pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
       },
       canceled: {
         done: { type: Boolean },
+        date: { type: Date }
+      },
+      returning: {
+        done: { type: Boolean },
         pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
       },
       returned: {
         done: { type: Boolean },
-        pending: { type: Boolean },
-        startDate: { type: Date },
-        doneDate: { type: Date }
+        date: { type: Date }
       }
     }
   },

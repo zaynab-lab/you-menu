@@ -42,7 +42,8 @@ export default function OrderHistory() {
               <div key={i} className="order">
                 <OrderCard order={order} businessCode={order?.businessCode} />
               </div>
-            ))}
+            ))
+            .reverse()}
         </div>
       </UPLayout>
       <style jsx>{`

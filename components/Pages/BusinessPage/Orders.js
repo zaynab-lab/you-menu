@@ -5,19 +5,20 @@ import {
   FaCheck,
   FaHandHoldingHeart,
   FaReceipt,
+  FaHandshake,
   FaShippingFast
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import OrdersList from "./OrdersList";
 import axios from "axios";
 
-export const steps = [
+export const initSteps = [
   {
     name: "waiting to confirm",
-    state: "confirmation",
+    state: "confirming",
     icon: <FaCheck />
   },
-  { name: "pending to pay", state: "payment", icon: <FaReceipt /> },
+  { name: "payment", state: "paying", icon: <FaReceipt /> },
   {
     name: "preparing",
     state: "preparing",
@@ -29,7 +30,13 @@ export const steps = [
     icon: <FaShippingFast />
   },
   {
-    name: "done",
+    name: "serving",
+    state: "serving",
+    icon: <FaHandshake />
+  },
+
+  {
+    name: "received",
     state: "received",
     icon: <FaCheck />
   },
@@ -39,21 +46,41 @@ export const steps = [
     icon: <FaBan />
   },
   {
+    name: "returning",
+    state: "returning",
+    icon: <FaBackward />
+  },
+
+  {
     name: "not accepted",
     state: "returned",
-    icon: <FaBackward />
+    icon: <FaBan />
   }
 ];
 
 export default function Orders({ businessCode }) {
-  const [currentStep, setCurrentStep] = useState("confirmation");
+  const [currentStep, setCurrentStep] = useState("confirming");
   const [orders, setOrders] = useState([0, 0]);
-  useEffect(() => {
-    axios
-      .get("/api/order")
-      .then((res) => Array.isArray(res.data) && setOrders(res.data));
-  }, []);
+  const [refreshOrders, setRefreshOrders] = useState(false);
+  const [steps, setSteps] = useState(initSteps);
 
+  useEffect(() => {
+    axios.get("/api/order").then((res) => {
+      Array.isArray(res.data) && setOrders(res.data);
+    });
+  }, [refreshOrders]);
+
+  useEffect(() => {
+    !!orders[0]._id &&
+      setSteps((steps) =>
+        steps?.map((step) => {
+          const count = orders?.filter(
+            (order) => step.state === order.currentStatus
+          ).length;
+          return Object({ ...step, count: count });
+        })
+      );
+  }, [orders]);
   return (
     <>
       <div className="orderPage">
@@ -68,6 +95,7 @@ export default function Orders({ businessCode }) {
             currentStep={currentStep}
             orders={orders}
             businessCode={businessCode}
+            setRefreshOrders={setRefreshOrders}
           />
         </div>
       </div>
