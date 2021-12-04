@@ -6,6 +6,7 @@ import { firebaseLink } from "@/util/links";
 import { initSteps } from "./Orders";
 import dateChanger, { timeChanger } from "@/util/dateChanger";
 import {
+  FaBolt,
   FaCalendarAlt,
   FaComment,
   FaMapMarkerAlt,
@@ -15,7 +16,7 @@ import {
 import axios from "axios";
 import Link from "next/link";
 
-const withBtn = [
+export const withBtn = [
   "preparing",
   "delivering",
   "paying",
@@ -100,15 +101,22 @@ export default function OrderCard({
           <>
             <div className="orderCard-item">
               <div className="orderDetails">
-                <div className="orderType">{order?.orderType}</div>
+                <div className="orderType">
+                  {order?.orderType}
+                  <div className="orderDateItem orderTable">
+                    <FaBolt />
+                    <div>{order?.code}</div>
+                  </div>
+                </div>
                 <div className="orderMoreDetails">
                   <div>
                     <div className="orderTable">
                       {order?.address?.content && <FaMapMarkerAlt />}
                       {order?.address?.content && " " + order?.address?.content}
-                      {order?.table && " table " + order?.table}
+                      {order?.table && !order?.address?.content
+                        ? " table " + order?.table
+                        : "no table"}
                     </div>
-                    <div className="orderTable">{order?.code}</div>
                   </div>
                   <div className="orderDate">
                     <div className="orderDateItem">
@@ -147,8 +155,8 @@ export default function OrderCard({
                       ) : (
                         <div>product</div>
                       )}
-                      <div>x{product?.quantity}</div>
-                      <div>{product?.name}</div>
+                      <div>{product?.price + " " + order?.total?.currency}</div>
+                      <div>{product?.name + " x " + product?.quantity}</div>
                     </div>
                   ))
                   .reverse()}
@@ -307,11 +315,22 @@ export default function OrderCard({
           ${styles.flexAligncenter};
           gap: 0.5rem;
           white-space: nowrap;
+          ${styles.userSelect};
+          -ms-scroll-chaining: chained !important;
+          overscroll-behavior: auto !important;
+        }
+        .product {
+          min-width: 6rem;
         }
         .orderType {
-          font-size: 1rem;
+          font-size: 1.2rem;
+          line-height: 1.2rem;
           padding-bottom: 0.2rem;
           color: ${styles.secondaryColor};
+          ${styles.flexAligncenter}
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
         }
         .orderTable {
           color: gray;
@@ -380,10 +399,20 @@ export function ProcessBar({ order }) {
           <div
             key={i}
             className={`step ${
-              !!order?.status && order?.status[step.state]?.done
-                ? "doneStep"
-                : step.state !== order.currentStatus && "hidden"
-            }`}
+              !!order?.status && order?.status[step.state]?.done && "doneStep"
+            }
+            ${
+              step.state !== order.currentStatus &&
+              !withBtn.includes(step.state) &&
+              "hidden"
+            }
+            ${
+              step.state === "delivering" &&
+              order.orderType !== "delivery" &&
+              "hidden"
+            }
+                      
+            `}
           >
             <div
               className={`processCircle ${
@@ -435,6 +464,9 @@ export function ProcessBar({ order }) {
           display: flex;
           gap: 0.2rem;
           overflow: auto;
+          ${styles.userSelect}
+          -ms-scroll-chaining: chained !important;
+          overscroll-behavior: auto !important;
         }
         .processCircle {
           width: 2.6rem;

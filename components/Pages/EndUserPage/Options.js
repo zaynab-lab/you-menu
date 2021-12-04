@@ -27,6 +27,7 @@ const more = [
     auth: false,
     credit: true,
     cs: true
+    // rt: "/user/wallet"
   },
   {
     name: "discounts & coupons",

@@ -55,7 +55,7 @@ export default function OrdersList({
         }
         .orderList {
           padding: 0 0.5rem;
-          overflow: scroll;
+          overflow: auto;
           height: calc(100vh - 9rem);
         }
         .noOrder {

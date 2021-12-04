@@ -31,7 +31,10 @@ export default async (req, res) => {
               case "cancel":
                 if (order.shouldPay === 0) {
                   let orderOwner = await User.findById(order.ownerID);
-                  const newCredit = orderOwner.credit + order.total;
+                  const newCredit =
+                    Number(orderOwner?.credit).toFixed(2) +
+                    Number(order?.total?.amount).toFixed(2);
+                  console.log(newCredit);
                   await User.findByIdAndUpdate(
                     orderOwner._id,
                     {
