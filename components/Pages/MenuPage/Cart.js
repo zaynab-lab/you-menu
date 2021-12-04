@@ -8,9 +8,11 @@ export default function Cart({
   business,
   cartItems,
   products,
+  defaultCurrency,
   currency,
   exRate,
-  action
+  action,
+  selectedCurrency
 }) {
   const [open, setOpen] = useState(false);
   const [total, setTotal] = useState(0);
@@ -33,8 +35,9 @@ export default function Cart({
           <div className="cartTitle" onClick={() => setOpen(!open)}>
             <div>Total</div>
             <div>
-              {currency === "$" ? total : Number((total * exRate).toFixed(2))}
-              {currency}
+              {selectedCurrency
+                ? Number(total.toFixed(2)) + " " + defaultCurrency
+                : Number((total * exRate).toFixed(2)) + " " + currency}
             </div>
           </div>
 
@@ -48,6 +51,7 @@ export default function Cart({
                   cartItems={cartItems}
                   total={total}
                   action={action}
+                  selectedCurrency={selectedCurrency}
                 />
               ) : (
                 <>
@@ -67,20 +71,23 @@ export default function Cart({
                             />
                           </div>
                           <div className="price">
-                            {currency === "$"
+                            {selectedCurrency
                               ? Number(
                                   (
                                     product?.price * cartItems[product._id]
                                   ).toFixed(2)
-                                )
+                                ) +
+                                " " +
+                                defaultCurrency
                               : Number(
                                   (
                                     product?.price *
                                     cartItems[product._id] *
                                     exRate
                                   ).toFixed(2)
-                                )}
-                            {currency}
+                                ) +
+                                " " +
+                                currency}
                           </div>
                         </div>
                       ))}

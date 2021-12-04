@@ -1,35 +1,17 @@
 import { styles } from "@/public/js/styles";
-import { useEffect, useState } from "react";
+
 export default function Location() {
-  useEffect(() => {
-    // navigator.geolocation &&
-    //   navigator.geolocation.getCurrentPosition((position) => {
-    //     setCenter({
-    //       lat: position.coords.latitude,
-    //       lng: position.coords.longitude
-    //     });
-    //   });
-  }, []);
+  const position = [25.269312, 55.278024];
+
   return (
     <>
-      <div className="mapContainer">
-        <div className="mapouter">
-          <div className="gmap_canvas">
-            <iframe
-              title="map"
-              width="400"
-              height="200"
-              src="https://maps.google.com/maps?q=Habbouch&t=&z=12&ie=UTF8&iwloc=&output=embed"
-            />
-          </div>
-        </div>
-      </div>
+      <div className="mapContainer"></div>
 
       <style jsx>{`
         .mapContainer {
           width: 100%;
           max-width: 22rem;
-          height: 10rem;
+          height: 22rem;
           border-radius: 1rem;
           overflow: hidden;
           ${styles.boxshadow}

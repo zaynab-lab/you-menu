@@ -21,7 +21,8 @@ export default function Proceed({
   setProceed,
   products,
   cartItems,
-  action
+  action,
+  selectedCurrency
 }) {
   const [camera, setCamera] = useState(true);
   const [userTable, setUserTable] = useState();
@@ -103,11 +104,12 @@ export default function Proceed({
                 <OrderProceed
                   user={user}
                   total={total}
-                  businessCode={business?.businessCode}
+                  business={business}
                   orderType={orderType}
                   table={userTable}
                   cartItems={cartItems}
                   action={action}
+                  selectedCurrency={selectedCurrency}
                 />
               )
             )}
@@ -132,11 +134,12 @@ export default function Proceed({
                 <OrderProceed
                   user={user}
                   total={total}
-                  businessCode={business?.businessCode}
+                  business={business}
                   orderType={orderType}
                   table={userTable}
                   cartItems={cartItems}
                   action={action}
+                  selectedCurrency={selectedCurrency}
                 />
               )}
           </div>

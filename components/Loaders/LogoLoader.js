@@ -36,7 +36,7 @@ export default function LogoLoader() {
           animation: fadeOut ease 3s;
           animation-iteration-count: 1;
           animation-fill-mode: forwards;
-          z-index: 20;
+          z-index: 120;
         }
 
         .menu {
@@ -63,7 +63,7 @@ export default function LogoLoader() {
           animation: fadeInAnimation ease 3s;
           animation-iteration-count: 1;
           animation-fill-mode: forwards;
-          z-index: 19;
+          z-index: 119;
         }
         .imgContainer {
           width: 100%;
@@ -85,7 +85,7 @@ export default function LogoLoader() {
             opacity: 1;
           }
           99% {
-            z-index: 19;
+            z-index: 119;
           }
           100% {
             z-index: -1;
@@ -99,7 +99,7 @@ export default function LogoLoader() {
           }
           99% {
             opacity: 1;
-            z-index: 20;
+            z-index: 120;
           }
           100% {
             z-index: -1;

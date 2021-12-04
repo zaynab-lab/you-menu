@@ -1,6 +1,6 @@
 import Image from "next/image";
 import TextLoader from "@/components/Loaders/TextLoader";
-import ProductList from "./ProductList";
+import ProductList from "./ProductList.server";
 import { styles } from "@/public/js/styles";
 
 export default function CategoryList({
@@ -12,7 +12,8 @@ export default function CategoryList({
   businessCode,
   setAlert,
   setFadeAlert,
-  action
+  action,
+  selectedCurrency
 }) {
   return (
     <>
@@ -51,12 +52,14 @@ export default function CategoryList({
               products={products}
               cartItems={cartItems}
               currency={business?.currency}
+              defaultCurrency={business?.defaultCurrency}
               exRate={business?.exRate}
               firebaseLink={firebaseLink}
               businessCode={businessCode}
               setAlert={setAlert}
               setFadeAlert={setFadeAlert}
               action={action}
+              selectedCurrency={selectedCurrency}
             />
           </div>
         ))}

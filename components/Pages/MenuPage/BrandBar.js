@@ -43,19 +43,24 @@ export default function BrandBar({ business }) {
       )}
 
       <div className="details">
-        <a href={`tel:${business.ownerNumber}`}>
+        <div className="deItem">
+          <a href={`tel:${business.ownerNumber}`}>
+            <div className="detailsItem">
+              <FaPhoneAlt />
+              <div>{business?.ownerNumber}</div>
+            </div>
+          </a>
           <div className="detailsItem">
-            <FaPhoneAlt />
-            <div>{business?.ownerNumber}</div>
+            <FaRegClock />
+            <div className="time">11:00AM - 12:00PM</div>
+          </div>
+        </div>
+        <a href={`http://maps.google.com/?q=`}>
+          <div className="detailsItem">
+            <FaMapMarkerAlt />{" "}
+            <div>{business?.address?.content || "online"}</div>
           </div>
         </a>
-        <div className="detailsItem">
-          <FaRegClock />
-          <div className="time">11:00AM - 12:00PM</div>
-        </div>
-        <div className="detailsItem">
-          <FaMapMarkerAlt /> <div>{business?.address?.content || "online"}</div>
-        </div>
       </div>
 
       <style jsx>{`
@@ -85,15 +90,17 @@ export default function BrandBar({ business }) {
           font-size: 1.1rem;
           color: black;
           line-height: 1rem;
-          ${styles.flexAligncenter};
-          flex-wrap: wrap;
+          ${styles.flexColumn};
           background: #f6f6f6;
         }
+        .deItem {
+          ${styles.flexAligncenter}
+        }
         .detailsItem {
+          text-align: left;
           ${styles.flexAligncenter}
           gap:.6rem;
-          padding: 0.2rem 0;
-          flex: 1 1 10rem;
+          flex: 1 1 50vw;
           padding: 0.2rem 1.4rem;
         }
         .accept {

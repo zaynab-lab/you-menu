@@ -1,7 +1,14 @@
 import Onoff from "@/components/Onoff";
 import { styles } from "@/public/js/styles";
 
-export default function Payment({ total, user, setUseCredit, useCredit }) {
+export default function Payment({
+  total,
+  user,
+  setUseCredit,
+  useCredit,
+  business,
+  selectedCurrency
+}) {
   return (
     <>
       <div className="paySection">
@@ -18,23 +25,29 @@ export default function Payment({ total, user, setUseCredit, useCredit }) {
           <Onoff setOn={() => setUseCredit(!useCredit)} on={useCredit} />
         </div>
         <div className="payItem">
-          <div>current credit</div>
+          <div>wallet credit</div>
           <div>
             {(useCredit
               ? Number((user?.credit - total).toFixed(2)) < 0
                 ? "0"
                 : Number((user?.credit - total).toFixed(2))
-              : Number((user?.credit).toFixed(2))) + "$"}
+              : Number((user?.credit).toFixed(2))) +
+              " " +
+              "$"}
           </div>
         </div>
         <div className="payItem">
           <div>should pay</div>
           <div>
-            {(useCredit
+            {useCredit
               ? Number((user?.credit - total).toFixed(2)) > 0
                 ? "0"
                 : Math.abs(Number((user?.credit - total).toFixed(2)))
-              : Number(total.toFixed(2))) + "$"}
+              : selectedCurrency
+              ? Number(total.toFixed(2)) + " " + business?.defaultCurrency
+              : Number((total * business?.exRate).toFixed(2)) +
+                " " +
+                business?.currency}
           </div>
         </div>
       </div>

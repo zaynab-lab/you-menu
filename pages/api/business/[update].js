@@ -57,10 +57,17 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
-              case "currenc":
+              case "currency":
                 Business.findByIdAndUpdate(
                   business._id,
-                  { currency: body.currenc },
+                  { currency: body.currency },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+              case "defCurrency":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { defaultCurrency: body.defCurrency },
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");

@@ -1,11 +1,13 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
-import Location from "@/components/Location";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
+import dynamic from "next/dynamic";
+
+const Location = dynamic(() => import("@/components/Location"));
 
 export default function Address({ user, options }) {
   const [addressModal, setAddressModal] = useState(false);

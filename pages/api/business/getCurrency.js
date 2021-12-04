@@ -5,22 +5,16 @@ dbConnection();
 
 export default async function Businesses(req, res) {
   const { method } = req;
+
   if (method === "GET" && req.query.businessCode) {
     const business = await Business.findOne({
       businessCode: req.query.businessCode
     }).exec();
+
     return res.status(200).end(
       JSON.stringify({
-        defaultCurrency: business.defaultCurrency,
         currency: business.currency,
-        exRate: business.exRate,
-        brand: business.brand,
-        businessCode: business.businessCode,
-        businessType: business.businessType,
-        ownerNumber: business.ownerNumber,
-        acceptOrders: business.acceptOrders,
-        acceptDelivery: business.acceptDelivery,
-        address: business.address
+        defaultCurrency: business.defaultCurrency
       })
     );
   } else {

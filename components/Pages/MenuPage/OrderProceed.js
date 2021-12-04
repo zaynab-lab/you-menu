@@ -12,10 +12,11 @@ export default function OrderProceed({
   user,
   total,
   orderType,
-  businessCode,
+  business,
   table,
   cartItems,
-  action
+  action,
+  selectedCurrency
 }) {
   const [address, setAddress] = useState();
   const [useCredit, setUseCredit] = useState(false);
@@ -25,7 +26,13 @@ export default function OrderProceed({
       <div className="invoiceAddon">
         <div className="invoiceAddonRow">
           <div>total: </div>
-          <div>{Number(total.toFixed(2)) + " $"}</div>
+          <div>
+            {selectedCurrency
+              ? Number(total.toFixed(2)) + " " + business?.defaultCurrency
+              : Number((total * business?.exRate).toFixed(2)) +
+                " " +
+                business?.currency}
+          </div>
         </div>
         {orderType === "delivery" && (
           <div className="invoiceAddonRow">
@@ -37,9 +44,11 @@ export default function OrderProceed({
       {orderType === "delivery" && <Address user={user} />}
       <Payment
         user={user}
+        business={business}
         total={total}
         setUseCredit={setUseCredit}
         useCredit={useCredit}
+        selectedCurrency={selectedCurrency}
       />
 
       <div className="orderbtn">
@@ -51,12 +60,13 @@ export default function OrderProceed({
               .post(
                 "/api/order",
                 {
-                  businessCode,
+                  businessCode: business?.businessCode,
                   cartItems,
                   address,
                   orderType,
                   useCredit,
-                  table
+                  table,
+                  selectedCurrency
                 },
                 { "content-type": "application/json" }
               )

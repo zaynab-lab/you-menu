@@ -4,13 +4,15 @@ import Image from "next/image";
 export default function ProductList({
   category,
   products,
+  defaultCurrency,
   currency,
   exRate,
   firebaseLink,
   businessCode,
   action,
   setAlert,
-  setFadeAlert
+  setFadeAlert,
+  selectedCurrency
 }) {
   return (
     <>
@@ -42,11 +44,11 @@ export default function ProductList({
                   product.price &&
                   (product.exist ? (
                     <div className="price">
-                      {currency === "$"
-                        ? product.price
-                        : Number((product.price * exRate).toFixed(2))}
-
-                      {currency}
+                      {selectedCurrency
+                        ? product.price + " " + defaultCurrency
+                        : Number((product.price * exRate).toFixed(2)) +
+                          " " +
+                          currency}
                     </div>
                   ) : (
                     <div className="out">out of stock</div>
@@ -75,11 +77,11 @@ export default function ProductList({
                 product.price &&
                 (product.exist ? (
                   <div className="price">
-                    {currency === "$"
-                      ? product.price
-                      : Number((product.price * exRate).toFixed(2))}
-
-                    {currency}
+                    {selectedCurrency
+                      ? product.price + " " + defaultCurrency
+                      : Number((product.price * exRate).toFixed(2)) +
+                        " " +
+                        currency}
                   </div>
                 ) : (
                   <div className="out">out of stock</div>

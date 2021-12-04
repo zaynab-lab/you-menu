@@ -18,7 +18,8 @@ export default function Category({
   businessCode,
   currentCat,
   setCurrentCat,
-  setRefreshCat
+  setRefreshCat,
+  defaultCurrency
 }) {
   const [productName, setProductName] = useState("");
   const [products, setProducts] = useState([0]);
@@ -75,9 +76,8 @@ export default function Category({
                     )}
                     {typeof product.price === "number" && (
                       <div className="price">
-                        $
                         {typeof product.price === "number" ? (
-                          product.price
+                          product.price + " " + (defaultCurrency || "USD")
                         ) : (
                           <ProductPriceLoader />
                         )}
@@ -99,7 +99,7 @@ export default function Category({
                             }.png?alt=media&tr=w-${width}`
                           }`
                         }
-                        src={product?._id}
+                        src={product?._id || "noImg"}
                         alt={product.name}
                       />
                     </div>

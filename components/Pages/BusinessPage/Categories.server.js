@@ -12,6 +12,18 @@ export default function Categories({ categories, businessCode, setRefresh }) {
   const [category, setCategory] = useState(categories?.[0]);
   const [renameModal, setRenameModal] = useState(false);
   const [categoryID, setCategoryID] = useState("");
+  const [defaultCurrency, setDefaultCurrency] = useState("USD");
+
+  useEffect(() => {
+    !!businessCode &&
+      axios
+        .get(`/api/business/getCurrency?businessCode=${businessCode}`)
+        .then(
+          (res) =>
+            res?.data?.defaultCurrency &&
+            setDefaultCurrency(res?.data?.defaultCurrency)
+        );
+  }, [businessCode]);
 
   useEffect(() => {
     !currentCat && setCurrentCat(categories?.[0]?.name);
@@ -47,6 +59,7 @@ export default function Categories({ categories, businessCode, setRefresh }) {
         currentCat={currentCat}
         setCurrentCat={setCurrentCat}
         setRefreshCat={setRefresh}
+        defaultCurrency={defaultCurrency}
       />
       <RenameModal
         dfname={currentCat}

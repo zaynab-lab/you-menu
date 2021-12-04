@@ -39,20 +39,29 @@ export default async (req, res) => {
               })
             );
 
-            const total = await products
+            let total = await products
               ?.map((product) => body.cartItems[product._id] * product?.price)
               .reduce((a, b) => a + b);
 
-            const shouldPay = body.useCredit
+            let shouldPay = body.useCredit
               ? Number((user?.credit - total).toFixed(2)) > 0
                 ? 0
                 : Math.abs(Number((user?.credit - total).toFixed(2)))
               : Number(total.toFixed(2));
+
             const newCredit = body.useCredit
               ? Number((user?.credit - total).toFixed(2)) < 0
                 ? 0
                 : Number((user?.credit - total).toFixed(2))
               : Number((user?.credit).toFixed(2));
+
+            let currency = business?.defaultCurrency;
+
+            if (body.selectedCurrency === false) {
+              total = Number((total * business?.exRate).toFixed(2));
+              shouldPay = Number((shouldPay * business?.exRate).toFixed(2));
+              currency = business?.currency;
+            }
 
             const order = new Order({
               ownerID: user._id,
@@ -62,6 +71,7 @@ export default async (req, res) => {
               businessCode: business.businessCode,
               products: cartProducts,
               "total.amount": total,
+              "total.currency": currency,
               paymentMethod: "cash",
               "address.content": body?.address,
               orderType: body.orderType,

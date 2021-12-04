@@ -1,112 +1,192 @@
 import { styles } from "@/public/js/styles";
 import Button from "@/components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { firebaseLink } from "@/util/links";
 import { steps } from "./Orders";
 import dateChanger, { timeChanger } from "@/util/dateChanger";
-import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaComment,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaRegClock
+} from "react-icons/fa";
+import axios from "axios";
+import Link from "next/link";
 
 export default function OrderCard({ order, businessCode, businessPage }) {
   const [time, setTime] = useState(10);
+  const [openOrder, setOpenOrder] = useState(true);
+  const [business, setBusiness] = useState({
+    defaultCurrency: "",
+    currency: "",
+    exRate: 1
+  });
+
+  useEffect(() => {
+    !businessPage &&
+      businessCode &&
+      axios
+        .get(`/api/business/getBusinessInfo?businessCode=${businessCode}`)
+        .then((res) => {
+          res?.data?.brand &&
+            setBusiness((business) => Object({ ...business, ...res.data }));
+        });
+    businessPage && setOpenOrder(false);
+  }, [businessCode, businessPage]);
+
   return (
     <>
       <div className="orderCard">
-        <div className="orderCard-item">
-          <div className="orderCardHead">
-            <div>
-              <div className="orderType">{order?.orderType}</div>
-
-              <div className="orderTable">
-                table 1{order?.table && "table " + order?.table}
-              </div>
-              <div className="orderTable">{order?.code}</div>
+        <div className="topHead">
+          {businessPage ? (
+            <div
+              className="businessBrand"
+              onClick={() => setOpenOrder(!openOrder)}
+            >
+              {order.ownerName || order._id}
             </div>
-            <div className="orderDate">
-              <div className="orderDateItem">
-                <FaRegClock />
-                <div>{timeChanger(order.date)}</div>
-              </div>
-              <div className="orderDateItem">
-                <FaCalendarAlt />
-
-                <div>{dateChanger(order.date)}</div>
-              </div>
-            </div>
-          </div>
-          <div className="orderProducts">
-            {order?.products
-              ?.map((product, i) => (
-                <div key={i} className="product">
-                  {product?.hasImg ? (
-                    <div className="productPartImg">
-                      <Image
-                        height="100"
-                        width="100"
-                        loader={({ src, width }) =>
-                          `${
-                            firebaseLink +
-                            src +
-                            `%2F${
-                              product?.defaultID + product?.imgLink
-                            }.png?alt=media&tr=w-${width}`
-                          }`
-                        }
-                        src={businessCode || "noImg"}
-                        alt={product?.name}
-                      />
-                    </div>
-                  ) : (
-                    <div>product</div>
-                  )}
-                  <div>x{product?.quantity}</div>
-                  <div>{product?.name}</div>
-                </div>
-              ))
-              .reverse()}
-          </div>
-        </div>
-        <div className="information">
-          <div className="infoRow">
-            <div>total: {order?.total?.amount} $</div>
-            {businessPage && <div>should pay: {order?.shouldPay} $</div>}
-          </div>
-
-          {businessPage && (
-            <div className="preperationTime">
-              <div>prepration time </div>
-              <div className="timeControlar">
-                <div
-                  className="cbtn min"
-                  onClick={() => time > 5 && setTime(time - 5)}
-                >
-                  -
-                </div>
-                <div>{time}</div>
-                <div
-                  className="cbtn plus"
-                  onClick={() => time < 90 && setTime(time + 5)}
-                >
-                  +
-                </div>
-                <div>min</div>
-              </div>
-            </div>
+          ) : (
+            <Link href={`/menu/${businessCode}`}>
+              <div className="businessBrand">{business?.brand?.name}</div>
+            </Link>
           )}
-        </div>
-        {businessPage ? (
-          <div className="buttonContainer">
-            <Button
-              content={"decline"}
-              onclick={() => {
-                alert("removed");
-              }}
-            />
 
-            <Button color={styles.secondaryColor} content={"confirm"} />
+          <div className="iconsContainer">
+            <Link
+              href={
+                businessPage
+                  ? `tel:${order.ownerNumber}`
+                  : `tel:${business?.ownerNumber}`
+              }
+            >
+              <div className="contactIcon">
+                <FaComment />
+              </div>
+            </Link>
+
+            <Link
+              href={
+                businessPage
+                  ? `tel:${order.ownerNumber}`
+                  : `tel:${business?.ownerNumber}`
+              }
+            >
+              <div className="contactIcon">
+                <FaPhone />
+              </div>
+            </Link>
           </div>
-        ) : (
-          <ProcessBar />
+        </div>
+
+        {openOrder && (
+          <>
+            <div className="orderCard-item">
+              <div className="orderDetails">
+                <div className="orderType">{order?.orderType}</div>
+                <div className="orderMoreDetails">
+                  <div>
+                    <div className="orderTable">
+                      {order?.address?.content && <FaMapMarkerAlt />}
+                      {order?.address?.content && " " + order?.address?.content}
+                      {order?.table && " table " + order?.table}
+                    </div>
+                    <div className="orderTable">{order?.code}</div>
+                  </div>
+                  <div className="orderDate">
+                    <div className="orderDateItem">
+                      <FaRegClock />
+                      <div>{timeChanger(order.date)}</div>
+                    </div>
+                    <div className="orderDateItem">
+                      <FaCalendarAlt />
+                      <div>{dateChanger(order.date)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="orderProducts">
+                {order?.products
+                  ?.map((product, i) => (
+                    <div key={i} className="product">
+                      {product?.hasImg ? (
+                        <div className="productPartImg">
+                          <Image
+                            height="70"
+                            width="70"
+                            loader={({ src, width }) =>
+                              `${
+                                firebaseLink +
+                                src +
+                                `%2F${
+                                  product?.defaultID + product?.imgLink
+                                }.png?alt=media&tr=w-${width}`
+                              }`
+                            }
+                            src={businessCode || "noImg"}
+                            alt={product?.name}
+                          />
+                        </div>
+                      ) : (
+                        <div>product</div>
+                      )}
+                      <div>x{product?.quantity}</div>
+                      <div>{product?.name}</div>
+                    </div>
+                  ))
+                  .reverse()}
+              </div>
+            </div>
+            <div className="information">
+              <div className="infoRow">
+                <div>
+                  total: {order?.total?.amount + " " + order?.total?.currency}
+                </div>
+                {businessPage && (
+                  <div>
+                    should pay:{" "}
+                    {order?.shouldPay + " " + order?.total?.currency}
+                  </div>
+                )}
+              </div>
+
+              {businessPage && (
+                <div className="preperationTime">
+                  <div>prepration time </div>
+                  <div className="timeControlar">
+                    <div
+                      className="cbtn min"
+                      onClick={() => time > 5 && setTime(time - 5)}
+                    >
+                      -
+                    </div>
+                    <div>{time}</div>
+                    <div
+                      className="cbtn plus"
+                      onClick={() => time < 90 && setTime(time + 5)}
+                    >
+                      +
+                    </div>
+                    <div>min</div>
+                  </div>
+                </div>
+              )}
+            </div>
+            {businessPage ? (
+              <div className="buttonContainer">
+                <Button
+                  content={"decline"}
+                  onclick={() => {
+                    alert("removed");
+                  }}
+                />
+                <Button color={styles.secondaryColor} content={"confirm"} />
+              </div>
+            ) : (
+              <ProcessBar />
+            )}
+          </>
         )}
       </div>
 
@@ -116,13 +196,52 @@ export default function OrderCard({ order, businessCode, businessPage }) {
           ${styles.boxshadow};
           margin: 0.8rem;
         }
-        .orderCardHead {
+
+        .topHead {
+          padding-top: 0.5rem;
+          padding-bottom: 0.3rem;
           ${styles.flexAligncenter}
           -webkit-box-pack: justify;
           -ms-flex-pack: justify;
           justify-content: space-between;
-          padding: 0.2rem 1rem;
+        }
+        .businessBrand {
+          min-width: 5rem;
+          font-size: 1.8rem;
+          color: ${styles.secondaryColor};
+          padding: 0 1rem;
+          cursor: pointer;
+          overflow: hidden;
+        }
+
+        .iconsContainer {
+          padding: 0 1rem;
+          ${styles.flexAligncenter}
+          gap:1rem;
+          background: white;
+        }
+        .contactIcon {
+          width: 2.2rem;
+          height: 2.2rem;
+          border: 1px solid gray;
+          border-radius: 50%;
+          color: gray;
+          ${styles.flexBothcenter};
+          cursor: pointer;
+        }
+        .orderDetails {
+          border-top: 1px solid lightgray;
           border-bottom: 1px solid lightgray;
+          padding: 0.2rem 1rem;
+        }
+
+        .orderMoreDetails {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
         }
         .orderCard-item {
           padding: 0.5rem;
@@ -134,14 +253,17 @@ export default function OrderCard({ order, businessCode, businessPage }) {
           white-space: nowrap;
         }
         .orderType {
-          font-size: 1.4rem;
+          font-size: 1rem;
+          padding-bottom: 0.2rem;
           color: ${styles.secondaryColor};
         }
         .orderTable {
           color: gray;
+          font-size: 0.9rem;
         }
         .orderDate {
           color: gray;
+          font-size: 0.9rem;
         }
         .orderDateItem {
           ${styles.flexAligncenter};

@@ -7,24 +7,32 @@ import dynamic from "next/dynamic";
 import Alert from "@/components/Alert";
 import FadeAlert from "./FadeAlert";
 import BrandBar from "./BrandBar";
+import CurrencySelector from "./CurrencySelector";
 import CategoryList from "./CategoryList";
 import { firebaseLink } from "@/util/links";
 
 const Cart = dynamic(() => import("./Cart"));
+const OrderShower = dynamic(() => import("./OrderShower"));
 
 export default function Menu({ businessCode }) {
   const [currentCat, setCurrentCat] = useState("");
-  const [business, setBusiness] = useState({ currency: "", exRate: "1" });
+  const [business, setBusiness] = useState({
+    defaultCurrency: "",
+    currency: "",
+    exRate: 1
+  });
   const sectionsRefs = useRef({});
   const [categories, setCategories] = useState([0, 0, 0]);
   const [products, setProducts] = useState([0, 0]);
   const [alert, setAlert] = useState("");
   const [fadeAlert, setFadeAlert] = useState("");
   const [cartItems, setCartItems] = useState({});
+  const [selectedCurrency, setSelectedCurrency] = useState(false);
+  const [refreshOrder, setRefreshOrder] = useState(false);
 
   const action = (id, add, reset) => {
     if (business?.acceptOrders) {
-      setAlert("item has been added");
+      add && setAlert("item has been added");
       const alter = { ...cartItems };
       !add && cartItems[id] === 1 && delete alter[id];
 
@@ -35,9 +43,13 @@ export default function Menu({ businessCode }) {
         : cartItems[id] === 1
         ? setCartItems(alter)
         : setCartItems({ ...cartItems, [id]: cartItems[id] - 1 });
+    } else {
+      setAlert("online orders not accepted right now");
     }
+
     reset && setCartItems({});
     reset && setAlert("your order has been submited");
+    reset && setRefreshOrder(!refreshOrder);
   };
 
   useEffect(() => {
@@ -79,6 +91,15 @@ export default function Menu({ businessCode }) {
       <Line />
       <div className="categoriesContainer">
         <BrandBar business={business} />
+        <OrderShower refreshOrder={refreshOrder} />
+        {business.defaultCurrency !== business.currency && (
+          <CurrencySelector
+            selectedCurrency={selectedCurrency}
+            setSelectedCurrency={setSelectedCurrency}
+            defaultCurrency={business.defaultCurrency}
+            currency={business.currency}
+          />
+        )}
         <TopBar
           sectionsRefs={sectionsRefs}
           categories={categories}
@@ -95,6 +116,7 @@ export default function Menu({ businessCode }) {
           setAlert={setAlert}
           setFadeAlert={setFadeAlert}
           action={action}
+          selectedCurrency={selectedCurrency}
         />
       </div>
       <Alert setAlert={setAlert} alert={alert} />
@@ -102,11 +124,13 @@ export default function Menu({ businessCode }) {
       <div className="cartContainer">
         <Cart
           business={business}
-          currency={business.currency}
-          exRate={business.exRate}
+          defaultCurrency={business?.defaultCurrency}
+          currency={business?.currency}
+          exRate={business?.exRate}
           products={products}
           cartItems={cartItems}
           action={action}
+          selectedCurrency={selectedCurrency}
         />
       </div>
 

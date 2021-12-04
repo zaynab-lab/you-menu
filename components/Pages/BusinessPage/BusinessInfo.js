@@ -3,13 +3,15 @@ import Logo from "@/components/Logo";
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
-import { useState } from "react";
-import Location from "@/components/Location";
+import { useEffect, useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 import Router from "next/router";
 import Alert from "@/components/Alert";
 import BPLayout from "./BPLayout";
+import dynamic from "next/dynamic";
+
+const Location = dynamic(() => import("@/components/Location"));
 
 const BusinessTypes = [
   "cafe",
@@ -20,7 +22,7 @@ const BusinessTypes = [
   "online",
   "others"
 ];
-const Currency = ["$", "LBP", "AED", "OMR", "CAD"];
+const Currency = ["USD", "LBP", "AED", "OMR", "CAD"];
 
 export default function BusinessInfo({
   setSelected,
@@ -34,11 +36,23 @@ export default function BusinessInfo({
     business?.businessType || "cafe"
   );
   const [exRate, setExRate] = useState(business?.exRate);
-  const [currency, setCurrency] = useState(business?.currency || "$");
+  const [currency, setCurrency] = useState(business?.currency);
+  const [defaultCurrency, setDefaultCurrency] = useState();
   const [addressContent, setAddressContent] = useState(
     business?.address?.content
   );
   const [alert, setAlert] = useState("");
+
+  useEffect(() => {
+    !!business &&
+      axios
+        .get(`/api/business/getCurrency?businessCode=${business.businessCode}`)
+        .then((res) => {
+          res?.data?.defaultCurrency &&
+            setDefaultCurrency(res?.data?.defaultCurrency || "USD");
+          res?.data?.currency && setCurrency(res?.data?.currency || "USD");
+        });
+  }, [business]);
 
   const handleOnBlur = (value, business, state, v2) => {
     if (v2) {
@@ -113,27 +127,35 @@ export default function BusinessInfo({
         </select>
         <Label title={"owner number"} />
         <Input value={business?.ownerNumber} onchange={() => {}} />
-        <Label title={"dollar rate"} />
+        <Label title={"default currency"} />
+
+        <div className="defCurrency">
+          <div className="currencNote">
+            set default currency to price your products and services in this
+            currency.
+          </div>
+          <SelectCurrency
+            business={business}
+            currency={defaultCurrency}
+            setCurrency={setDefaultCurrency}
+            handleOnBlur={handleOnBlur}
+            api="defCurrency"
+          />
+        </div>
+        <Label title={"exchange rate"} />
         <div className="currency">
           <Input
             value={exRate}
             onchange={(e) => setExRate(e.target.value)}
             onblur={() => handleOnBlur("exRate", business, exRate)}
           />
-          <select
-            className="selectCurrency"
-            value={currency}
-            onChange={(e) => {
-              setCurrency(e.target.value);
-              handleOnBlur("currenc", business, e.target.value);
-            }}
-          >
-            {Currency.map((unit, j) => (
-              <option key={j} value={unit}>
-                {unit}
-              </option>
-            ))}
-          </select>
+          <SelectCurrency
+            business={business}
+            currency={currency}
+            setCurrency={setCurrency}
+            handleOnBlur={handleOnBlur}
+            api="currency"
+          />
         </div>
         <Label title={"full address"} />
         <Input
@@ -191,6 +213,64 @@ export default function BusinessInfo({
           padding: 0 0.5rem;
           ${styles.boxshadow}
         }
+
+        .currency {
+          max-width: 22rem;
+          width: 100%;
+          ${styles.flexBothcenter}
+          gap: 1rem;
+        }
+        .defCurrency {
+          max-width: 22rem;
+          width: 100%;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+        .currencNote {
+          padding-top: 0.2rem;
+          font-size: 0.8rem;
+          color: ${styles.secondaryColor};
+          line-height: 0.8rem;
+          text-align: justify;
+          text-justify: inter-word;
+        }
+        .after {
+          padding-bottom: 4rem;
+        }
+      `}</style>
+    </>
+  );
+}
+
+export function SelectCurrency({
+  business,
+  currency,
+  setCurrency,
+  handleOnBlur,
+  api
+}) {
+  return (
+    <>
+      <select
+        className="selectCurrency"
+        value={currency}
+        onChange={(e) => {
+          setCurrency(e.target.value);
+          handleOnBlur(api, business, e.target.value);
+        }}
+      >
+        {Currency.map((unit, j) => (
+          <option key={j} value={unit}>
+            {unit}
+          </option>
+        ))}
+      </select>
+      <style jsx>{`
         .selectCurrency {
           background: white;
           border: none;
@@ -200,14 +280,6 @@ export default function BusinessInfo({
           width: 5rem;
           padding: 0 0.5rem;
           ${styles.boxshadow}
-        }
-        .currency {
-          max-width: 22rem;
-          ${styles.flexBothcenter}
-          gap:1rem;
-        }
-        .after {
-          padding-bottom: 4rem;
         }
       `}</style>
     </>

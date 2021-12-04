@@ -55,7 +55,7 @@ export default function Logo({
           ) : hasImg && businessCode && imgLink ? (
             <Image
               id="img"
-              alt=""
+              alt="za menu"
               width="130"
               height="130"
               loader={({ src, width }) =>
