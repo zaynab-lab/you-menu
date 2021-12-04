@@ -29,15 +29,24 @@ export default async (req, res) => {
             const order = await Order.findById(body.orderID).exec();
             switch (update) {
               case "cancel":
+                if (order.shouldPay === 0) {
+                  let orderOwner = await User.findById(order.ownerID);
+                  const newCredit = orderOwner.credit + order.total;
+                  await User.findByIdAndUpdate(
+                    orderOwner._id,
+                    {
+                      credit: newCredit
+                    },
+                    (err) => console.log(err)
+                  );
+                }
                 Order.findByIdAndUpdate(
                   body.orderID,
                   {
+                    currentStatus: "canceled",
                     "status.canceled.done": true,
                     "status.canceled.date": Date.now(),
-                    "status.confirming.pending": false,
-                    "status.paying.pending": false,
-                    "status.preparing.pending": false,
-                    "status.delivering.pending": false
+                    "status.paying.pending": false
                   },
                   (err) => console.log(err)
                 );
@@ -49,7 +58,8 @@ export default async (req, res) => {
                     currentStatus:
                       order.shouldPay === 0 ? "preparing" : "paying",
                     "status.confirming.done": true,
-                    "status.confirming.date": Date.now()
+                    "status.confirming.date": Date.now(),
+                    preparingTime: body.preparingTime
                   },
                   (err) => console.log(err)
                 );

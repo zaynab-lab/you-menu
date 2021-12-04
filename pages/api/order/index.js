@@ -78,8 +78,8 @@ export default async (req, res) => {
               shouldPay: shouldPay,
               useCredit: body.useCredit,
               code: oCode,
-              "status.paying.done": shouldPay === 0 && true,
-              "status.paying.date": shouldPay === 0 && Date.now()
+              "status.paying.done": shouldPay === 0 ? true : false,
+              "status.paying.date": Date.now()
             });
             await order.save().catch((err) => console.log(err));
             await User.findByIdAndUpdate(user._id, { credit: newCredit });

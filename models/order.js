@@ -30,6 +30,7 @@ const orderSchema = new mongoose.Schema(
     shouldPay: { type: Number },
     useCredit: { type: Boolean },
     table: { type: Number },
+    preparingTime: { type: Number },
     currentStatus: { type: String, default: "confirming" },
     status: {
       confirming: {

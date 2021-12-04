@@ -71,7 +71,7 @@ export default function Orders({ businessCode }) {
   }, [refreshOrders]);
 
   useEffect(() => {
-    !!orders[0]._id &&
+    !!orders[0]?._id &&
       setSteps((steps) =>
         steps?.map((step) => {
           const count = orders?.filter(

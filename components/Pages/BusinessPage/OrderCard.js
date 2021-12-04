@@ -31,7 +31,7 @@ export default function OrderCard({
   setRefreshOrders,
   currentStep
 }) {
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(20);
   const [openOrder, setOpenOrder] = useState(true);
   const [business, setBusiness] = useState({
     defaultCurrency: "",
@@ -169,7 +169,7 @@ export default function OrderCard({
                 )}
               </div>
 
-              {businessPage && order?.status?.confirming?.pending && (
+              {businessPage && order?.currentStatus === "confirming" && (
                 <div className="preperationTime">
                   <div>prepration time </div>
                   <div className="timeControlar">
@@ -182,7 +182,7 @@ export default function OrderCard({
                     <div>{time}</div>
                     <div
                       className="cbtn plus"
-                      onClick={() => time < 90 && setTime(time + 5)}
+                      onClick={() => time < 120 && setTime(time + 5)}
                     >
                       +
                     </div>
@@ -196,7 +196,7 @@ export default function OrderCard({
               businessPage && (
                 <div className="buttonContainer">
                   <Button
-                    content={"decline"}
+                    content={"cancel"}
                     onclick={() => {
                       axios
                         .put(
@@ -217,14 +217,15 @@ export default function OrderCard({
                   />
                   <Button
                     color={styles.secondaryColor}
-                    content={"confirm"}
+                    content={"done"}
                     onclick={() => {
                       axios
                         .put(
                           `/api/order/${currentStep}`,
                           {
                             businessCode: businessCode,
-                            orderID: order._id
+                            orderID: order._id,
+                            preparingTime: time
                           },
                           { "content-type": "application/json" }
                         )
@@ -379,7 +380,9 @@ export function ProcessBar({ order }) {
           <div
             key={i}
             className={`step ${
-              !!order?.status && order?.status[step.state]?.done && "doneStep"
+              !!order?.status && order?.status[step.state]?.done
+                ? "doneStep"
+                : step.state !== order.currentStatus && "hidden"
             }`}
           >
             <div
@@ -412,7 +415,11 @@ export function ProcessBar({ order }) {
               (step.state === order.currentStatus ||
                 (!!order?.status && order?.status[step.state]?.pending)) && (
                 <div className="stepDate">
-                  <div>-{step.state === "preparing" && " 10 min"}</div>
+                  <div>
+                    {step.state === "preparing"
+                      ? order?.preparingTime + " min"
+                      : "-"}
+                  </div>
                   <div className="processLine"></div>
                 </div>
               )
@@ -464,6 +471,9 @@ export function ProcessBar({ order }) {
           font-size: 0.8rem;
           color: gray;
           min-width: 5rem;
+        }
+        .hidden {
+          display: none;
         }
 
         .processLine {
