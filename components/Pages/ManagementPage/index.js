@@ -9,6 +9,7 @@ const ListOfBusinesses = dynamic(() =>
 );
 const ListOfUsers = dynamic(() => import("./ListOfUsers"));
 const ListOfProducts = dynamic(() => import("./ListOfProducts"));
+const ListOfExchanges = dynamic(() => import("./ListOfExchanges"));
 
 export default function ManagementPage() {
   const [page, setPage] = useState("General");
@@ -18,6 +19,7 @@ export default function ManagementPage() {
       <TopBar page={page} setPage={setPage} />
       <div className="pageContainer">
         {page === "General" && <General />}
+        {page === "Exchanges" && <ListOfExchanges />}
         {page === "Businesses" && <ListOfBusinesses from={"management"} />}
         {page === "Users" && <ListOfUsers />}
         {page === "Deleted" && <ListOfProducts />}

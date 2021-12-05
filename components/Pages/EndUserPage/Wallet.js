@@ -1,3 +1,5 @@
+import Input from "@/components/Input";
+import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
 import {
@@ -10,41 +12,52 @@ import {
 
 export default function Wallet({ credit }) {
   const [selectedTab, setSelectedTab] = useState("transactions");
+  const [transactionModal, setTransactionModal] = useState(false);
+  const [actionType, setActionType] = useState();
+
+  const action = (aType) => {
+    setActionType(aType);
+    setTransactionModal(true);
+  };
   return (
     <>
       <div className="walletPage">
-        <WalletHeader credit={credit} />
+        <WalletHeader credit={credit} action={action} />
         <WalletTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         {selectedTab === "transactions" && <Transactions />}
+
+        <TransactionModal
+          transactionModal={transactionModal}
+          setTransactionModal={setTransactionModal}
+          actionType={actionType}
+        />
       </div>
       <style jsx>{``}</style>
     </>
   );
 }
 
-export function WalletHeader({ credit }) {
+export function WalletHeader({ credit, action }) {
   return (
     <>
       <div className="walletHeader">
         <div className="walletHeaderCredit">
           <div className="walletCredit">
-            &#8776;{credit}
+            {credit}
             <span className="currency">USD</span>
           </div>
           <div className="options">
-            <div className="option">
+            <div className="option" onClick={() => action("send")}>
               <div className="optionIcon">
                 <BsUpload />
               </div>
-
               <div>send</div>
             </div>
 
-            <div className="option">
+            <div className="option" onClick={() => action("receive")}>
               <div className="optionIcon">
                 <BsDownload />
               </div>
-
               <div>receive</div>
             </div>
 
@@ -52,7 +65,6 @@ export function WalletHeader({ credit }) {
               <div className="optionIcon">
                 <BsTag />
               </div>
-
               <div>services</div>
             </div>
           </div>
@@ -70,17 +82,18 @@ export function WalletHeader({ credit }) {
           width: 100%;
           padding: 2.6rem;
           border-radius: 1rem;
-          background: white;
+          background: #fefefe;
           color: ${styles.secondaryColor};
           ${styles.boxshadow}
           ${styles.flexBothcenter};
           ${styles.flexColumn}
           color: gray;
+          border: 0px solid ${styles.secondaryColor};
           overflow: hidden;
         }
 
         .walletCredit {
-          font-size: 2.6rem;
+          font-size: 3rem;
         }
 
         .options {
@@ -88,11 +101,13 @@ export function WalletHeader({ credit }) {
           gap:4rem;
           padding-top: 2rem;
           font-size: 1rem;
+          z-index: 2;
         }
 
         .option {
           ${styles.flexAligncenter};
           ${styles.flexColumn};
+          cursor: pointer;
         }
 
         .optionIcon {
@@ -150,7 +165,8 @@ export function WalletTabs({ selectedTab, setSelectedTab }) {
         }
         .tab {
           font-size: 1.2rem;
-          padding: 0.2rem 0.6rem;
+          padding: 0.2rem 1.2rem;
+          cursor: pointer;
         }
         .selected {
           border-radius: 0.8rem;
@@ -289,6 +305,104 @@ export function Transactions() {
         .currency {
           font-size: 50%;
           padding-left: 0.2rem;
+        }
+      `}</style>
+    </>
+  );
+}
+
+export function TransactionModal({
+  transactionModal,
+  setTransactionModal,
+  actionType
+}) {
+  return (
+    <>
+      <div
+        className={`transactionModal ${
+          transactionModal && "showTransactionModal"
+        }`}
+      >
+        <div className="transactionContainer">
+          <div className="Xheader">
+            <div>{actionType}</div>
+
+            <div
+              className="X"
+              onClick={() => {
+                setTransactionModal(false);
+              }}
+            >
+              x
+            </div>
+          </div>
+          {actionType === "send" ? (
+            <div className="transactionBody">
+              <Label title="target code" />
+              <Input placeholder="place the code" font={"1.2rem"} />
+            </div>
+          ) : (
+            <div className="transactionBody">
+              <Label title="share your wallet" />
+              <Input
+                placeholder="9328938eyhdu933299283yd932y"
+                font={"1.2rem"}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .transactionModal {
+          position: fixed;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: -1;
+          opacity: 0;
+          ${styles.flexBothcenter}
+          ${styles.flexColumn}
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+        }
+
+        .showTransactionModal {
+          opacity: 100;
+          z-index: 100;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+          background: #8888;
+        }
+
+        .Xheader {
+          text-align: right;
+          padding: 0.2rem;
+          min-width: 22rem;
+          background: white;
+          font-size: 1.2rem;
+          ${styles.flexAligncenter};
+          justify-content: space-between;
+          padding: 0 0.5rem;
+          border-radius: 0.7rem 0.7rem 0 0;
+        }
+
+        .X {
+          font-size: 1.6rem;
+          line-height: 0;
+          padding-bottom: 0.4rem;
+          cursor: pointer;
+        }
+        .transactionContainer {
+          border: 1px solid ${styles.secondaryColor};
+          border-radius: 0.7rem;
+          z-index: 101;
+          background: white;
+        }
+        .transactionBody {
+          padding: 1rem;
         }
       `}</style>
     </>
