@@ -74,7 +74,16 @@ export default function ListOfExchanges() {
         </div>
         <div>
           {exchanges?.map((ex, i) => (
-            <div key={i} className="exRow">
+            <div
+              key={i}
+              className="exRow"
+              onClick={() => {
+                setTargetCurrency(ex.target);
+                setBaseCurrency(ex.baseCurrency);
+                setExID(ex._id);
+                setRate(ex.rate);
+              }}
+            >
               <span className="icon">
                 <FaExchangeAlt />
               </span>{" "}

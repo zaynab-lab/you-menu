@@ -24,7 +24,6 @@ const time = [
   },
   {
     availble: true,
-
     intervals: [
       { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
     ]
@@ -32,7 +31,6 @@ const time = [
 
   {
     availble: true,
-
     intervals: [
       { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
     ]
@@ -40,7 +38,6 @@ const time = [
 
   {
     availble: true,
-
     intervals: [
       { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
     ]
@@ -48,7 +45,6 @@ const time = [
 
   {
     availble: true,
-
     intervals: [
       { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
     ]
@@ -61,7 +57,9 @@ const time = [
     ]
   }
 ];
+
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 export default function Time({ business, setSelected }) {
   const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
   const [orderOn, setOrderOn] = useState(business.acceptOrders);
@@ -111,7 +109,7 @@ export default function Time({ business, setSelected }) {
                 defaultIntervals={day.intervals}
                 availble={day.availble}
               />
-              <Onoff on={day.availble} noText="true" />
+              <ControlAvailbleDays availble={day.availble} />
             </div>
           ))}
         </div>
@@ -143,6 +141,15 @@ export default function Time({ business, setSelected }) {
           color: gray;
         }
       `}</style>
+    </>
+  );
+}
+
+export function ControlAvailbleDays({ availble }) {
+  const [on, setOn] = useState(availble);
+  return (
+    <>
+      <Onoff on={on} setOn={() => setOn(!on)} noText="true" />
     </>
   );
 }
