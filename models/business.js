@@ -15,6 +15,8 @@ const businessSchema = new mongoose.Schema(
     businessCode: { type: String },
     businessType: { type: String, default: "cafe" },
     verified: { type: Boolean, default: false },
+    useExchange: { type: Boolean },
+    onlyTarget: { type: Boolean },
     defaultCurrency: { type: String },
     exRate: { type: Number, default: 1 },
     currency: { type: String },

@@ -63,6 +63,11 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export default function Time({ business, setSelected }) {
   const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
   const [orderOn, setOrderOn] = useState(business.acceptOrders);
+  const [twentyfour, setTwentyfour] = useState(false);
+  const [everyday, setEveryday] = useState(false);
+  const [everydayDefault, setEverydayDefault] = useState([
+    { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+  ]);
 
   return (
     <>
@@ -97,24 +102,55 @@ export default function Time({ business, setSelected }) {
             setDeliveryOn(!deliveryOn);
           }}
         />
-        <div className="timeTitle">
-          <FaRegClock />
-          select availble time
+        <div className="selectTitle">
+          <div className="timeTitle">
+            <FaRegClock />
+            select open time
+          </div>
+          <div className="save">save</div>
         </div>
-        <div className="dayContainer">
-          {time.map((day, i) => (
-            <div className="day" key={i}>
-              <div className="dayname">{days[i]}</div>
-              <SelectTime
-                defaultIntervals={day.intervals}
-                availble={day.availble}
-              />
-              <ControlAvailbleDays availble={day.availble} />
+        <div className="controlSection">
+          <div
+            className={`choose ${!twentyfour && "twentyfour"}`}
+            onClick={() => setTwentyfour(!twentyfour)}
+          >
+            24 hours open
+          </div>
+          {!twentyfour && (
+            <div
+              className={`choose ${!everyday && "twentyfour"}`}
+              onClick={() => setEveryday(!everyday)}
+            >
+              every day open
+            </div>
+          )}
+        </div>
+        {!twentyfour &&
+          (everyday ? (
+            <div className="day">
+              <div className="dayname">set time</div>
+              <SelectTime defaultIntervals={everydayDefault} availble={true} />
+            </div>
+          ) : (
+            <div className="dayContainer">
+              {time.map((day, i) => (
+                <div className="day" key={i}>
+                  <div className="dayname">{days[i]}</div>
+                  <ControlAvailbleDays
+                    availble={day.availble}
+                    intervals={day.intervals}
+                  />
+                </div>
+              ))}
             </div>
           ))}
-        </div>
       </BPLayout>
       <style jsx>{`
+        .selectTitle {
+          padding-right: 2rem;
+          width: 100%;
+          ${styles.flexAligncenter}
+        }
         .timeTitle {
           width: 100%;
           padding: 1rem;
@@ -122,34 +158,71 @@ export default function Time({ business, setSelected }) {
           ${styles.flexAligncenter}
           gap:.8rem;
         }
+        .save {
+          color: gray;
+          cursor: pointer;
+        }
         .dayContainer {
           width: 100%;
           align-text: left;
           padding: 0.5rem;
         }
         .day {
+          width: 100%;
           padding: 1rem 0.5rem;
           -webkit-box-pack: justify;
           -ms-flex-pack: justify;
           justify-content: space-between;
           ${styles.flexAligncenter}
           border-bottom: 1px solid #eee;
+          white-space: nowrap;
         }
         .dayname {
           width: 2rem;
           font-size: 1.4rem;
           color: gray;
         }
+        .controlSection {
+          width: 100%;
+          ${styles.flexAligncenter}
+          gap:1rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+        }
+        .choose {
+          cursor: pointer;
+          border: 1px solid ${styles.secondaryColor};
+          border-radius: 3rem;
+          font-size: 0.9rem;
+          padding: 0rem 0.6rem;
+          color: ${styles.secondaryColor};
+          ${styles.userSelect}
+        }
+        .twentyfour {
+          color: gray;
+          text-decoration: line-through;
+          border: 1px solid gray;
+        }
       `}</style>
     </>
   );
 }
 
-export function ControlAvailbleDays({ availble }) {
+export function ControlAvailbleDays({ availble, intervals }) {
   const [on, setOn] = useState(availble);
   return (
     <>
+      {on ? (
+        <SelectTime defaultIntervals={intervals} availble={availble} />
+      ) : (
+        <div className="close">close</div>
+      )}
       <Onoff on={on} setOn={() => setOn(!on)} noText="true" />
+      <style jsx>{`
+        .close {
+          color: gray;
+        }
+      `}</style>
     </>
   );
 }

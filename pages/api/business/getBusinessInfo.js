@@ -11,9 +11,11 @@ export default async function Businesses(req, res) {
     }).exec();
     return res.status(200).end(
       JSON.stringify({
-        defaultCurrency: business.defaultCurrency,
-        currency: business.currency,
-        exRate: business.exRate,
+        defaultCurrency: business?.defaultCurrency,
+        useExchange: business?.useExchange,
+        onlyTarget: business?.onlyTarget,
+        currency: business?.currency,
+        exRate: business?.exRate,
         brand: business.brand,
         businessCode: business.businessCode,
         businessType: business.businessType,

@@ -92,14 +92,16 @@ export default function Menu({ businessCode }) {
       <div className="categoriesContainer">
         <BrandBar business={business} />
         <OrderShower refreshOrder={refreshOrder} />
-        {business.defaultCurrency !== business.currency && (
-          <CurrencySelector
-            selectedCurrency={selectedCurrency}
-            setSelectedCurrency={setSelectedCurrency}
-            defaultCurrency={business.defaultCurrency}
-            currency={business.currency}
-          />
-        )}
+        {business?.defaultCurrency !== business?.currency &&
+          business?.useExchange &&
+          !business?.onlyTarget && (
+            <CurrencySelector
+              selectedCurrency={!selectedCurrency}
+              setSelectedCurrency={setSelectedCurrency}
+              defaultCurrency={business.defaultCurrency}
+              currency={business.currency}
+            />
+          )}
         <TopBar
           sectionsRefs={sectionsRefs}
           categories={categories}
@@ -125,6 +127,8 @@ export default function Menu({ businessCode }) {
         <Cart
           business={business}
           defaultCurrency={business?.defaultCurrency}
+          useExchange={business?.useExchange}
+          onlyTarget={business?.onlyTarget}
           currency={business?.currency}
           exRate={business?.exRate}
           products={products}

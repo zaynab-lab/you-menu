@@ -52,7 +52,9 @@ export default function CategoryList({
               products={products}
               cartItems={cartItems}
               currency={business?.currency}
+              onlyTarget={business?.onlyTarget}
               defaultCurrency={business?.defaultCurrency}
+              useExchange={business?.useExchange}
               exRate={business?.exRate}
               firebaseLink={firebaseLink}
               businessCode={businessCode}

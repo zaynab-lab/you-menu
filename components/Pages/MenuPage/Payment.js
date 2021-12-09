@@ -4,6 +4,8 @@ import { styles } from "@/public/js/styles";
 export default function Payment({
   total,
   user,
+  onlyTarget,
+  useExchange,
   setUseCredit,
   useCredit,
   business,
@@ -33,7 +35,7 @@ export default function Payment({
                 : Number((user?.credit - total).toFixed(2))
               : Number((user?.credit).toFixed(2))) +
               " " +
-              "$"}
+              "USD"}
           </div>
         </div>
         <div className="payItem">
@@ -44,10 +46,10 @@ export default function Payment({
                 ? "0"
                 : Math.abs(Number((user?.credit - total).toFixed(2)))
               : selectedCurrency
-              ? Number(total.toFixed(2)) + " " + business?.defaultCurrency
-              : Number((total * business?.exRate).toFixed(2)) +
+              ? Number((total * business?.exRate).toFixed(2)) +
                 " " +
-                business?.currency}
+                business?.currency
+              : Number(total.toFixed(2)) + " " + business?.defaultCurrency}
           </div>
         </div>
       </div>

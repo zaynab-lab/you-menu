@@ -9,6 +9,8 @@ export default function Cart({
   cartItems,
   products,
   defaultCurrency,
+  useExchange,
+  onlyTarget,
   currency,
   exRate,
   action,
@@ -35,9 +37,13 @@ export default function Cart({
           <div className="cartTitle" onClick={() => setOpen(!open)}>
             <div>Total</div>
             <div>
-              {selectedCurrency
+              {!useExchange
                 ? Number(total.toFixed(2)) + " " + defaultCurrency
-                : Number((total * exRate).toFixed(2)) + " " + currency}
+                : onlyTarget
+                ? Number((total * exRate).toFixed(2)) + " " + currency
+                : selectedCurrency
+                ? Number((total * exRate).toFixed(2)) + " " + currency
+                : Number(total.toFixed(2)) + " " + defaultCurrency}
             </div>
           </div>
 
@@ -48,6 +54,8 @@ export default function Cart({
                   setProceed={setProceed}
                   business={business}
                   products={products}
+                  useExchange={useExchange}
+                  onlyTarget={onlyTarget}
                   cartItems={cartItems}
                   total={total}
                   action={action}
@@ -71,7 +79,7 @@ export default function Cart({
                             />
                           </div>
                           <div className="price">
-                            {selectedCurrency
+                            {!useExchange
                               ? Number(
                                   (
                                     product?.price * cartItems[product._id]
@@ -79,7 +87,8 @@ export default function Cart({
                                 ) +
                                 " " +
                                 defaultCurrency
-                              : Number(
+                              : onlyTarget
+                              ? Number(
                                   (
                                     product?.price *
                                     cartItems[product._id] *
@@ -87,7 +96,24 @@ export default function Cart({
                                   ).toFixed(2)
                                 ) +
                                 " " +
-                                currency}
+                                currency
+                              : selectedCurrency
+                              ? Number(
+                                  (
+                                    product?.price *
+                                    cartItems[product._id] *
+                                    exRate
+                                  ).toFixed(2)
+                                ) +
+                                " " +
+                                currency
+                              : Number(
+                                  (
+                                    product?.price * cartItems[product._id]
+                                  ).toFixed(2)
+                                ) +
+                                " " +
+                                defaultCurrency}
                           </div>
                         </div>
                       ))}

@@ -18,6 +18,8 @@ const bType = ["resturant", "cafe", "resto cafe"];
 export default function Proceed({
   total,
   business,
+  useExchange,
+  onlyTarget,
   setProceed,
   products,
   cartItems,
@@ -104,6 +106,8 @@ export default function Proceed({
                 <OrderProceed
                   user={user}
                   total={total}
+                  useExchange={useExchange}
+                  onlyTarget={onlyTarget}
                   business={business}
                   orderType={orderType}
                   table={userTable}
@@ -134,6 +138,8 @@ export default function Proceed({
                 <OrderProceed
                   user={user}
                   total={total}
+                  useExchange={useExchange}
+                  onlyTarget={onlyTarget}
                   business={business}
                   orderType={orderType}
                   table={userTable}

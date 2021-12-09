@@ -12,6 +12,8 @@ export default function OrderProceed({
   user,
   total,
   orderType,
+  onlyTarget,
+  useExchange,
   business,
   table,
   cartItems,
@@ -27,11 +29,17 @@ export default function OrderProceed({
         <div className="invoiceAddonRow">
           <div>total: </div>
           <div>
-            {selectedCurrency
+            {!useExchange
               ? Number(total.toFixed(2)) + " " + business?.defaultCurrency
-              : Number((total * business?.exRate).toFixed(2)) +
+              : onlyTarget
+              ? Number((total * business?.exRate).toFixed(2)) +
                 " " +
-                business?.currency}
+                business?.currency
+              : selectedCurrency
+              ? Number((total * business?.exRate).toFixed(2)) +
+                " " +
+                business?.currency
+              : Number(total.toFixed(2)) + " " + business?.defaultCurrency}
           </div>
         </div>
         {orderType === "delivery" && (
@@ -45,6 +53,8 @@ export default function OrderProceed({
       <Payment
         user={user}
         business={business}
+        onlyTarget={onlyTarget}
+        useExchange={useExchange}
         total={total}
         setUseCredit={setUseCredit}
         useCredit={useCredit}

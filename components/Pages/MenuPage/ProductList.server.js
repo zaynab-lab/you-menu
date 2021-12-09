@@ -7,6 +7,8 @@ export default function ProductList({
   defaultCurrency,
   currency,
   exRate,
+  useExchange,
+  onlyTarget,
   firebaseLink,
   businessCode,
   action,
@@ -37,18 +39,23 @@ export default function ProductList({
             >
               <div className="productPart">
                 <div className="productName">{product.name}</div>
-
                 <div className="description">{product.description}</div>
 
                 {product.hasImg &&
                   product.price &&
                   (product.exist ? (
                     <div className="price">
-                      {selectedCurrency
+                      {!useExchange
                         ? product.price + " " + defaultCurrency
-                        : Number((product.price * exRate).toFixed(2)) +
+                        : onlyTarget
+                        ? Number((product.price * exRate).toFixed(2)) +
                           " " +
-                          currency}
+                          currency
+                        : selectedCurrency
+                        ? Number((product.price * exRate).toFixed(2)) +
+                          " " +
+                          currency
+                        : product.price + " " + defaultCurrency}
                     </div>
                   ) : (
                     <div className="out">out of stock</div>

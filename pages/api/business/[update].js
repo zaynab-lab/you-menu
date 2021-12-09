@@ -57,6 +57,21 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
+              case "useExchange":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { useExchange: body.useExchange },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+              case "onlyTarget":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { onlyTarget: body.onlyTarget },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+
               case "currency":
                 Business.findByIdAndUpdate(
                   business._id,

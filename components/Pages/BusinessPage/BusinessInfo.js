@@ -4,12 +4,19 @@ import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { useEffect, useState } from "react";
-import { FaSignOutAlt } from "react-icons/fa";
+import {
+  FaDollarSign,
+  FaIdCard,
+  FaLocationArrow,
+  FaSignOutAlt
+} from "react-icons/fa";
 import axios from "axios";
 import Router from "next/router";
 import Alert from "@/components/Alert";
 import BPLayout from "./BPLayout";
 import dynamic from "next/dynamic";
+import TitleLine from "@/components/TitleLine";
+import Onoff from "@/components/Onoff";
 
 const Location = dynamic(() => import("@/components/Location"));
 
@@ -42,6 +49,8 @@ export default function BusinessInfo({
     business?.address?.content
   );
   const [alert, setAlert] = useState("");
+  const [useExchange, setUseExchange] = useState(business?.useExchange);
+  const [onlyTarget, setOnlyTarget] = useState(business?.onlyTarget);
 
   useEffect(() => {
     !!business &&
@@ -69,7 +78,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data !== "done" && setRefreshBusiness((refresh) => !refresh);
+            setRefreshBusiness((refresh) => !refresh);
           });
     } else {
       business?.[value] !== state && setAlert("something is going change");
@@ -84,7 +93,7 @@ export default function BusinessInfo({
             res.data === "done"
               ? setAlert("change done")
               : setAlert("something went wrong");
-            res.data !== "done" && setRefreshBusiness((refresh) => !refresh);
+            setRefreshBusiness((refresh) => !refresh);
           });
     }
   };
@@ -104,6 +113,7 @@ export default function BusinessInfo({
             setAlert={setAlert}
           />
         </div>
+        <TitleLine icon={<FaIdCard />} title={"profile"} />
         <Label title={"brand name"} />
         <Input
           value={brandName}
@@ -127,8 +137,21 @@ export default function BusinessInfo({
         </select>
         <Label title={"owner number"} />
         <Input value={business?.ownerNumber} onchange={() => {}} />
-        <Label title={"default currency"} />
 
+        <TitleLine icon={<FaDollarSign />} title={"currency"} />
+        <div className="useExchange">
+          use exchange
+          <Onoff
+            on={useExchange}
+            setOn={() => {
+              setUseExchange(!useExchange);
+              handleOnBlur("useExchange", business, !useExchange);
+            }}
+            noText={true}
+          />
+        </div>
+
+        <Label title={"default currency"} />
         <div className="defCurrency">
           <div className="currencNote">
             set default currency to price your products and services in this
@@ -142,21 +165,40 @@ export default function BusinessInfo({
             api="defCurrency"
           />
         </div>
-        <Label title={"exchange rate"} />
-        <div className="currency">
-          <Input
-            value={exRate}
-            onchange={(e) => setExRate(e.target.value)}
-            onblur={() => handleOnBlur("exRate", business, exRate)}
-          />
-          <SelectCurrency
-            business={business}
-            currency={currency}
-            setCurrency={setCurrency}
-            handleOnBlur={handleOnBlur}
-            api="currency"
-          />
-        </div>
+
+        {useExchange && (
+          <>
+            <Label title={"exchange rate"} />
+            <div className="currency">
+              <Input
+                value={exRate}
+                onchange={(e) => setExRate(e.target.value)}
+                onblur={() => handleOnBlur("exRate", business, exRate)}
+              />
+              <SelectCurrency
+                business={business}
+                currency={currency}
+                setCurrency={setCurrency}
+                handleOnBlur={handleOnBlur}
+                api="currency"
+              />
+            </div>
+            <div className="onlyTarget">
+              show only target currncy
+              <Onoff
+                on={onlyTarget}
+                setOn={() => {
+                  setOnlyTarget(!onlyTarget);
+                  handleOnBlur("onlyTarget", business, !onlyTarget);
+                }}
+                noText={true}
+              />
+            </div>
+          </>
+        )}
+
+        {/* Location */}
+        <TitleLine icon={<FaLocationArrow />} title={"address"} />
         <Label title={"full address"} />
         <Input
           value={addressContent}
@@ -213,7 +255,26 @@ export default function BusinessInfo({
           padding: 0 0.5rem;
           ${styles.boxshadow}
         }
-
+        .useExchange {
+          width: 100%;
+          max-width: 22rem;
+          padding-top: 1rem;
+          font-size: 1.2rem;
+          ${styles.flexAligncenter}
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+        }
+        .onlyTarget {
+          width: 100%;
+          max-width: 22rem;
+          padding-top: 2rem;
+          font-size: 1.2rem;
+          ${styles.flexAligncenter}
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+        }
         .currency {
           max-width: 22rem;
           width: 100%;
