@@ -39,13 +39,7 @@ const businessSchema = new mongoose.Schema(
         validation: { type: Number }
       }
     ],
-    messages: [
-      {
-        reciverNumber: { type: String },
-        content: { type: String },
-        date: { type: Date, default: Date.now }
-      }
-    ],
+    twentyfour: { type: Boolean },
     addedby: { type: String }
   },
   { collection: "businesses" }

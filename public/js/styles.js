@@ -16,8 +16,9 @@ export const styles = {
   flexColumn:
     "display:-webkit-box; display:-ms-flexbox; display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;",
   userSelect:
-    "-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;"
-
+    "-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;",
+  justifyBetween:
+    "-webkit-box-pack: justify;-ms-flex-pack: justify;justify-content: space-between;"
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",

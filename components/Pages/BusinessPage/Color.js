@@ -9,8 +9,8 @@ import { FaCheck, FaStar, FaUndo } from "react-icons/fa";
 const dfColors = {
   tbt: styles.secondaryColor,
   bbg: "white",
-  t: styles.secondaryColor,
-  tbg: "white"
+  t: "white",
+  tbg: styles.secondaryColor
 };
 
 export default function Color({ categoryID, colors, setColors, businessCode }) {
@@ -235,7 +235,7 @@ export function ColorModal({
           background: white;
           font-size: 1.2rem;
           ${styles.flexAligncenter};
-          justify-content: space-between;
+          ${styles.justifyBetween};
           padding: 0 0.5rem;
           border-radius: 0.7rem 0.7rem 0 0;
         }

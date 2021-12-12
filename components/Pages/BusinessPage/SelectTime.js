@@ -1,6 +1,4 @@
 import Button from "@/components/Button";
-import Input from "@/components/Input";
-import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
 
@@ -13,8 +11,8 @@ export default function SelectTime({ defaultIntervals, availble }) {
     <>
       {availble ? (
         <div className="hours">
-          {intervals.map((interval) => (
-            <div className="hour">
+          {intervals.map((interval, k) => (
+            <div key={k} className="hour">
               <span
                 className="underline"
                 onClick={() => {
@@ -162,13 +160,12 @@ export function TimeModal({ timeModal, setTimeModal, openTime }) {
 
         .Xheader {
           text-align: right;
-          padding: 0.6rem;
           min-width: 22rem;
           background: white;
           font-size: 1.2rem;
           ${styles.flexAligncenter};
-          justify-content: space-between;
-          padding: 0 0.5rem;
+          ${styles.justifyBetween};
+          padding: 0.4rem 0.6rem;
           border-radius: 0.7rem 0.7rem 0 0;
         }
 
@@ -202,6 +199,7 @@ const min = ["00", "05", 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 export function Clock() {
   const [selectedMin, setSelectedMin] = useState(30);
   const [selectedHour, setSelectedHour] = useState(9);
+  const [selectAM, setSelectAM] = useState("AM");
 
   return (
     <>
@@ -239,6 +237,15 @@ export function Clock() {
             </div>
           </div>
         ))}
+        <div className="amclock"></div>
+        <div
+          className="ampm"
+          onClick={() =>
+            setSelectAM((current) => (current === "AM" ? "PM" : "AM"))
+          }
+        >
+          {selectAM}
+        </div>
       </div>
       <style jsx>{`
         .clock {
@@ -249,15 +256,13 @@ export function Clock() {
           border-radius: 50%;
           ${styles.boxshadow}
         }
-        .clock::after {
-          content: "";
-          width: 4px;
-          height: 4px;
-          background: #444;
+        .ampm {
+          ${styles.flexBothcenter}
           position: absolute;
-          top: 7rem;
-          left: 7rem;
-          border-radius: 50%;
+          font-size: 1.8rem;
+          margin: auto;
+          top: 5.7rem;
+          left: 5.5rem;
         }
         .minclock {
           width: 10rem;
@@ -269,7 +274,16 @@ export function Clock() {
           border-radius: 50%;
           border: 1px solid lightgray;
         }
-
+        .amclock {
+          width: 6rem;
+          height: 6rem;
+          background: white;
+          position: absolute;
+          top: 4rem;
+          left: 4rem;
+          border-radius: 50%;
+          border: 1px solid lightgray;
+        }
         .time {
           width: 2rem;
           height: 7rem;

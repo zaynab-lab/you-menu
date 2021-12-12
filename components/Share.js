@@ -11,17 +11,21 @@ export default function Share({ domain, businessCode }) {
 
         <div className="url">
           <div className="urlInput">
-            <Input value={`${domain}/menu/${businessCode}`} font={"1.2rem"} />
+            <Input
+              value={`${domain}/menu/${businessCode}`}
+              onchange={() => {}}
+              font={"1.2rem"}
+            />
           </div>
 
           <div
             className="share"
-            onClick={() => {
+            onClick={() =>
               navigator.share({
                 title: "url",
                 text: `${domain}/menu/${businessCode}`
-              });
-            }}
+              })
+            }
           >
             <FaShareAlt />
           </div>

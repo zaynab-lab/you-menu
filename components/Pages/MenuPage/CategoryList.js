@@ -24,9 +24,8 @@ export default function CategoryList({
               id={category.name}
               className="title"
               style={{
-                background: category?.colors?.tbg || "white",
-
-                color: category?.colors?.t || styles.secondaryColor
+                background: category?.colors?.tbg || styles.secondaryColor,
+                color: category?.colors?.t || "white"
               }}
             >
               {category.name || <TextLoader />}

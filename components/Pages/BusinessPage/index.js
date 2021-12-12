@@ -54,7 +54,11 @@ export default function BusinessPage({ setAuth }) {
         <Qr setSelected={setSelected} business={business} />
       )}
       {selected === "Time" && (
-        <Time setSelected={setSelected} business={business} />
+        <Time
+          setSelected={setSelected}
+          business={business}
+          setRefreshBusiness={setRefreshBusiness}
+        />
       )}
       {selected === "History" && <History setSelected={setSelected} />}
       {selected === "Subscribe" && (

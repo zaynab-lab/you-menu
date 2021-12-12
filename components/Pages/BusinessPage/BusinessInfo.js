@@ -184,7 +184,7 @@ export default function BusinessInfo({
               />
             </div>
             <div className="onlyTarget">
-              show only target currncy
+              only target currncy
               <Onoff
                 on={onlyTarget}
                 setOn={() => {

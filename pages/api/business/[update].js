@@ -93,6 +93,14 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
+              case "twentyfour":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  { twentyfour: body.twentyfour },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+
               case "verified":
                 user.role === "GM" &&
                   Business.findByIdAndUpdate(

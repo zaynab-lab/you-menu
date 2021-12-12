@@ -2,7 +2,7 @@ import BackButton from "@/components/BackButton";
 import Onoff from "@/components/Onoff";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Accept from "./Accept";
 import SelectTime from "./SelectTime";
 
@@ -60,14 +60,19 @@ const time = [
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function Time({ business, setSelected }) {
+export default function Time({ business, setSelected, setRefreshBusiness }) {
   const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
   const [orderOn, setOrderOn] = useState(business.acceptOrders);
-  const [twentyfour, setTwentyfour] = useState(false);
+  const [twentyfour, setTwentyfour] = useState(business?.twentyfour);
   const [everyday, setEveryday] = useState(false);
+  const [activeSave, setActiveSave] = useState(false);
   const [everydayDefault, setEverydayDefault] = useState([
     { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
   ]);
+
+  useEffect(() => {
+    twentyfour !== business.twentyfour && setActiveSave((active) => !active);
+  }, [twentyfour, business]);
 
   return (
     <>
@@ -76,14 +81,20 @@ export default function Time({ business, setSelected }) {
         <Accept
           on={orderOn}
           setOn={() => {
-            axios.put(
-              `/api/business/acceptOrders`,
-              {
-                acceptOrders: !orderOn,
-                businessCode: business?.businessCode
-              },
-              { "content-type": "application/json" }
-            );
+            axios
+              .put(
+                `/api/business/acceptOrders`,
+                {
+                  acceptOrders: !orderOn,
+                  businessCode: business?.businessCode
+                },
+                { "content-type": "application/json" }
+              )
+              .then(
+                (res) =>
+                  res.data === "done" &&
+                  setRefreshBusiness((refresh) => !refresh)
+              );
             setOrderOn(!orderOn);
           }}
         />
@@ -91,14 +102,20 @@ export default function Time({ business, setSelected }) {
           delivery={true}
           on={deliveryOn}
           setOn={() => {
-            axios.put(
-              `/api/business/acceptDelivery`,
-              {
-                acceptDelivery: !deliveryOn,
-                businessCode: business?.businessCode
-              },
-              { "content-type": "application/json" }
-            );
+            axios
+              .put(
+                `/api/business/acceptDelivery`,
+                {
+                  acceptDelivery: !deliveryOn,
+                  businessCode: business?.businessCode
+                },
+                { "content-type": "application/json" }
+              )
+              .then(
+                (res) =>
+                  res.data === "done" &&
+                  setRefreshBusiness((refresh) => !refresh)
+              );
             setDeliveryOn(!deliveryOn);
           }}
         />
@@ -107,7 +124,28 @@ export default function Time({ business, setSelected }) {
             <FaRegClock />
             select open time
           </div>
-          <div className="save">save</div>
+          <div
+            className={`save ${activeSave && "activeSave"}`}
+            onClick={() => {
+              setActiveSave(false);
+              activeSave &&
+                axios
+                  .put(
+                    "/api/business/twentyfour",
+                    {
+                      twentyfour: twentyfour,
+                      businessCode: business?.businessCode
+                    },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    res.data === "done" &&
+                      setRefreshBusiness((refresh) => !refresh);
+                  });
+            }}
+          >
+            save
+          </div>
         </div>
         <div className="controlSection">
           <div
@@ -161,6 +199,9 @@ export default function Time({ business, setSelected }) {
         .save {
           color: gray;
           cursor: pointer;
+        }
+        .activeSave {
+          color: ${styles.secondaryColor};
         }
         .dayContainer {
           width: 100%;

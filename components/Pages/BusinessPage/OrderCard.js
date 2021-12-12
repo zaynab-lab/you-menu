@@ -50,7 +50,6 @@ export default function OrderCard({
             setBusiness((business) => Object({ ...business, ...res.data }));
         });
     businessPage && setOpenOrder(false);
-    businessPage && console.log(false);
   }, [businessCode, businessPage]);
 
   return (

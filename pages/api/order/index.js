@@ -57,7 +57,7 @@ export default async (req, res) => {
 
             let currency = business?.defaultCurrency;
 
-            if (body.selectedCurrency === false) {
+            if (body.selectedCurrency) {
               total = Number((total * business?.exRate).toFixed(2));
               shouldPay = Number((shouldPay * business?.exRate).toFixed(2));
               currency = business?.currency;
