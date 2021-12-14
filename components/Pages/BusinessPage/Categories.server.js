@@ -124,7 +124,7 @@ export function RenameModal({
 }) {
   const [name, setName] = useState(dfname);
 
-  useEffect(() => setName(dfname), [dfname]);
+  useEffect(() => !!dfname && setName(dfname), [dfname]);
   return (
     <>
       <div className={`renameModal ${renameModal && "showRenameModal"}`}>

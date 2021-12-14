@@ -15,7 +15,7 @@ const Plans = [
   {
     name: "Plan A",
     options: [
-      "200 product",
+      "400 product",
       "30 category",
       "8 employee",
       "editing theme",
@@ -25,7 +25,7 @@ const Plans = [
       "pos system",
       "accounting system"
     ],
-    planProducts: 200,
+    planProducts: 400,
     planCategories: 30,
     description: "89$/month - 890$/year",
     rank: 1
@@ -34,13 +34,13 @@ const Plans = [
   {
     name: "Plan B",
     options: [
-      "120 product",
+      "160 product",
       "25 category",
       "editing theme",
       "digital menu",
       "order system"
     ],
-    planProducts: 120,
+    planProducts: 160,
     planCategories: 25,
     description: "49$/month 490$/year",
     rank: 2
@@ -48,21 +48,21 @@ const Plans = [
   {
     name: "Plan C",
     options: [
-      "80 product",
+      "120 product",
       "15 category",
       "editing theme",
       "digital menu",
       "order system"
     ],
-    planProducts: 80,
+    planProducts: 120,
     planCategories: 15,
     description: "29$/month 290$/year",
     rank: 3
   },
   {
     name: "free plan",
-    options: ["50 product", "10 category", "editing theme", "digital menu"],
-    planProducts: 50,
+    options: ["70 product", "10 category", "editing theme", "digital menu"],
+    planProducts: 70,
     planCategories: 10,
     rank: 4
   }
@@ -170,8 +170,8 @@ export default function Subscribe({ setSelected, business }) {
               {plan.name} <div className="description">{plan.description}</div>
             </div>
             <div className="options">
-              {plan.options.map((op) => (
-                <div className="op">
+              {plan.options.map((op, s) => (
+                <div key={s} className="op">
                   <span className="checkItem">
                     <FaCheck />
                   </span>

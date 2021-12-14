@@ -62,10 +62,10 @@ export default function Payment({
                 ? "0"
                 : Math.abs(Number((user?.credit - usdTotal).toFixed(2)))
               : selectedCurrency
-              ? Number(usdTotal.toFixed(2)) + " " + business?.defaultCurrency
-              : Number((total * business?.exRate).toFixed(2)) +
+              ? Number((total * business?.exRate).toFixed(2)) +
                 " " +
-                business?.currency}
+                business?.currency
+              : Number(total.toFixed(2)) + " " + business?.defaultCurrency}
           </div>
         </div>
         {

@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Button from "@/components/Button";
 import axios from "axios";
 import { useState } from "react";
+import Alert from "@/components/Alert";
 const Address = dynamic(() => import("./Address"));
 const Payment = dynamic(() => import("./Payment"));
 
@@ -18,10 +19,12 @@ export default function OrderProceed({
   table,
   cartItems,
   action,
-  selectedCurrency
+  selectedCurrency,
+  setRefreshUser
 }) {
-  const [address, setAddress] = useState();
   const [useCredit, setUseCredit] = useState(false);
+  const [alert, setAlert] = useState("");
+  const [orderAddress, setOrderAddress] = useState({});
 
   return (
     <>
@@ -49,7 +52,14 @@ export default function OrderProceed({
           </div>
         )}
       </div>
-      {orderType === "delivery" && <Address user={user} />}
+      {orderType === "delivery" && (
+        <Address
+          user={user}
+          setAlert={setAlert}
+          setRefreshUser={setRefreshUser}
+          setOrderAddress={setOrderAddress}
+        />
+      )}
       <Payment
         user={user}
         business={business}
@@ -66,26 +76,30 @@ export default function OrderProceed({
           content="order"
           color={styles.secondaryColor}
           onclick={() =>
-            axios
-              .post(
-                "/api/order",
-                {
-                  businessCode: business?.businessCode,
-                  cartItems,
-                  address,
-                  orderType,
-                  useCredit,
-                  table,
-                  selectedCurrency
-                },
-                { "content-type": "application/json" }
-              )
-              .then((res) => {
-                res.data === "done" && action("", false, true);
-              })
+            orderType === "delivery" && !orderAddress?.content
+              ? setAlert("choose address")
+              : axios
+                  .post(
+                    "/api/order",
+                    {
+                      businessCode: business?.businessCode,
+                      address: orderAddress?.content,
+                      cartItems,
+                      orderType,
+                      useCredit,
+                      table,
+                      selectedCurrency
+                    },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    res.data === "done" && action("", false, true);
+                  })
           }
         />
       </div>
+      <Alert setAlert={setAlert} alert={alert} />
+
       <style jsx>{`
         .invoiceAddon {
           border-bottom: 1px solid ${styles.secondaryColor};

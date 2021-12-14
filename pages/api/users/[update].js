@@ -16,6 +16,10 @@ export default async (req, res) => {
       if (err) return res.status(200).end("invalid");
       const user = await User.findById(decoded.id).exec();
       if (user && method === "PUT") {
+        let address = {};
+        let addresses = [];
+        let updatedAddresses = [];
+
         switch (update) {
           case "name":
             User.findByIdAndUpdate(user._id, { name: body.name }, (err) =>
@@ -23,24 +27,34 @@ export default async (req, res) => {
             ).exec();
             return res.status(200).end("done");
           case "editAddress":
+            addresses = user?.addresses;
+            updatedAddresses = await addresses.map((address) =>
+              address._id.toString() === body?.addressId
+                ? { _id: address._id, content: body.address }
+                : address
+            );
+            User.findByIdAndUpdate(
+              user._id,
+              { addresses: updatedAddresses },
+              (err) => console.log(err)
+            ).exec();
             return res.status(200).end("done");
+
           case "deleteAddress":
-            console.log(body?.address);
-
-            // const updated = await user?.addresses.map((address) =>
-            //   address.content === body?.address
-            //     ? { ...address, deleted: true }
-            //     : address
-            // );
-            // User.findByIdAndUpdate(user._id, { addresses: updated }, (err) =>
-            //   console.log(err)
-            // ).exec();
-
+            addresses = user?.addresses;
+            updatedAddresses = await addresses.map((address) =>
+              address._id.toString() === body?.addressId
+                ? { _id: address._id, content: address.content, deleted: true }
+                : address
+            );
+            User.findByIdAndUpdate(
+              user._id,
+              { addresses: updatedAddresses },
+              (err) => console.log(err)
+            ).exec();
             return res.status(200).end("done");
 
-          case "address":
-            let address = {};
-            let addresses = [];
+          case "addAddress":
             if (user?.addresses?.length > 0) {
               address = {
                 id: user?.addresses?.length + 1,

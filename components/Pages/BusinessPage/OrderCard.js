@@ -112,9 +112,8 @@ export default function OrderCard({
                     <div className="orderTable">
                       {order?.address?.content && <FaMapMarkerAlt />}
                       {order?.address?.content && " " + order?.address?.content}
-                      {order?.table && !order?.address?.content
-                        ? " table " + order?.table
-                        : "no table"}
+                      {order.orderType !== "delivery" &&
+                        (order?.table ? " table " + order?.table : "no table")}
                     </div>
                   </div>
                   <div className="orderDate">

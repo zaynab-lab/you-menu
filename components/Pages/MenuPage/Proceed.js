@@ -114,6 +114,7 @@ export default function Proceed({
                   cartItems={cartItems}
                   action={action}
                   selectedCurrency={selectedCurrency}
+                  setRefreshUser={setRefreshUser}
                 />
               )
             )}

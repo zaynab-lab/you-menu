@@ -14,6 +14,7 @@ import Address from "../MenuPage/Address";
 export default function ({ setSelected, user, setRefreshUser, setAuth }) {
   const [alert, setAlert] = useState("");
   const [userName, setUserName] = useState(user?.name);
+
   return (
     <>
       <BackButton setSelected={setSelected} select={"Options"} />
@@ -43,7 +44,12 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
           />
           <Label title={"phone number"} />
           <Input value={user?.number} onchange={() => {}} />
-          <Address user={user} options={true} />
+          <Address
+            user={user}
+            options={true}
+            setRefreshUser={setRefreshUser}
+            setAlert={setAlert}
+          />
           <Alert setAlert={setAlert} alert={alert} />
 
           <div className="goto">
