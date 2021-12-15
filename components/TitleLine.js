@@ -16,6 +16,7 @@ export default function TitleLine({ icon, title }) {
           padding-top: 2rem;
           ${styles.flexAligncenter};
           gap: 0.2rem;
+          white-space: nowrap;
         }
         .titleicon {
           padding-top: 0.4rem;

@@ -45,11 +45,11 @@ export default function Categories({ categories, businessCode, setRefresh }) {
               !!category && setCategoryID(category._id);
               !!category && setCategory(category);
             }}
-            className={`categoryContainer ${
+            className={`categoryName ${
               currentCat === category.name && "active"
             }`}
           >
-            <div>{category.name || <TextLoader />}</div>
+            {category.name || <TextLoader />}
           </div>
         ))}
       </div>
@@ -80,7 +80,7 @@ export default function Categories({ categories, businessCode, setRefresh }) {
           background: white;
           ${styles.flexAligncenter}
         }
-        .categoryContainer {
+        .categoryName {
           border-radius: 5rem;
           white-space: nowrap;
           padding: 0.1rem 0.5rem;
@@ -90,19 +90,6 @@ export default function Categories({ categories, businessCode, setRefresh }) {
           gap:.5rem;
           -webkit-box-shadow: 0 0px 5px 0 grey;
           box-shadow: 0 0px 5px 0 grey;
-        }
-        .count {
-          width: 1.2rem;
-          height: 1.2rem;
-          border-radius: 20rem;
-          color: white;
-          margin: 0 0.2rem;
-          font-size: 0.8rem;
-          background: ${styles.secondaryColor};
-          -webkit-box-pack: center;
-          -ms-flex-pack: center;
-          justify-content: center;
-          ${styles.flexAligncenter}
         }
         .active {
           -webkit-box-shadow: 0 0px 5px 0 ${styles.secondaryColor};

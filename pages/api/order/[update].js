@@ -68,15 +68,24 @@ export default async (req, res) => {
                 );
                 return res.status(200).end("done");
               case "paying":
-                Order.findByIdAndUpdate(
-                  body.orderID,
-                  {
-                    currentStatus: "preparing",
-                    "status.paying.done": true,
-                    "status.paying.date": Date.now()
-                  },
-                  (err) => console.log(err)
-                );
+                body.later
+                  ? Order.findByIdAndUpdate(
+                      body.orderID,
+                      {
+                        currentStatus: "preparing",
+                        "status.paying.pending": true
+                      },
+                      (err) => console.log(err)
+                    )
+                  : Order.findByIdAndUpdate(
+                      body.orderID,
+                      {
+                        currentStatus: "preparing",
+                        "status.paying.done": true,
+                        "status.paying.date": Date.now()
+                      },
+                      (err) => console.log(err)
+                    );
                 return res.status(200).end("done");
               case "preparing":
                 Order.findByIdAndUpdate(

@@ -124,7 +124,6 @@ export default function Color({ categoryID, colors, setColors, businessCode }) {
           ${styles.flexAligncenter}
           gap: 1rem;
           flex-wrap: wrap;
-          border-bottom: 1px solid ${styles.secondaryColor};
         }
 
         .colorContainer {

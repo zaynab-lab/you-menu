@@ -242,6 +242,29 @@ export default function OrderCard({
                         );
                     }}
                   />
+                  {order.currentStatus === "paying" && (
+                    <Button
+                      color={styles.secondaryColor}
+                      content={"later"}
+                      onclick={() => {
+                        axios
+                          .put(
+                            `/api/order/${currentStep}`,
+                            {
+                              businessCode: businessCode,
+                              orderID: order._id,
+                              later: true
+                            },
+                            { "content-type": "application/json" }
+                          )
+                          .then(
+                            (res) =>
+                              res.data === "done" &&
+                              setRefreshOrders((refresh) => !refresh)
+                          );
+                      }}
+                    />
+                  )}
                 </div>
               )
             ) : (
@@ -345,7 +368,8 @@ export default function OrderCard({
 
         .buttonContainer {
           ${styles.flexJustifycenter};
-          gap: 0.8rem;
+          flex-wrap: wrap;
+          gap: 0rem 0.8rem;
         }
         .information {
           border: solid ${styles.secondaryColor};
