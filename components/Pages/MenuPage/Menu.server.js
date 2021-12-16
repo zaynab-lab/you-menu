@@ -144,6 +144,7 @@ export default function Menu({ businessCode }) {
 
       <style jsx>{`
         .categoriesContainer {
+          overflow-x: hidden;
           min-height: 100vh;
         }
         .cartContainer {

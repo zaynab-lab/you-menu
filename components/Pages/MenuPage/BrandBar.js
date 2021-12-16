@@ -16,6 +16,8 @@ export default function BrandBar({ business }) {
             businessCode={business?.businessCode}
             hasImg={business?.brand?.hasImg}
             imgLink={business?.brand?.imgLink}
+            size={"7rem"}
+            radius={"1.6rem"}
           />
         ) : (
           <div></div>
@@ -24,23 +26,24 @@ export default function BrandBar({ business }) {
         <div>
           <h1>{business?.brand?.name}</h1>
           <div className="bType">{business.businessType}</div>
+
+          {business?.acceptOrders ? (
+            <div className="accept">
+              <span className="dot">
+                <FaCircle />{" "}
+              </span>{" "}
+              online orders accepted
+            </div>
+          ) : (
+            <div className="daccept">
+              <span className="dot">
+                <FaCircle />{" "}
+              </span>{" "}
+              online orders not accepted right now
+            </div>
+          )}
         </div>
       </div>
-      {business?.acceptOrders ? (
-        <div className="accept">
-          <span className="dot">
-            <FaCircle />{" "}
-          </span>{" "}
-          online orders accepted
-        </div>
-      ) : (
-        <div className="daccept">
-          <span className="dot">
-            <FaCircle />{" "}
-          </span>{" "}
-          online orders not accepted right now
-        </div>
-      )}
 
       <div className="details">
         <div className="deItem">
@@ -66,30 +69,30 @@ export default function BrandBar({ business }) {
       <style jsx>{`
         .brand {
           max-width: 100%;
-          padding: 0.8rem 1rem;
-          ${styles.flexBothcenter}
-          font-size:2.5rem;
+          padding: 1rem;
+          padding-bottom: 0.8rem;
+          padding-left: 1.2rem;
+          ${styles.flexAligncenter}
           color: ${business?.color || "gray"};
           background: ${business?.background || "#fefefe"};
           gap: 7vw;
           overflow: hidden;
-          line-height: 2.4rem;
         }
         h1 {
-          font-size: 2.5rem;
-          line-height: 2.4rem;
+          font-size: 2.4rem;
+          line-height: 1.8rem;
+          text-align:left;
+          white-space:nowrap;
         }
         .bType {
           padding: 0.2rem;
-          padding-top: 0.5rem;
-          font-size: 1.3rem;
+          font-size: 1rem;
           color: black;
-          line-height: 1.2rem;
         }
         .details {
-          font-size: 1.1rem;
+          font-size: 1rem;
           color: black;
-          line-height: 1rem;
+          line-height: 0.9rem;
           ${styles.flexColumn};
           background: #f6f6f6;
         }
@@ -104,22 +107,16 @@ export default function BrandBar({ business }) {
           padding: 0.2rem 1.4rem;
         }
         .accept {
-          text-align: center;
-          padding: 0.2rem;
           width: 100%;
           color: green;
           opacity: 90%;
           font-size: 1rem;
-          line-height: 1rem;
         }
         .daccept {
-          text-align: center;
-          padding: 0.2rem;
           width: 100%;
           color: orange;
           opacity: 100%;
           font-size: 1rem;
-          line-height: 1rem;
         }
         .dot {
           font-size: 0.6rem;

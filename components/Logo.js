@@ -12,7 +12,9 @@ export default function Logo({
   hasImg,
   imgLink,
   setRefreshBusiness,
-  setAlert
+  setAlert,
+  size,
+  radius
 }) {
   const [image, setImage] = useState();
 
@@ -107,12 +109,12 @@ export default function Logo({
         #imglabel,
         #img,
         .logo {
-          width: 8rem;
-          min-width: 8rem;
-          height: 8rem;
+          width: ${size ? size : "8rem"};
+          min-width: ${size ? size : "8rem"};
+          height: ${size ? size : "8rem"};
           background: ${hasImg ? "white" : "#eee"};
           font-size: 3rem;
-          border-radius: 2rem;
+          border-radius: ${radius ? radius : "2rem"};
           color: ${styles.grey};
           ${styles.flexBothcenter}
           ${styles.boxshadow}

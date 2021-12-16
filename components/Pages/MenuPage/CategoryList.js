@@ -20,7 +20,7 @@ export default function CategoryList({
       <div>
         {categories?.map((category, i) => (
           <div key={i}>
-            <div
+            <h1
               id={category.name}
               className="title"
               style={{
@@ -29,7 +29,7 @@ export default function CategoryList({
               }}
             >
               {category.name || <TextLoader />}
-            </div>
+            </h1>
             <div
               style={{
                 background: category?.colors?.bbg || "white",
@@ -68,10 +68,11 @@ export default function CategoryList({
 
       <style jsx>{`
         .title {
-          color: black;
-          font-size: 2.6rem;
-          padding: 0.2rem 0.8rem;
-          scroll-margin-top: 3rem;
+          font-size: 2.2rem;
+          padding: 0.2rem 1.2rem;
+          scroll-margin-top: 3.5rem;
+          font-weight: 500;
+          text-align: left;
         }
       `}</style>
     </>
