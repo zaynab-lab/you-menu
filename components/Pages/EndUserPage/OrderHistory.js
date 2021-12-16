@@ -8,9 +8,10 @@ import { FaBoxOpen } from "react-icons/fa";
 export default function OrderHistory() {
   const [orderList, setOrderList] = useState([0]);
   const [selectedTab, setSelectedTab] = useState("current");
+  const [refreshOrders, setRefreshOrders] = useState(false);
   useEffect(() => {
     axios.get("/api/order/userGetOrder").then((res) => setOrderList(res.data));
-  }, []);
+  }, [refreshOrders]);
   return (
     <>
       <UPLayout>
@@ -28,10 +29,13 @@ export default function OrderHistory() {
                   ? [...withBtn, "received"].includes(order?.currentStatus)
                   : ![...withBtn, "received"].includes(order?.currentStatus)
               )
-
               .map((order, i) => (
                 <div key={i} className="order">
-                  <OrderCard order={order} businessCode={order?.businessCode} />
+                  <OrderCard
+                    order={order}
+                    businessCode={order?.businessCode}
+                    setRefreshOrders={setRefreshOrders}
+                  />
                 </div>
               ))
               .reverse()
@@ -99,6 +103,7 @@ export function OrderTabs({ selectedTab, setSelectedTab }) {
           width: 100%;
           background: white;
           padding-top: 0.5rem;
+          z-index: 10;
         }
 
         .tabs {

@@ -60,7 +60,12 @@ export default function BusinessPage({ setAuth }) {
           setRefreshBusiness={setRefreshBusiness}
         />
       )}
-      {selected === "History" && <History setSelected={setSelected} />}
+      {selected === "History" && (
+        <History
+          setSelected={setSelected}
+          businessCode={business?.businessCode}
+        />
+      )}
       {selected === "Subscribe" && (
         <Subscribe setSelected={setSelected} business={business} />
       )}

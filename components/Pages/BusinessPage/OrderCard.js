@@ -268,7 +268,33 @@ export default function OrderCard({
                 </div>
               )
             ) : (
-              <ProcessBar order={order} />
+              <>
+                <ProcessBar order={order} />
+                {order.currentStatus === "received" && !businessPage && (
+                  <div className="buttonContainer">
+                    <Button
+                      onclick={() => {
+                        axios
+                          .put(
+                            `/api/order/received`,
+                            {
+                              businessCode: businessCode,
+                              orderID: order._id
+                            },
+                            { "content-type": "application/json" }
+                          )
+                          .then(
+                            (res) =>
+                              res.data === "done" &&
+                              setRefreshOrders((refresh) => !refresh)
+                          );
+                      }}
+                      content="done"
+                      color={styles.secondaryColor}
+                    />
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
@@ -432,8 +458,7 @@ export function ProcessBar({ order }) {
               step.state === "delivering" &&
               order.orderType !== "delivery" &&
               "hidden"
-            }
-                      
+            }    
             `}
           >
             <div

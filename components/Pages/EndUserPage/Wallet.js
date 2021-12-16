@@ -14,10 +14,16 @@ import dateChanger, { timeChanger } from "@/util/dateChanger";
 import { FaShareAlt } from "react-icons/fa";
 import Button from "@/components/Button";
 
-export default function Wallet({ wallet }) {
+export default function Wallet() {
   const [selectedTab, setSelectedTab] = useState("transactions");
   const [transactionModal, setTransactionModal] = useState(false);
   const [actionType, setActionType] = useState();
+  const [wallet, setWallet] = useState();
+  useEffect(() => {
+    axios.get("/api/wallet").then((res) => {
+      res?.data?.ownerID && setWallet(res?.data);
+    });
+  }, []);
 
   const action = (aType) => {
     setActionType(aType);

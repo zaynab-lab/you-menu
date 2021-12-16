@@ -4,23 +4,24 @@ import { FaCreativeCommonsPdAlt } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { withBtn } from "@/components/Pages/BusinessPage/OrderCard";
 
 export default function OrderShower({ refreshOrder }) {
   const router = useRouter();
-  const [hasOrder, setHasOrder] = useState(false);
+  const [hasActiveOrder, setHasActiveOrder] = useState(false);
 
   useEffect(() => {
     axios
       .get("/api/order/userGetOrder")
       .then(
         (res) =>
-          res.data?.filter((order) => order?.status?.canceled?.done !== true)
-            ?.length > 0 && setHasOrder(true)
+          res.data?.filter((order) => withBtn.includes(order.currentStatus))
+            ?.length > 0 && setHasActiveOrder(true)
       );
   }, [refreshOrder]);
   return (
     <>
-      {hasOrder && (
+      {hasActiveOrder && (
         <div className="orderShower" onClick={() => router.push("/user/order")}>
           <Orders color={styles.secondaryColor} />
           <div className="orderShowerLine">
