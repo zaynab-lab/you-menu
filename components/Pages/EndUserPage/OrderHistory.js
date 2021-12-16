@@ -113,6 +113,7 @@ export function OrderTabs({ selectedTab, setSelectedTab }) {
         .tab {
           font-size: 1.2rem;
           padding: 0.2rem 2rem;
+          cursor: pointer;
         }
 
         .selected {

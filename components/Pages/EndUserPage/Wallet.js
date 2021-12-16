@@ -1,7 +1,8 @@
 import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
   BsDownload,
   BsUpload,
@@ -9,8 +10,11 @@ import {
   BsGift,
   BsCreditCard
 } from "react-icons/bs";
+import dateChanger, { timeChanger } from "@/util/dateChanger";
+import { FaShareAlt } from "react-icons/fa";
+import Button from "@/components/Button";
 
-export default function Wallet({ credit }) {
+export default function Wallet({ wallet }) {
   const [selectedTab, setSelectedTab] = useState("transactions");
   const [transactionModal, setTransactionModal] = useState(false);
   const [actionType, setActionType] = useState();
@@ -22,11 +26,11 @@ export default function Wallet({ credit }) {
   return (
     <>
       <div className="walletPage">
-        <WalletHeader credit={credit} action={action} />
+        <WalletHeader wallet={wallet} action={action} />
         <WalletTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        {selectedTab === "transactions" && <Transactions />}
-
+        {selectedTab === "transactions" && <Transactions wallet={wallet} />}
         <TransactionModal
+          wallet={wallet}
           transactionModal={transactionModal}
           setTransactionModal={setTransactionModal}
           actionType={actionType}
@@ -37,13 +41,13 @@ export default function Wallet({ credit }) {
   );
 }
 
-export function WalletHeader({ credit, action }) {
+export function WalletHeader({ wallet, action }) {
   return (
     <>
       <div className="walletHeader">
         <div className="walletHeaderCredit">
           <div className="walletCredit">
-            {credit}
+            {wallet?.credit[0]?.amount}
             <span className="currency">USD</span>
           </div>
           <div className="options">
@@ -107,6 +111,7 @@ export function WalletHeader({ credit, action }) {
         .option {
           ${styles.flexAligncenter};
           ${styles.flexColumn};
+          gap: 0.6rem;
           cursor: pointer;
         }
 
@@ -179,69 +184,79 @@ export function WalletTabs({ selectedTab, setSelectedTab }) {
   );
 }
 
-const transactions = [
-  { type: "withdraw", amount: 20, currency: "USD", date: "2/3/2021" },
-  { type: "pay", amount: 20, currency: "USD", date: "2/3/2021" },
+const dbTransactions = [
+  { trnType: "withdraw", amount: 20, currency: "USD", date: "2/3/2021" },
+  { trnType: "payed", amount: 20, currency: "USD", date: "2/3/2021" },
   {
-    type: "received",
+    trnType: "received",
     amount: 10,
     currency: "USD",
     date: "2/3/2020",
     from: "k3jrni33f993nfihne3ich3bcj39j"
   },
   {
-    type: "send",
+    trnType: "send",
     amount: 10,
     currency: "USD",
     date: "2/3/2021",
     to: "sjfhu7g3ncpi833u92hoifh982y23883"
   },
-  { type: "gift", amount: 1, currency: "USD", date: "2/3/2020" },
-  { type: "services", amount: 1, currency: "USD", date: "2/3/2021" },
-  { type: "charge", amount: 200, currency: "USD", date: "2/3/2021" }
+  { trnType: "gift", amount: 1, currency: "USD", date: "2/3/2020" },
+  { trnType: "services", amount: 1, currency: "USD", date: "2/3/2021" },
+  { trnType: "charge", amount: 200, currency: "USD", date: "2/3/2021" }
 ];
 
-export function Transactions() {
+export function Transactions({ wallet }) {
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    !!wallet &&
+      axios
+        .get("/api/wallet/transactions")
+        .then((res) => Array.isArray(res.data) && setTransactions(res.data));
+  }, [wallet]);
   return (
     <>
-      {transactions.map((transaction, i) => (
+      {transactions?.map((transaction, i) => (
         <div key={i} className="transaction">
           <div className="trnAmountIcongrp">
             <div className="trnIcongrp">
               <div className="trnIcon">
-                {transaction.type === "services" && <BsTag />}
-                {(transaction.type === "send" ||
-                  transaction.type === "pay") && <BsUpload />}
-                {transaction.type === "received" && <BsDownload />}
-                {transaction.type === "gift" && <BsGift />}
-                {(transaction.type === "withdraw" ||
-                  transaction.type === "charge") && <BsCreditCard />}
+                {transaction?.trnType === "services" && <BsTag />}
+                {(transaction?.trnType === "send" ||
+                  transaction?.trnType === "payed") && <BsUpload />}
+                {transaction?.trnType === "received" && <BsDownload />}
+                {transaction?.trnType === "gift" && <BsGift />}
+                {(transaction?.trnType === "withdraw" ||
+                  transaction?.trnType === "charge") && <BsCreditCard />}
               </div>
-              <div className="trnType">{transaction.type}</div>
+              <div className="trnType">{transaction?.trnType}</div>
             </div>
             <div className="trnAmountgrp">
               <div
                 className={`
                 ${
-                  transaction.type === "services" ||
-                  transaction.type === "send" ||
-                  transaction.type === "withdraw" ||
-                  transaction.type === "pay"
+                  transaction?.trnType === "services" ||
+                  transaction?.trnType === "send" ||
+                  transaction?.trnType === "withdraw" ||
+                  transaction?.trnType === "payed"
                     ? "min"
                     : "plus"
                 }
                 `}
               >
-                {transaction.amount}{" "}
-                <span className="currency">{transaction.currency}</span>
+                {transaction?.amount}{" "}
+                <span className="currency">{transaction?.currency}</span>
               </div>
               <div className="discription">
-                {transaction.type === "received" && transaction.from}
-                {transaction.type === "send" && transaction.to}
+                {transaction?.trnType === "received" && transaction?.from}
+                {transaction?.trnType === "send" && transaction?.to}
               </div>
             </div>
           </div>
-          <div className="date">{transaction.date}</div>
+          <div className="date">
+            <div>{timeChanger(transaction?.date)}</div>
+            <div>{dateChanger(transaction?.date)}</div>
+          </div>
         </div>
       ))}
       <style jsx>{`
@@ -251,8 +266,11 @@ export function Transactions() {
         .transaction {
           overflow: hidden;
           padding: 1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
           ${styles.flexAligncenter}
-          justify-content:space-between;
+          ${styles.justifyBetween}
         }
         .trnIcongrp {
           width: 3.6rem;
@@ -295,6 +313,8 @@ export function Transactions() {
         }
         .date {
           color: gray;
+          font-size: 0.8rem;
+          white-space: nowrap;
         }
         .discription {
           width: 9rem;
@@ -314,8 +334,12 @@ export function Transactions() {
 export function TransactionModal({
   transactionModal,
   setTransactionModal,
-  actionType
+  actionType,
+  wallet
 }) {
+  const [targetAddress, setTargetAddress] = useState();
+  const [amount, setAmount] = useState();
+  const [msg, setMsg] = useState();
   return (
     <>
       <div
@@ -336,18 +360,74 @@ export function TransactionModal({
               x
             </div>
           </div>
+
           {actionType === "send" ? (
             <div className="transactionBody">
-              <Label title="target code" />
-              <Input placeholder="place the code" font={"1.2rem"} />
+              <Label title="amount" />
+              <Input
+                type="number"
+                placeholder="amount"
+                value={amount}
+                onchange={(e) => {
+                  setMsg("");
+                  setAmount(e.target.value);
+                }}
+                font={"1.2rem"}
+              />
+
+              <Label title="wallet address" />
+              <Input
+                placeholder="wallet address"
+                value={targetAddress}
+                onchange={(e) => {
+                  setMsg("");
+                  setTargetAddress(e.target.value);
+                }}
+                font={"1.2rem"}
+              />
+              <div className="btnContainer">
+                <div className="msg">{msg}</div>
+                <Button
+                  content="send"
+                  onclick={() => {
+                    !targetAddress &&
+                      setMsg("make sure to fill in the address");
+                    !amount &&
+                      setMsg("set the amount of your balance you want to send");
+                    amount > wallet?.credit[0]?.amount &&
+                      setMsg(
+                        "you have just " +
+                          wallet?.credit[0]?.amount +
+                          " USD in your wallet"
+                      );
+                  }}
+                  noLoading={true}
+                />
+              </div>
             </div>
           ) : (
             <div className="transactionBody">
-              <Label title="share your wallet" />
-              <Input
-                placeholder="9328938eyhdu933299283yd932y"
-                font={"1.2rem"}
-              />
+              <Label title="share your wallet address" />
+              <div className="url">
+                <div className="urlInput">
+                  <Input
+                    value={wallet?._id}
+                    onchange={() => {}}
+                    font={"1.2rem"}
+                  />
+                </div>{" "}
+                <div
+                  className="share"
+                  onClick={() =>
+                    navigator.share({
+                      title: "url",
+                      text: wallet?._id
+                    })
+                  }
+                >
+                  <FaShareAlt />
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -379,13 +459,12 @@ export function TransactionModal({
 
         .Xheader {
           text-align: right;
-          padding: 0.2rem;
           min-width: 22rem;
           background: white;
           font-size: 1.2rem;
           ${styles.flexAligncenter};
           justify-content: space-between;
-          padding: 0 0.5rem;
+          padding: 0.4rem 0.8rem;
           border-radius: 0.7rem 0.7rem 0 0;
         }
 
@@ -403,6 +482,34 @@ export function TransactionModal({
         }
         .transactionBody {
           padding: 1rem;
+        }
+        .btnContainer {
+          width: 100%;
+          text-align: center;
+        }
+        .url {
+          ${styles.flexAligncenter};
+        }
+
+        .urlInput {
+          min-width: 100%;
+        }
+
+        .share {
+          transform: translateX(-2rem);
+          display: inline;
+          line-height: 0;
+          color: ${styles.secondaryColor};
+          background: white;
+          cursor: pointer;
+          max-height: 100%;
+          padding: 0.4rem;
+          border-radius: 2rem;
+        }
+        .msg {
+          padding: 0.3rem 0rem;
+          color: ${styles.secondaryColor};
+          font-size: 0.8rem;
         }
       `}</style>
     </>

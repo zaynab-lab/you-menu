@@ -5,7 +5,7 @@ import Business from "@/models/business";
 
 dbConnection();
 
-export default async function Businesses(req, res) {
+export default async function (req, res) {
   const { method } = req;
   const token = req.cookies.jwt;
   try {

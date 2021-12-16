@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 const walletSchema = new mongoose.Schema(
   {
-    owenerID: { type: String },
-    transactionsIDs: [String],
+    ownerID: { type: String },
     credit: [{ amount: { type: Number }, currency: { type: String } }]
   },
 

@@ -12,6 +12,7 @@ const Wallet = dynamic(() => import("@/components/Pages/EndUserPage/Wallet"));
 export default function UserPage() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState();
+  const [wallet, setWallet] = useState();
 
   const router = useRouter();
   const { page } = router.query;
@@ -22,12 +23,18 @@ export default function UserPage() {
         res?.data?.number && setUser(res.data);
       });
   }, [router, page]);
+  useEffect(() => {
+    !!user &&
+      axios.get("/api/wallet").then((res) => {
+        res?.data?.ownerID && setWallet(res?.data);
+      });
+  }, [user]);
 
   return (
     <>
       <Line />
       {page === "order" && auth && <OrderHistory />}
-      {page === "wallet" && auth && <Wallet credit={user?.credit} />}
+      {page === "wallet" && auth && <Wallet wallet={wallet} />}
 
       <style jsx>{``}</style>
     </>
