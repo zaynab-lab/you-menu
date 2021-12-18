@@ -8,13 +8,30 @@ import Logo from "./Logo";
 const businessTypes = ["all", "cafe", "resturant", "store", "retail", "online"];
 
 export default function VerticalScroll({ search }) {
-  const [businesses, setBusinesses] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [businesses, setBusinesses] = useState();
   const [typeFilter, setTypeFilter] = useState("all");
+  const [filtered, setFiltered] = useState([0, 0, 0, 0, 0, 0, 0]);
+
   useEffect(() => {
     axios
       .get("/api/business/all")
       .then((res) => Array.isArray(res.data) && setBusinesses(res.data));
   }, []);
+
+  useEffect(() => {
+    !!businesses &&
+      setFiltered(
+        businesses
+          .filter((business) =>
+            typeFilter === "all"
+              ? business
+              : business?.businessType === typeFilter
+          )
+          .filter((business) =>
+            business?.brand?.name?.toLowerCase().includes(search?.toLowerCase())
+          )
+      );
+  }, [typeFilter, businesses, search]);
 
   return (
     <>
@@ -30,39 +47,27 @@ export default function VerticalScroll({ search }) {
             </div>
           ))}
         </div>
+
         <div className="vbusinesses">
-          {businesses
-            .filter((business) =>
-              typeFilter === "all"
-                ? business
-                : business?.businessType === typeFilter
-            )
-            .filter((business) =>
-              business?.brand?.name
-                ?.toLowerCase()
-                .includes(search?.toLowerCase())
-            )
-            .map((business, i) => (
-              <Link
-                key={i}
-                href={
-                  business?.businessCode
-                    ? `/menu/${business?.businessCode}`
-                    : "/"
-                }
-              >
-                <div className="vbusiness">
-                  <div>
-                    <Logo
-                      hasImg={business?.brand?.hasImg}
-                      imgLink={business?.brand?.imgLink}
-                      businessCode={business?.businessCode}
-                    />
-                  </div>
-                  <div>{business?.brand?.name || "brand"}</div>
+          {filtered.map((business, i) => (
+            <Link
+              key={i}
+              href={
+                business?.businessCode ? `/menu/${business?.businessCode}` : "/"
+              }
+            >
+              <div className="vbusiness">
+                <div>
+                  <Logo
+                    hasImg={business?.brand?.hasImg}
+                    imgLink={business?.brand?.imgLink}
+                    businessCode={business?.businessCode}
+                  />
                 </div>
-              </Link>
-            ))}
+                <div>{business?.brand?.name || "brand"}</div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
       <style jsx>{`
@@ -76,6 +81,9 @@ export default function VerticalScroll({ search }) {
         top: 0;
         background: white;
         z-index: 10;
+        ${styles.userSelect};
+        -ms-scroll-chaining: chained !important;
+        overscroll-behavior: auto !important;
         }
       .item {
         white-space: nowrap;

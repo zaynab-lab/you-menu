@@ -102,7 +102,7 @@ export default function OrderCard({
               <div className="orderDetails">
                 <div className="orderType">
                   {order?.orderType}
-                  <div className="orderDateItem orderTable">
+                  <div className="orderCode">
                     <FaBolt />
                     <div>{order?.code}</div>
                   </div>
@@ -153,8 +153,15 @@ export default function OrderCard({
                       ) : (
                         <div>product</div>
                       )}
-                      <div>{product?.price + " " + order?.total?.currency}</div>
-                      <div>{product?.name + " x " + product?.quantity}</div>
+                      <div className="productName">
+                        {product?.name + " x " + product?.quantity}
+                      </div>
+                      <div className="productPrice">
+                        {product?.price}{" "}
+                        <span className="currency">
+                          {order?.total?.currency}
+                        </span>
+                      </div>
                     </div>
                   ))
                   .reverse()}
@@ -163,14 +170,15 @@ export default function OrderCard({
             <div className="information">
               <div className="infoRow">
                 <div>
-                  total: {order?.total?.amount + " " + order?.total?.currency}
+                  total: {Number(order?.total?.amount).toFixed(2)}
+                  <span className="currency">{order?.total?.currency}</span>
                 </div>
                 {order?.shouldPay === 0 ? (
                   <div>payment done</div>
                 ) : (
                   <div>
-                    should pay:{" "}
-                    {order?.shouldPay + " " + order?.total?.currency}
+                    should pay: {Number(order?.shouldPay).toFixed(2)}{" "}
+                    <span className="currency"> {order?.total?.currency}</span>
                   </div>
                 )}
               </div>
@@ -311,9 +319,7 @@ export default function OrderCard({
           padding-top: 0.5rem;
           padding-bottom: 0.3rem;
           ${styles.flexAligncenter}
-          -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
+          ${styles.justifyBetween}
         }
         .businessBrand {
           min-width: 5rem;
@@ -367,18 +373,35 @@ export default function OrderCard({
           overscroll-behavior: auto !important;
         }
         .product {
-          min-width: 6rem;
+          min-width: 6.5rem;
         }
+        .productPrice {
+          color: gray;
+          font-size: 0.8rem;
+        }
+        .currency {
+          padding-left: 0.1rem;
+          font-size: 70%;
+        }
+        .productName {
+          font-size: 0.9rem;
+        }
+
         .orderType {
           font-size: 1.2rem;
           line-height: 1.2rem;
           padding-bottom: 0.2rem;
           color: ${styles.secondaryColor};
           ${styles.flexAligncenter}
-          -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
+          ${styles.justifyBetween}
         }
+        .orderCode {
+          color: gray;
+          font-size: 0.7rem;
+          gap: 0.5rem;
+          ${styles.flexAligncenter}
+        }
+
         .orderTable {
           color: gray;
           font-size: 0.9rem;
@@ -403,10 +426,8 @@ export default function OrderCard({
           padding: 0.5rem;
         }
         .preperationTime {
-          -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
           ${styles.flexAligncenter};
+          ${styles.justifyBetween}
         }
         .timeControlar {
           ${styles.flexAligncenter};
@@ -526,11 +547,11 @@ export function ProcessBar({ order }) {
         .step {
           ${styles.flexAligncenter}
           ${styles.flexColumn}
-          min-width:5rem;
+          min-width:6rem;
         }
         .stepName {
           white-space: nowrap;
-          font-size: 0.8rem;
+          font-size: 0.7rem;
         }
         .doneStep {
           color: green;
@@ -567,7 +588,7 @@ export function ProcessBar({ order }) {
           min-width: 2rem;
           white-space: nowrap;
           min-width: fit-content;
-          font-size: 0.8rem;
+          font-size: 0.7rem;
         }
       `}</style>
     </>
