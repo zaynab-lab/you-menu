@@ -17,7 +17,7 @@
     "geoip-lite": "1.4.2",
     "html-to-image": "1.9.0",
     "jsonwebtoken": "8.5.1",
-    "mongoose": "6.1.2",
+    "mongoose": "5.11.18",
     "next": "12.0.7",
     "next-pwa": "5.4.4",
     "react": "17.0.2",
