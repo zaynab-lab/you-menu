@@ -15,7 +15,7 @@ const Plans = [
   {
     name: "Plan A",
     options: [
-      "400 product",
+      "800 product",
       "30 category",
       "8 employee",
       "editing theme",
@@ -28,13 +28,14 @@ const Plans = [
     planProducts: 400,
     planCategories: 30,
     description: "89$/month - 890$/year",
-    rank: 1
+    rank: 1,
+    offer: "6200$"
   },
 
   {
     name: "Plan B",
     options: [
-      "160 product",
+      "180 product",
       "25 category",
       "editing theme",
       "digital menu",
@@ -43,7 +44,8 @@ const Plans = [
     planProducts: 160,
     planCategories: 25,
     description: "49$/month 490$/year",
-    rank: 2
+    rank: 2,
+    offer: "2900$"
   },
   {
     name: "Plan C",
@@ -57,7 +59,8 @@ const Plans = [
     planProducts: 120,
     planCategories: 15,
     description: "29$/month 290$/year",
-    rank: 3
+    rank: 3,
+    offer: "900$"
   },
   {
     name: "free plan",
@@ -178,6 +181,12 @@ export default function Subscribe({ setSelected, business }) {
                   {op}
                 </div>
               ))}
+              {plan.offer && (
+                <div className="offer">
+                  <div>{"😍 limit time offer 😍"}</div>
+                  <div>{`buy the plan for lifetime just with ${plan.offer}`}</div>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -199,16 +208,22 @@ export default function Subscribe({ setSelected, business }) {
           padding: 0.2rem;
           color: green;
           background: #ddffdd;
+          border: 1px solid green;
+          border-radius: 0.4rem;
           width: 100%;
           text-align: center;
+          font-size: 0.9rem;
         }
         .redNoty {
           margin-top: 1rem;
           padding: 0.2rem;
           color: red;
+          border: 1px solid red;
+          border-radius: 0.4rem;
           background: #ffdddd;
           width: 100%;
           text-align: center;
+          font-size: 0.9rem;
         }
 
         .plan {
@@ -283,6 +298,14 @@ export default function Subscribe({ setSelected, business }) {
         .description {
           font-size: 1rem;
           color: ${styles.secondaryColor};
+        }
+        .offer {
+          width: 100%;
+          color: green;
+          padding: 0 1rem;
+          padding-top: 1rem;
+          text-align: center;
+          font-size: 0.9rem;
         }
       `}</style>
     </>

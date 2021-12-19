@@ -36,10 +36,14 @@ const businessSchema = new mongoose.Schema(
       {
         date: { type: Date },
         plan: { type: String },
+        forever: { type: Boolean, default: false },
         validation: { type: Number }
       }
     ],
     twentyfour: { type: Boolean },
+    everyday: { type: Boolean },
+    everyDayInterval: { type: [Object] },
+    daysInterval: { type: [Object] },
     addedby: { type: String }
   },
   { collection: "businesses" }

@@ -61,64 +61,37 @@ const time = [
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function Time({ business, setSelected, setRefreshBusiness }) {
-  const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
-  const [orderOn, setOrderOn] = useState(business.acceptOrders);
   const [twentyfour, setTwentyfour] = useState(business?.twentyfour);
-  const [everyday, setEveryday] = useState(false);
+  const [everyday, setEveryday] = useState(business?.everyday);
   const [activeSave, setActiveSave] = useState(false);
-  const [everydayDefault, setEverydayDefault] = useState([
-    { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
-  ]);
+  const [everyDayInterval, setEveryDayInterval] = useState(
+    business?.everyDayInterval || [
+      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
+    ]
+  );
+  console.log(everyDayInterval);
 
   useEffect(() => {
-    twentyfour !== business.twentyfour && setActiveSave((active) => !active);
+    !!twentyfour !== business.twentyfour
+      ? setActiveSave(true)
+      : setActiveSave(false);
   }, [twentyfour, business]);
+
+  useEffect(() => {
+    !!everyday !== business.everyday
+      ? setActiveSave(true)
+      : setActiveSave(false);
+  }, [everyday, business]);
 
   return (
     <>
       <BackButton setSelected={setSelected} select="More" />
       <BPLayout>
-        <Accept
-          on={orderOn}
-          setOn={() => {
-            axios
-              .put(
-                `/api/business/acceptOrders`,
-                {
-                  acceptOrders: !orderOn,
-                  businessCode: business?.businessCode
-                },
-                { "content-type": "application/json" }
-              )
-              .then(
-                (res) =>
-                  res.data === "done" &&
-                  setRefreshBusiness((refresh) => !refresh)
-              );
-            setOrderOn(!orderOn);
-          }}
+        <AcceptOrders
+          business={business}
+          setRefreshBusiness={setRefreshBusiness}
         />
-        <Accept
-          delivery={true}
-          on={deliveryOn}
-          setOn={() => {
-            axios
-              .put(
-                `/api/business/acceptDelivery`,
-                {
-                  acceptDelivery: !deliveryOn,
-                  businessCode: business?.businessCode
-                },
-                { "content-type": "application/json" }
-              )
-              .then(
-                (res) =>
-                  res.data === "done" &&
-                  setRefreshBusiness((refresh) => !refresh)
-              );
-            setDeliveryOn(!deliveryOn);
-          }}
-        />
+
         <div className="selectTitle">
           <div className="timeTitle">
             <FaRegClock />
@@ -128,20 +101,33 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
             className={`save ${activeSave && "activeSave"}`}
             onClick={() => {
               setActiveSave(false);
-              activeSave &&
-                axios
-                  .put(
-                    "/api/business/twentyfour",
-                    {
-                      twentyfour: twentyfour,
-                      businessCode: business?.businessCode
-                    },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    res.data === "done" &&
-                      setRefreshBusiness((refresh) => !refresh);
-                  });
+              activeSave && twentyfour
+                ? axios
+                    .put(
+                      "/api/business/twentyfour",
+                      {
+                        twentyfour: twentyfour,
+                        businessCode: business?.businessCode
+                      },
+                      { "content-type": "application/json" }
+                    )
+                    .then((res) => {
+                      res.data === "done" &&
+                        setRefreshBusiness((refresh) => !refresh);
+                    })
+                : axios
+                    .put(
+                      "/api/business/everyDayInterval",
+                      {
+                        everyDayInterval: everyDayInterval,
+                        businessCode: business?.businessCode
+                      },
+                      { "content-type": "application/json" }
+                    )
+                    .then((res) => {
+                      res.data === "done" &&
+                        setRefreshBusiness((refresh) => !refresh);
+                    });
             }}
           >
             save
@@ -167,7 +153,11 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
           (everyday ? (
             <div className="day">
               <div className="dayname">set time</div>
-              <SelectTime defaultIntervals={everydayDefault} availble={true} />
+              <SelectTime
+                defaultIntervals={everyDayInterval}
+                setDefaultIntervals={setEveryDayInterval}
+                availble={true}
+              />
             </div>
           ) : (
             <div className="dayContainer">
@@ -254,7 +244,11 @@ export function ControlAvailbleDays({ availble, intervals }) {
   return (
     <>
       {on ? (
-        <SelectTime defaultIntervals={intervals} availble={availble} />
+        <SelectTime
+          defaultIntervals={intervals}
+          // setDefaultIntervals={setDefaultIntervals}
+          availble={availble}
+        />
       ) : (
         <div className="close">close</div>
       )}
@@ -262,6 +256,72 @@ export function ControlAvailbleDays({ availble, intervals }) {
       <style jsx>{`
         .close {
           color: gray;
+        }
+      `}</style>
+    </>
+  );
+}
+
+export function AcceptOrders({ business, setRefreshBusiness }) {
+  const [deliveryOn, setDeliveryOn] = useState(business.acceptDelivery);
+  const [orderOn, setOrderOn] = useState(business.acceptOrders);
+
+  return (
+    <>
+      <Accept
+        on={orderOn}
+        setOn={() => {
+          axios
+            .put(
+              `/api/business/acceptOrders`,
+              {
+                acceptOrders: !orderOn,
+                businessCode: business?.businessCode
+              },
+              { "content-type": "application/json" }
+            )
+            .then(
+              (res) =>
+                res.data === "done" && setRefreshBusiness((refresh) => !refresh)
+            );
+          setOrderOn(!orderOn);
+        }}
+      />
+
+      <Accept
+        delivery={true}
+        on={deliveryOn}
+        setOn={() => {
+          axios
+            .put(
+              `/api/business/acceptDelivery`,
+              {
+                acceptDelivery: !deliveryOn,
+                businessCode: business?.businessCode
+              },
+              { "content-type": "application/json" }
+            )
+            .then(
+              (res) =>
+                res.data === "done" && setRefreshBusiness((refresh) => !refresh)
+            );
+          setDeliveryOn(!deliveryOn);
+        }}
+      />
+      <style jsx>{`
+        .acceptContainer {
+          width: 100%;
+          font-size: 1.2rem;
+          ${styles.flexAligncenter}
+          ${styles.justifyBetween}
+          padding: 0.8rem 1.2rem;
+          border-bottom: 1px solid gray;
+        }
+
+        .title {
+          color: ${styles.secondaryColor};
+          ${styles.flexAligncenter};
+          gap: 1rem;
         }
       `}</style>
     </>

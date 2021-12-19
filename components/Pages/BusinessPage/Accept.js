@@ -10,7 +10,7 @@ export default function Accept({ on, setOn, delivery }) {
           <div className="icon">
             {delivery ? <FaMotorcycle /> : <FaStore />}
           </div>
-          <div>accept {delivery ? "delivery " : "dine in "} orders</div>
+          <div>{delivery ? "delivery " : "dine in "} orders</div>
         </div>
         <Onoff on={on} setOn={setOn} />
       </div>
@@ -19,10 +19,8 @@ export default function Accept({ on, setOn, delivery }) {
           width: 100%;
           font-size: 1.2rem;
           ${styles.flexAligncenter}
-          -webkit-box-pack:justify;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
-          padding: 0.8rem 1.2rem;
+          ${styles.justifyBetween}
+          padding: 0.6rem 1.2rem;
           border-bottom: 1px solid ${styles.secondaryColor};
         }
 

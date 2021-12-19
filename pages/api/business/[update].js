@@ -71,7 +71,6 @@ export default async (req, res) => {
                   (err) => console.log(err)
                 ).exec();
                 return res.status(200).end("done");
-
               case "currency":
                 Business.findByIdAndUpdate(
                   business._id,
@@ -96,9 +95,33 @@ export default async (req, res) => {
               case "twentyfour":
                 Business.findByIdAndUpdate(
                   business._id,
-                  { twentyfour: body.twentyfour },
+                  { twentyfour: true, everyday: false },
                   (err) => console.log(err)
                 ).exec();
+                return res.status(200).end("done");
+
+              case "everyDayInterval":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  {
+                    twentyfour: false,
+                    everyday: true,
+                    everyDayInterval: body.everyDayInterval
+                  },
+                  (err) => console.log(err)
+                ).exec();
+                return res.status(200).end("done");
+              case "daysInterval":
+                Business.findByIdAndUpdate(
+                  business._id,
+                  {
+                    twentyfour: false,
+                    everyday: false,
+                    daysInterval: body.daysInterval
+                  },
+                  (err) => console.log(err)
+                ).exec();
+
                 return res.status(200).end("done");
 
               case "verified":

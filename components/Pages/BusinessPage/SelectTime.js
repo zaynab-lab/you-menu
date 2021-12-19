@@ -1,59 +1,71 @@
 import Button from "@/components/Button";
 import { styles } from "@/public/js/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function SelectTime({ defaultIntervals, availble }) {
-  const [intervals, setIntervals] = useState(defaultIntervals);
+const fixHourView = (h, m, AM) => {
+  return h + ":" + (m > 9 ? m : m + "0") + " " + (AM ? "AM" : "PM");
+};
+const checkInterval = (interval) => {
+  let from = interval.from.AM
+    ? interval.from.h * 60 + interval.from.m
+    : interval.from.h * 60 + interval.from.m + 12 * 60;
+  let to = interval.to.AM
+    ? interval.to.h * 60 + interval.to.m
+    : interval.to.h * 60 + interval.to.m + 12 * 60;
+
+  return [from, to];
+};
+
+export default function SelectTime({
+  defaultIntervals,
+  setDefaultIntervals,
+  availble
+}) {
   const [timeModal, setTimeModal] = useState(false);
-  const [openTime, setOpenTime] = useState(false);
+  const [from, setFrom] = useState(false);
+  const [selectedInterval, setSelectedInterval] = useState(0);
 
   return (
     <>
       {availble ? (
         <div className="hours">
-          {intervals.map((interval, k) => (
+          {defaultIntervals?.map((interval, k) => (
             <div key={k} className="hour">
               <span
                 className="underline"
                 onClick={() => {
-                  setOpenTime(true);
+                  setSelectedInterval(k);
+                  setFrom(true);
                   setTimeModal(true);
                 }}
               >
-                {interval?.from.h +
-                  ":" +
-                  (interval?.from.m > 10
-                    ? interval?.from.m
-                    : interval?.from.m + "0") +
-                  " " +
-                  (interval?.from.AM ? "AM" : "PM")}
+                {fixHourView(
+                  interval?.from.h,
+                  interval?.from.m,
+                  interval?.from.AM
+                )}
               </span>
               {" - "}
               <span
                 className="underline"
                 onClick={() => {
-                  setOpenTime(false);
+                  setSelectedInterval(k);
+                  setFrom(false);
                   setTimeModal(true);
                 }}
               >
-                {interval?.to.h +
-                  ":" +
-                  (interval?.to.m > 10
-                    ? interval?.to.m
-                    : interval?.to.m + "0") +
-                  " " +
-                  (interval?.to.AM ? "AM" : "PM")}
+                {fixHourView(interval?.to.h, interval?.to.m, interval?.to.AM)}
               </span>
             </div>
           ))}
-          {intervals.length < 2 ? (
+          {defaultIntervals.length < 2 ? (
             <div
               className="addHours"
               onClick={() =>
-                setIntervals((intervals) => [
-                  ...intervals,
+                setDefaultIntervals((defaultIntervals) => [
+                  ...defaultIntervals,
                   {
-                    from: { h: 9, m: 0, AM: true },
+                    from: { h: 8, m: 0, AM: true },
                     to: { h: 10, m: 0, AM: false }
                   }
                 ])
@@ -64,7 +76,12 @@ export default function SelectTime({ defaultIntervals, availble }) {
           ) : (
             <div
               className="addHours"
-              onClick={() => setIntervals((intervals) => intervals.slice(-1))}
+              onClick={() => {
+                setSelectedInterval(0);
+                setDefaultIntervals((defaultIntervals) => [
+                  defaultIntervals[0]
+                ]);
+              }}
             >
               remove
             </div>
@@ -75,9 +92,14 @@ export default function SelectTime({ defaultIntervals, availble }) {
       )}
 
       <TimeModal
+        interval={defaultIntervals[selectedInterval]}
         timeModal={timeModal}
         setTimeModal={setTimeModal}
-        openTime={openTime}
+        setFrom={setFrom}
+        from={from}
+        defaultIntervals={defaultIntervals}
+        setDefaultIntervals={setDefaultIntervals}
+        selectedInterval={selectedInterval}
       />
 
       <style jsx>{`
@@ -108,13 +130,60 @@ export default function SelectTime({ defaultIntervals, availble }) {
   );
 }
 
-export function TimeModal({ timeModal, setTimeModal, openTime }) {
+export function TimeModal({
+  timeModal,
+  setTimeModal,
+  setFrom,
+  from,
+  interval,
+  setDefaultIntervals,
+  defaultIntervals,
+  selectedInterval
+}) {
+  const [msg, setMsg] = useState("");
+  const [hidebtn, setHidebtn] = useState(false);
+  const [currentInterval, setCurrentInterval] = useState(interval);
+
+  useEffect(() => {
+    !!interval && setCurrentInterval(interval);
+  }, [interval]);
+
+  const handelIntervalChange = (qty, type) => {
+    const newInterval = {
+      ...currentInterval,
+      [`${from ? "from" : "to"}`]: {
+        ...currentInterval[`${from ? "from" : "to"}`],
+        [type]: qty
+      }
+    };
+
+    setCurrentInterval(newInterval);
+
+    const [start, end] = checkInterval(newInterval);
+
+    if (end - start <= 0) {
+      setHidebtn(true);
+      setMsg("select correct interval");
+    } else {
+      let h = Math.floor((end - start) / 60);
+      let m = (
+        ((end - start) / 60 - Math.floor((end - start) / 60)) *
+        60
+      ).toFixed(0);
+      setHidebtn(false);
+      setMsg(
+        (h > 0 ? h + " hours" : " you are open less than one hour !!") +
+          (h > 0 && m > 0 ? " : " + m + " min" : " ")
+      );
+    }
+  };
+
   return (
     <>
       <div className={`timeModal ${timeModal && "showTimeModal"}`}>
         <div className="timeContainer">
           <div className="Xheader">
-            <div>Select {openTime ? "Open" : "Close"} Time</div>
+            <div>Select {from ? "Open" : "Close"} Time</div>
             <div
               className="X"
               onClick={() => {
@@ -125,11 +194,27 @@ export function TimeModal({ timeModal, setTimeModal, openTime }) {
             </div>
           </div>
           <div className="timeBody">
-            <Clock />
+            <Clock
+              interval={currentInterval}
+              handelIntervalChange={handelIntervalChange}
+              setFrom={setFrom}
+              from={from}
+            />
           </div>
-          <div className="timebtn">
-            <Button content="done" onclick={() => setTimeModal(false)} />
-          </div>
+          <div className="msg">{msg}</div>
+          {!hidebtn && (
+            <div className="timebtn">
+              <Button
+                content="done"
+                onclick={() => {
+                  let newIntervals = [...defaultIntervals];
+                  newIntervals[selectedInterval] = currentInterval;
+                  setDefaultIntervals(newIntervals);
+                  setTimeModal(false);
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -147,6 +232,7 @@ export function TimeModal({ timeModal, setTimeModal, openTime }) {
           -webkit-transition: all 0.5s ease-in-out;
           -o-transition: all 0.5s ease-in-out;
           transition: all 0.5s ease-in-out;
+          ${styles.userSelect}
         }
 
         .showTimeModal {
@@ -182,71 +268,92 @@ export function TimeModal({ timeModal, setTimeModal, openTime }) {
           z-index: 101;
           background: white;
         }
-        .timeBody {
-          width: 100%;
-          padding: 1rem;
-          ${styles.flexBothcenter}
-        }
         .timebtn {
           text-align: center;
+        }
+        .msg {
+          text-align: center;
+          color: ${styles.secondaryColor};
+          font-size: 0.8rem;
         }
       `}</style>
     </>
   );
 }
 const hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const min = ["00", "05", 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-export function Clock() {
-  const [selectedMin, setSelectedMin] = useState(30);
-  const [selectedHour, setSelectedHour] = useState(9);
-  const [selectAM, setSelectAM] = useState("AM");
+const min = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
+export function Clock({ interval, handelIntervalChange, from, setFrom }) {
   return (
     <>
-      <div className="clock">
-        {hours.map((hour, i) => (
-          <div
-            key={i}
-            className="time"
-            style={{
-              transformOrigin: "bottom",
-              Transform: `rotate(${i * 30}deg)`,
-              WebkitTransform: `rotate(${i * 30}deg)`
-            }}
-            onClick={() => setSelectedHour(hour)}
-          >
-            <div className={`hour ${hour === selectedHour && "active"}`}>
-              {hour}
+      <div className="timeBody">
+        <div className="clock">
+          {hours.map((hour, i) => (
+            <div
+              key={i}
+              className="time"
+              style={{
+                transformOrigin: "bottom",
+                Transform: `rotate(${i * 30}deg)`,
+                WebkitTransform: `rotate(${i * 30}deg)`
+              }}
+              onClick={() => handelIntervalChange(hour, "h")}
+            >
+              <div
+                className={`hour ${
+                  hour === interval[from ? "from" : "to"]?.h && "active"
+                }`}
+              >
+                {hour}
+              </div>
             </div>
-          </div>
-        ))}
-        <div className="minclock"></div>
-        {min.map((min, j) => (
-          <div
-            key={j}
-            style={{
-              transformOrigin: "bottom",
-              Transform: `rotate(${j * 30}deg)`,
-              WebkitTransform: `rotate(${j * 30}deg)`
-            }}
-            className="minTime"
-            onClick={() => setSelectedMin(min)}
-          >
-            <div className={`min ${min === selectedMin && "active"}`}>
-              {min}
+          ))}
+          <div className="minclock"></div>
+          {min.map((min, j) => (
+            <div
+              key={j}
+              style={{
+                transformOrigin: "bottom",
+                Transform: `rotate(${j * 30}deg)`,
+                WebkitTransform: `rotate(${j * 30}deg)`
+              }}
+              className="minTime"
+              onClick={() => handelIntervalChange(min, "m")}
+            >
+              <div
+                className={`min ${
+                  min === interval[from ? "from" : "to"]?.m && "active"
+                }`}
+              >
+                {min}
+              </div>
             </div>
+          ))}
+          <div className="amclock"></div>
+          <div
+            className="ampm"
+            onClick={() =>
+              handelIntervalChange(
+                !interval[from ? "from" : "to"]?.AM,
+                "AM",
+                from
+              )
+            }
+          >
+            {interval[from ? "from" : "to"]?.AM ? "AM" : "PM"}
           </div>
-        ))}
-        <div className="amclock"></div>
-        <div
-          className="ampm"
-          onClick={() =>
-            setSelectAM((current) => (current === "AM" ? "PM" : "AM"))
-          }
-        >
-          {selectAM}
         </div>
       </div>
+      <div className="intervalView">
+        <div className={from && "activeHour"} onClick={() => setFrom(true)}>
+          {fixHourView(interval?.from.h, interval?.from.m, interval?.from.AM)}
+        </div>
+        {" - "}
+        <div className={!from && "activeHour"} onClick={() => setFrom(false)}>
+          {fixHourView(interval?.to.h, interval?.to.m, interval?.to.AM)}
+        </div>
+      </div>
+
       <style jsx>{`
         .clock {
           width: 14rem;
@@ -263,6 +370,7 @@ export function Clock() {
           margin: auto;
           top: 5.7rem;
           left: 5.5rem;
+          cursor: pointer;
         }
         .minclock {
           width: 10rem;
@@ -316,6 +424,22 @@ export function Clock() {
         }
         .min {
           cursor: pointer;
+        }
+        .timeBody {
+          width: 100%;
+          padding: 1rem;
+          ${styles.flexBothcenter}
+        }
+
+        .intervalView {
+          ${styles.flexBothcenter}
+          color: gray;
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+
+        .activeHour {
+          color: ${styles.secondaryColor};
         }
       `}</style>
     </>
