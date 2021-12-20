@@ -61,13 +61,14 @@ export const initSteps = [
 export default function Orders({ businessCode }) {
   const [currentStep, setCurrentStep] = useState("confirming");
   const [orders, setOrders] = useState([0, 0]);
-  const [refreshOrders, setRefreshOrders] = useState(false);
+  const [refreshOrders, setRefreshOrders] = useState(true);
   const [steps, setSteps] = useState(initSteps);
 
   useEffect(() => {
-    axios.get("/api/order").then((res) => {
-      Array.isArray(res.data) && setOrders(res.data);
-    });
+    typeof refreshOrders === "boolean" &&
+      axios.get("/api/order").then((res) => {
+        Array.isArray(res.data) && setOrders(res.data);
+      });
   }, [refreshOrders]);
 
   useEffect(() => {

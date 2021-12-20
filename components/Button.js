@@ -9,10 +9,10 @@ export default function Button({ content, onclick, color, noLoading }) {
         className={`button ${color ? "color" : "black"}`}
         onClick={() => {
           !noLoading && setDots(true);
-          onclick && onclick();
+          !dots && onclick && onclick();
           const clearMessage = setTimeout(() => {
             setDots(false);
-          }, 1200);
+          }, 1500);
           return () => clearTimeout(clearMessage);
         }}
       >

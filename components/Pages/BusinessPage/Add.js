@@ -13,9 +13,10 @@ export default function Add({ back, businessCode }) {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    axios.get(`/api/categories?businessCode=${businessCode}`).then((res) => {
-      Array.isArray(res.data) && setCategories(res.data);
-    });
+    !!businessCode &&
+      axios.get(`/api/categories?businessCode=${businessCode}`).then((res) => {
+        Array.isArray(res.data) && setCategories(res.data);
+      });
   }, [businessCode, refresh]);
   return (
     <>

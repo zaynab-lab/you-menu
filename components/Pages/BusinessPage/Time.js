@@ -74,13 +74,13 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
   );
 
   const changeDaysInterval = (i, newIntervals) => {
-    const newDaysInterval = daysInterval;
+    const newDaysInterval = [...daysInterval];
     newDaysInterval[i] = { ...newDaysInterval[i], intervals: newIntervals };
     setDaysInterval(newDaysInterval);
   };
 
   const changeDaysAvailble = (i, availble) => {
-    const newDaysInterval = daysInterval;
+    const newDaysInterval = [...daysInterval];
     newDaysInterval[i] = { ...newDaysInterval[i], availble: availble };
     setDaysInterval(newDaysInterval);
   };
