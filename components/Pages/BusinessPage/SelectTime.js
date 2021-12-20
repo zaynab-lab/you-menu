@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
 
-const fixHourView = (h, m, AM) => {
+export const fixHourView = (h, m, AM) => {
   return h + ":" + (m > 9 ? m : m + "0") + " " + (AM ? "AM" : "PM");
 };
 const checkInterval = (interval) => {

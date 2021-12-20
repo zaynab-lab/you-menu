@@ -2,7 +2,7 @@ import { styles } from "@/public/js/styles";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import TextLoader from "./Loaders/TextLoader";
+import { BrandLoader } from "./Loaders/TextLoader";
 import Logo from "./Logo";
 
 const businessTypes = ["all", "cafe", "resturant", "store", "retail", "online"];
@@ -43,7 +43,7 @@ export default function VerticalScroll({ search }) {
               className={`item ${type === typeFilter && "active"}`}
               onClick={() => setTypeFilter(type)}
             >
-              {type || <TextLoader />}
+              {type}
             </div>
           ))}
         </div>
@@ -64,7 +64,7 @@ export default function VerticalScroll({ search }) {
                     businessCode={business?.businessCode}
                   />
                 </div>
-                <div>{business?.brand?.name || "brand"}</div>
+                <div>{business?.brand?.name || <BrandLoader />}</div>
               </div>
             </Link>
           ))}

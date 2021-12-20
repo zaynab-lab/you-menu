@@ -26,6 +26,8 @@ export default function UserPage() {
       <Line />
       {page === "order" && auth && <OrderHistory />}
       {page === "wallet" && auth && <Wallet />}
+      {page === "chat" && auth && <Wallet />}
+      {page === "contactList" && auth && <Wallet />}
 
       <style jsx>{``}</style>
     </>

@@ -6,6 +6,9 @@ import {
   FaPhoneAlt,
   FaRegClock
 } from "react-icons/fa";
+import { fixHourView } from "../BusinessPage/SelectTime";
+
+const today = new Date().getDay();
 
 export default function BrandBar({ business }) {
   return (
@@ -55,7 +58,28 @@ export default function BrandBar({ business }) {
           </a>
           <div className="detailsItem">
             <FaRegClock />
-            <div className="time">11:00AM - 12:00PM</div>
+            <div className="time">
+              <div>{business?.twentyfour && "24/24"}</div>
+              <div>
+                {business?.everyday && (
+                  <Interval intervals={business?.everyDayInterval} />
+                )}
+              </div>
+              <div>
+                {!business?.twentyfour &&
+                  !business?.everyday &&
+                  business?.daysInterval?.map(
+                    (dayIntervals, k) =>
+                      k === today &&
+                      (dayIntervals.availble ? (
+                        <Interval key={k} intervals={dayIntervals?.intervals} />
+                      ) : (
+                        <div>closed</div>
+                      ))
+                  )}
+              </div>
+              {/*  11:00AM - 12:00PM */}
+            </div>
           </div>
         </div>
         <a href={`http://maps.google.com/?q=`}>
@@ -155,6 +179,24 @@ export default function BrandBar({ business }) {
           }
         }
       `}</style>
+    </>
+  );
+}
+
+export function Interval({ intervals }) {
+  return (
+    <>
+      {intervals?.map((interval, i) => (
+        <div key={i}>
+          {fixHourView(
+            interval?.from?.h,
+            interval?.from?.m,
+            interval?.from?.AM
+          ) +
+            " - " +
+            fixHourView(interval?.to?.h, interval?.to?.m, interval?.to?.AM)}
+        </div>
+      ))}
     </>
   );
 }

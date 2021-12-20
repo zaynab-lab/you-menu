@@ -5,6 +5,7 @@ import { app } from "@/util/firebase";
 import axios from "axios";
 import Image from "next/image";
 import { firebaseLink } from "@/util/links";
+import { ImageLoader } from "./Loaders/TextLoader";
 
 export default function Logo({
   uploading,
@@ -70,7 +71,8 @@ export default function Logo({
               src={businessCode || "noImg"}
             />
           ) : (
-            "logo"
+            // "logo"
+            <ImageLoader />
           )}
         </div>
       </label>

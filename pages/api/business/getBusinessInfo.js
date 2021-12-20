@@ -22,7 +22,11 @@ export default async function Businesses(req, res) {
         ownerNumber: business.ownerNumber,
         acceptOrders: business.acceptOrders,
         acceptDelivery: business.acceptDelivery,
-        address: business.address
+        address: business.address,
+        twentyfour: business.twentyfour,
+        everyday: business.everyday,
+        everyDayInterval: business.everyDayInterval,
+        daysInterval: business.daysInterval
       })
     );
   } else {
