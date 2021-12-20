@@ -65,23 +65,54 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
   const [everyday, setEveryday] = useState(business?.everyday);
   const [activeSave, setActiveSave] = useState(false);
   const [everyDayInterval, setEveryDayInterval] = useState(
-    business?.everyDayInterval || [
-      { from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }
-    ]
+    business?.everyDayInterval.length > 0
+      ? business?.everyDayInterval
+      : [{ from: { h: 9, m: 0, AM: true }, to: { h: 10, m: 0, AM: false } }]
   );
-  console.log(everyDayInterval);
+  const [daysInterval, setDaysInterval] = useState(
+    business?.daysInterval.length > 0 ? business?.daysInterval : time
+  );
+
+  const changeDaysInterval = (i, newIntervals) => {
+    const newDaysInterval = daysInterval;
+    newDaysInterval[i] = { ...newDaysInterval[i], intervals: newIntervals };
+    setDaysInterval(newDaysInterval);
+  };
+
+  const changeDaysAvailble = (i, availble) => {
+    const newDaysInterval = daysInterval;
+    newDaysInterval[i] = { ...newDaysInterval[i], availble: availble };
+    setDaysInterval(newDaysInterval);
+  };
+
+  // useEffect(() => {
+  //   console.log("hye");
+  //   JSON.stringify(daysInterval) !== JSON.stringify(business?.daysInterval) &&
+  //   !everyday &&
+  //   !twentyfour
+  //     ? setActiveSave(true)
+  //     : setActiveSave(false);
+  // }, [everyday, twentyfour, daysInterval, business]);
 
   useEffect(() => {
-    !!twentyfour !== business.twentyfour
-      ? setActiveSave(true)
-      : setActiveSave(false);
-  }, [twentyfour, business]);
-
-  useEffect(() => {
-    !!everyday !== business.everyday
-      ? setActiveSave(true)
-      : setActiveSave(false);
-  }, [everyday, business]);
+    if (
+      !!twentyfour !== business.twentyfour ||
+      !!everyday !== business.everyday ||
+      (everyday &&
+        JSON.stringify(everyDayInterval) !==
+          JSON.stringify(business?.everyDayInterval))
+    ) {
+      setActiveSave(true);
+    } else if (
+      JSON.stringify(business?.daysInterval) !== JSON.stringify(daysInterval) &&
+      !everyday &&
+      !twentyfour
+    ) {
+      setActiveSave(true);
+    } else {
+      setActiveSave(false);
+    }
+  }, [daysInterval, everyDayInterval, everyday, twentyfour, business]);
 
   return (
     <>
@@ -101,33 +132,48 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
             className={`save ${activeSave && "activeSave"}`}
             onClick={() => {
               setActiveSave(false);
-              activeSave && twentyfour
-                ? axios
-                    .put(
-                      "/api/business/twentyfour",
-                      {
-                        twentyfour: twentyfour,
-                        businessCode: business?.businessCode
-                      },
-                      { "content-type": "application/json" }
-                    )
-                    .then((res) => {
-                      res.data === "done" &&
-                        setRefreshBusiness((refresh) => !refresh);
-                    })
-                : axios
-                    .put(
-                      "/api/business/everyDayInterval",
-                      {
-                        everyDayInterval: everyDayInterval,
-                        businessCode: business?.businessCode
-                      },
-                      { "content-type": "application/json" }
-                    )
-                    .then((res) => {
-                      res.data === "done" &&
-                        setRefreshBusiness((refresh) => !refresh);
-                    });
+              activeSave &&
+                (twentyfour
+                  ? axios
+                      .put(
+                        "/api/business/twentyfour",
+                        {
+                          twentyfour: twentyfour,
+                          businessCode: business?.businessCode
+                        },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        res.data === "done" &&
+                          setRefreshBusiness((refresh) => !refresh);
+                      })
+                  : everyday
+                  ? axios
+                      .put(
+                        "/api/business/everyDayInterval",
+                        {
+                          everyDayInterval: everyDayInterval,
+                          businessCode: business?.businessCode
+                        },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        res.data === "done" &&
+                          setRefreshBusiness((refresh) => !refresh);
+                      })
+                  : axios
+                      .put(
+                        "/api/business/daysInterval",
+                        {
+                          daysInterval: daysInterval,
+                          businessCode: business?.businessCode
+                        },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        res.data === "done" &&
+                          setRefreshBusiness((refresh) => !refresh);
+                      }));
             }}
           >
             save
@@ -161,10 +207,13 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
             </div>
           ) : (
             <div className="dayContainer">
-              {time.map((day, i) => (
+              {daysInterval?.map((day, i) => (
                 <div className="day" key={i}>
                   <div className="dayname">{days[i]}</div>
                   <ControlAvailbleDays
+                    i={i}
+                    changeDaysInterval={changeDaysInterval}
+                    changeDaysAvailble={changeDaysAvailble}
                     availble={day.availble}
                     intervals={day.intervals}
                   />
@@ -239,14 +288,31 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
   );
 }
 
-export function ControlAvailbleDays({ availble, intervals }) {
+export function ControlAvailbleDays({
+  i,
+  availble,
+  intervals,
+  changeDaysInterval,
+  changeDaysAvailble
+}) {
   const [on, setOn] = useState(availble);
+  const [defaultIntervals, setDefaultIntervals] = useState(intervals);
+  useEffect(() => {
+    defaultIntervals !== intervals && changeDaysInterval(i, defaultIntervals);
+  }, [i, intervals, defaultIntervals, changeDaysInterval]);
+
+  useEffect(() => {
+    availble !== on && changeDaysAvailble(i, on);
+  }, [i, on, availble, changeDaysAvailble]);
+
   return (
     <>
       {on ? (
         <SelectTime
-          defaultIntervals={intervals}
-          // setDefaultIntervals={setDefaultIntervals}
+          i={i}
+          changeDaysInterval={changeDaysInterval}
+          defaultIntervals={defaultIntervals}
+          setDefaultIntervals={setDefaultIntervals}
           availble={availble}
         />
       ) : (

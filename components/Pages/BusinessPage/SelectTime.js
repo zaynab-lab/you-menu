@@ -16,80 +16,70 @@ const checkInterval = (interval) => {
   return [from, to];
 };
 
-export default function SelectTime({
-  defaultIntervals,
-  setDefaultIntervals,
-  availble
-}) {
+export default function SelectTime({ defaultIntervals, setDefaultIntervals }) {
   const [timeModal, setTimeModal] = useState(false);
   const [from, setFrom] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState(0);
 
   return (
     <>
-      {availble ? (
-        <div className="hours">
-          {defaultIntervals?.map((interval, k) => (
-            <div key={k} className="hour">
-              <span
-                className="underline"
-                onClick={() => {
-                  setSelectedInterval(k);
-                  setFrom(true);
-                  setTimeModal(true);
-                }}
-              >
-                {fixHourView(
-                  interval?.from.h,
-                  interval?.from.m,
-                  interval?.from.AM
-                )}
-              </span>
-              {" - "}
-              <span
-                className="underline"
-                onClick={() => {
-                  setSelectedInterval(k);
-                  setFrom(false);
-                  setTimeModal(true);
-                }}
-              >
-                {fixHourView(interval?.to.h, interval?.to.m, interval?.to.AM)}
-              </span>
-            </div>
-          ))}
-          {defaultIntervals.length < 2 ? (
-            <div
-              className="addHours"
-              onClick={() =>
-                setDefaultIntervals((defaultIntervals) => [
-                  ...defaultIntervals,
-                  {
-                    from: { h: 8, m: 0, AM: true },
-                    to: { h: 10, m: 0, AM: false }
-                  }
-                ])
-              }
-            >
-              + add a set of hours
-            </div>
-          ) : (
-            <div
-              className="addHours"
+      <div className="hours">
+        {defaultIntervals?.map((interval, k) => (
+          <div key={k} className="hour">
+            <span
+              className="underline"
               onClick={() => {
-                setSelectedInterval(0);
-                setDefaultIntervals((defaultIntervals) => [
-                  defaultIntervals[0]
-                ]);
+                setSelectedInterval(k);
+                setFrom(true);
+                setTimeModal(true);
               }}
             >
-              remove
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="holiday">holiday</div>
-      )}
+              {fixHourView(
+                interval?.from.h,
+                interval?.from.m,
+                interval?.from.AM
+              )}
+            </span>
+            {" - "}
+            <span
+              className="underline"
+              onClick={() => {
+                setSelectedInterval(k);
+                setFrom(false);
+                setTimeModal(true);
+              }}
+            >
+              {fixHourView(interval?.to.h, interval?.to.m, interval?.to.AM)}
+            </span>
+          </div>
+        ))}
+        {defaultIntervals.length < 2 ? (
+          <div
+            className="addHours"
+            onClick={() =>
+              setDefaultIntervals((defaultIntervals) => [
+                ...defaultIntervals,
+                {
+                  from: { h: 8, m: 0, AM: true },
+                  to: { h: 10, m: 0, AM: false }
+                }
+              ])
+            }
+          >
+            + add a set of hours
+          </div>
+        ) : (
+          <div
+            className="addHours"
+            onClick={() => {
+              setSelectedInterval(0);
+              setDefaultIntervals((defaultIntervals) => [defaultIntervals[0]]);
+            }}
+          >
+            remove
+          </div>
+        )}
+      </div>
 
       <TimeModal
         interval={defaultIntervals[selectedInterval]}
@@ -205,9 +195,10 @@ export function TimeModal({
           {!hidebtn && (
             <div className="timebtn">
               <Button
+                noLoading={true}
                 content="done"
                 onclick={() => {
-                  let newIntervals = [...defaultIntervals];
+                  var newIntervals = [...defaultIntervals];
                   newIntervals[selectedInterval] = currentInterval;
                   setDefaultIntervals(newIntervals);
                   setTimeModal(false);

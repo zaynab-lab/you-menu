@@ -82,7 +82,7 @@ export default function LoginForm({
       )
       .then((res) => {
         res.data === "done" && setAuth(true);
-        setRefreshUser((refresh) => !refresh);
+        !!setRefreshUser && setRefreshUser((refresh) => !refresh);
         res.data !== "done" && setMsg(res.data);
       });
   };
