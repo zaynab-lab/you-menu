@@ -8,6 +8,7 @@ const OrderHistory = dynamic(() =>
   import("@/components/Pages/EndUserPage/OrderHistory")
 );
 const Wallet = dynamic(() => import("@/components/Pages/EndUserPage/Wallet"));
+const Chat = dynamic(() => import("@/components/Pages/Chat"));
 
 export default function UserPage() {
   const [auth, setAuth] = useState(false);
@@ -26,7 +27,7 @@ export default function UserPage() {
       <Line />
       {page === "order" && auth && <OrderHistory />}
       {page === "wallet" && auth && <Wallet />}
-      {page === "chat" && auth && <Wallet />}
+      {page === "chat" && auth && <Chat />}
       {page === "contactList" && auth && <Wallet />}
 
       <style jsx>{``}</style>

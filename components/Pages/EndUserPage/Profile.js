@@ -53,16 +53,6 @@ export default function ({ setSelected, user, setRefreshUser, setAuth }) {
           <Alert setAlert={setAlert} alert={alert} />
 
           <div className="goto">
-            {user?.permissions?.includes("EnterBusinessPage") && (
-              <Link href="/business">
-                <div className="Bbtn">
-                  <div className="Bbtn-icon">
-                    <FaStore />
-                  </div>
-                  <div>business page</div>
-                </div>
-              </Link>
-            )}
             {user?.permissions?.includes("EnterManagementPage") && (
               <Link href="/management">
                 <div className="Bbtn">

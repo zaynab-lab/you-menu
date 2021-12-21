@@ -10,10 +10,19 @@ import {
   FaIdCard,
   FaLanguage,
   FaPercent,
-  FaQuestion
+  FaQuestion,
+  FaStore
 } from "react-icons/fa";
 
 const more = [
+  {
+    name: "business page",
+    icon: <FaStore />,
+    rt: "/business",
+    auth: false,
+    businessOwner: true
+  },
+
   {
     name: "profile",
     icon: <FaIdCard />,
@@ -29,12 +38,14 @@ const more = [
     cs: true
     // rt: "/user/wallet"
   },
-  {
-    name: "discounts & coupons",
-    icon: <FaPercent />,
-    selected: "Discount",
-    auth: false
-  },
+
+  // {
+  //   name: "discounts & coupons",
+  //   icon: <FaPercent />,
+  //   selected: "Discount",
+  //   auth: false
+  // },
+
   {
     name: "order history",
     icon: <FaHistory />,
@@ -64,14 +75,21 @@ const more = [
   }
 ];
 
-export default function Options({ setSelected, auth, openModal, credit }) {
+export default function Options({
+  setSelected,
+  auth,
+  openModal,
+  credit,
+  businessOwner
+}) {
   const [alert, setAlert] = useState("");
   const router = useRouter();
   return (
     <>
       <div className="more">
         {more
-          .filter((obj) => auth || obj.auth)
+          .filter((obj) => businessOwner || !obj?.businessOwner)
+          .filter((obj) => auth || obj?.auth)
           .map((item, i) => (
             <div
               key={i}

@@ -58,7 +58,7 @@ const time = [
   }
 ];
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function Time({ business, setSelected, setRefreshBusiness }) {
   const [twentyfour, setTwentyfour] = useState(business?.twentyfour);
@@ -84,15 +84,6 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
     newDaysInterval[i] = { ...newDaysInterval[i], availble: availble };
     setDaysInterval(newDaysInterval);
   };
-
-  // useEffect(() => {
-  //   console.log("hye");
-  //   JSON.stringify(daysInterval) !== JSON.stringify(business?.daysInterval) &&
-  //   !everyday &&
-  //   !twentyfour
-  //     ? setActiveSave(true)
-  //     : setActiveSave(false);
-  // }, [everyday, twentyfour, daysInterval, business]);
 
   useEffect(() => {
     if (

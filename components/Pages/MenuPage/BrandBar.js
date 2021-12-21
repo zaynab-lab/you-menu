@@ -1,16 +1,22 @@
 import Logo from "@/components/Logo";
 import { styles } from "@/public/js/styles";
+import { useState } from "react";
 import {
   FaCircle,
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaRegClock
 } from "react-icons/fa";
+import ModalContainer from "@/components/ModalContainer";
 import { fixHourView } from "../BusinessPage/SelectTime";
+import { days } from "../BusinessPage/Time";
 
-const today = new Date().getDay();
+const today = new Date().getDay() - 1;
+const scheduleDay = today === -1 ? 6 : today;
 
 export default function BrandBar({ business }) {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <div className="brand">
@@ -29,34 +35,40 @@ export default function BrandBar({ business }) {
         <div>
           <h1>{business?.brand?.name}</h1>
           <div className="bType">{business.businessType}</div>
-
-          {business?.acceptOrders ? (
+          {!business?.acceptOrders && !business?.deliveryOrders ? (
+            <></>
+          ) : business?.acceptOrders ? (
             <div className="accept">
               <span className="dot">
                 <FaCircle />{" "}
               </span>{" "}
-              online orders accepted
+              accept orders
             </div>
           ) : (
-            <div className="daccept">
-              <span className="dot">
-                <FaCircle />{" "}
-              </span>{" "}
-              online orders not accepted right now
-            </div>
+            business?.deliveryOrders && (
+              <div className="accept">
+                <span className="dot">
+                  <FaCircle />{" "}
+                </span>{" "}
+                delivery orders accepted
+              </div>
+            )
           )}
         </div>
       </div>
 
       <div className="details">
-        <div className="deItem">
+        <div className="detailsItems">
           <a href={`tel:${business.ownerNumber}`}>
             <div className="detailsItem">
               <FaPhoneAlt />
               <div>{business?.ownerNumber}</div>
             </div>
           </a>
-          <div className="detailsItem">
+          <div
+            className="detailsItem"
+            onClick={() => !business?.twentyfour && setShowModal(true)}
+          >
             <FaRegClock />
             <div className="time">
               <div>{business?.twentyfour && "24/24"}</div>
@@ -70,7 +82,7 @@ export default function BrandBar({ business }) {
                   !business?.everyday &&
                   business?.daysInterval?.map(
                     (dayIntervals, k) =>
-                      k === today &&
+                      k === scheduleDay &&
                       (dayIntervals.availble ? (
                         <Interval key={k} intervals={dayIntervals?.intervals} />
                       ) : (
@@ -78,17 +90,29 @@ export default function BrandBar({ business }) {
                       ))
                   )}
               </div>
-              {/*  11:00AM - 12:00PM */}
+              {!business?.twentyfour &&
+                !business?.everyday &&
+                !business?.daysInterval &&
+                " 9:00AM - 12:00PM"}
             </div>
           </div>
         </div>
-        <a href={`http://maps.google.com/?q=`}>
-          <div className="detailsItem">
-            <FaMapMarkerAlt />{" "}
-            <div>{business?.address?.content || "online"}</div>
-          </div>
-        </a>
+        {business?.address?.content && (
+          <a href={`http://maps.google.com/?q=`}>
+            <div className="detailsItem">
+              <FaMapMarkerAlt />
+              <div>{business?.address?.content}</div>
+            </div>
+          </a>
+        )}
       </div>
+      <TimeModal
+        everyday={business?.everyday}
+        everyDayInterval={business?.everyDayInterval}
+        daysInterval={business?.daysInterval}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
 
       <style jsx>{`
         .brand {
@@ -120,7 +144,7 @@ export default function BrandBar({ business }) {
           ${styles.flexColumn};
           background: #f6f6f6;
         }
-        .deItem {
+        .detailsItems {
           ${styles.flexAligncenter}
         }
         .detailsItem {
@@ -129,6 +153,7 @@ export default function BrandBar({ business }) {
           gap:.6rem;
           flex: 1 1 50vw;
           padding: 0.2rem 1.4rem;
+          cursor:pointer
         }
         .accept {
           width: 100%;
@@ -153,7 +178,7 @@ export default function BrandBar({ business }) {
           text-decoration: none !important;
         }
         .time {
-          font-size: 1rem;
+          font-size: .9rem;
         }
 
         @keyframes flash {
@@ -197,6 +222,88 @@ export function Interval({ intervals }) {
             fixHourView(interval?.to?.h, interval?.to?.m, interval?.to?.AM)}
         </div>
       ))}
+    </>
+  );
+}
+
+export function TimeModal({
+  everyday,
+  everyDayInterval,
+  daysInterval,
+  showModal,
+  setShowModal
+}) {
+  return (
+    <>
+      <ModalContainer
+        title="open time"
+        showModal={showModal}
+        setShowModal={setShowModal}
+      >
+        {!!everyday
+          ? everyDayInterval?.map((interval, i) => (
+              <div key={i} className="timeRow">
+                <div>open every day </div>
+                <div>
+                  {" "}
+                  {fixHourView(
+                    interval?.from.h,
+                    interval?.from.m,
+                    interval?.from.AM
+                  ) +
+                    " - " +
+                    fixHourView(
+                      interval?.to.h,
+                      interval?.to.m,
+                      interval?.to.AM
+                    )}
+                </div>
+              </div>
+            ))
+          : daysInterval?.length > 0 &&
+            daysInterval?.map((day, k) => (
+              <div key={k}>
+                <div className="timeRow">
+                  <div className="dayname">{days && days[k]}</div>
+                  {day?.availble ? (
+                    <div>
+                      {day?.intervals?.map((interval, j) => (
+                        <div key={j}>
+                          {" "}
+                          {fixHourView(
+                            interval?.from.h,
+                            interval?.from.m,
+                            interval?.from.AM
+                          ) +
+                            " - " +
+                            fixHourView(
+                              interval?.to.h,
+                              interval?.to.m,
+                              interval?.to.AM
+                            )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div>closed</div>
+                  )}
+                </div>
+              </div>
+            ))}
+      </ModalContainer>
+      <style jsx>{`
+        .timeRow {
+          ${styles.flexAligncenter}
+          ${styles.justifyBetween}
+          padding:.3rem 0;
+          font-size: 0.9rem;
+        }
+        .dayname {
+          width: 2rem;
+          font-size: 1.4rem;
+          color: gray;
+        }
+      `}</style>
     </>
   );
 }

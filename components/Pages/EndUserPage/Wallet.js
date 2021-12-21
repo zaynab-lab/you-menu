@@ -13,6 +13,7 @@ import {
 import dateChanger, { timeChanger } from "@/util/dateChanger";
 import { FaShareAlt } from "react-icons/fa";
 import Button from "@/components/Button";
+import ModalContainer from "@/components/ModalContainer";
 
 export default function Wallet() {
   const [selectedTab, setSelectedTab] = useState("transactions");
@@ -117,7 +118,7 @@ export function WalletHeader({ wallet, action }) {
         .option {
           ${styles.flexAligncenter};
           ${styles.flexColumn};
-          gap: 0.6rem;
+          gap: 0.4rem;
           cursor: pointer;
         }
 
@@ -209,7 +210,7 @@ const dbTransactions = [
   },
   { trnType: "gift", amount: 1, currency: "USD", date: "2/3/2020" },
   { trnType: "services", amount: 1, currency: "USD", date: "2/3/2021" },
-  { trnType: "charge", amount: 200, currency: "USD", date: "2/3/2021" }
+  { trnType: "deposit", amount: 200, currency: "USD", date: "2/3/2021" }
 ];
 
 export function Transactions({ wallet }) {
@@ -233,7 +234,7 @@ export function Transactions({ wallet }) {
                 {transaction?.trnType === "received" && <BsDownload />}
                 {transaction?.trnType === "gift" && <BsGift />}
                 {(transaction?.trnType === "withdraw" ||
-                  transaction?.trnType === "charge") && <BsCreditCard />}
+                  transaction?.trnType === "deposit") && <BsCreditCard />}
               </div>
               <div className="trnType">{transaction?.trnType}</div>
             </div>
@@ -348,96 +349,80 @@ export function TransactionModal({
   const [msg, setMsg] = useState();
   return (
     <>
-      <div
-        className={`transactionModal ${
-          transactionModal && "showTransactionModal"
-        }`}
+      <ModalContainer
+        showModal={transactionModal}
+        setShowModal={setTransactionModal}
+        title={actionType}
       >
-        <div className="transactionContainer">
-          <div className="Xheader">
-            <div>{actionType}</div>
-
-            <div
-              className="X"
-              onClick={() => {
-                setTransactionModal(false);
+        {actionType === "send" ? (
+          <div className="transactionBody">
+            <Label title="amount" />
+            <Input
+              type="number"
+              placeholder="amount"
+              value={amount}
+              onchange={(e) => {
+                setMsg("");
+                setAmount(e.target.value);
               }}
-            >
-              x
+              font={"1.2rem"}
+            />
+
+            <Label title="wallet address" />
+            <Input
+              placeholder="wallet address"
+              value={targetAddress}
+              onchange={(e) => {
+                setMsg("");
+                setTargetAddress(e.target.value);
+              }}
+              font={"1.2rem"}
+            />
+            <div className="btnContainer">
+              <div className="msg">{msg}</div>
+              <Button
+                content="send"
+                onclick={() => {
+                  !targetAddress && setMsg("make sure to fill in the address");
+                  !amount &&
+                    setMsg("set the amount of your balance you want to send");
+                  amount > wallet?.credit[0]?.amount &&
+                    setMsg(
+                      "you have just " +
+                        wallet?.credit[0]?.amount +
+                        " USD in your wallet"
+                    );
+                }}
+                noLoading={true}
+              />
             </div>
           </div>
-
-          {actionType === "send" ? (
-            <div className="transactionBody">
-              <Label title="amount" />
-              <Input
-                type="number"
-                placeholder="amount"
-                value={amount}
-                onchange={(e) => {
-                  setMsg("");
-                  setAmount(e.target.value);
-                }}
-                font={"1.2rem"}
-              />
-
-              <Label title="wallet address" />
-              <Input
-                placeholder="wallet address"
-                value={targetAddress}
-                onchange={(e) => {
-                  setMsg("");
-                  setTargetAddress(e.target.value);
-                }}
-                font={"1.2rem"}
-              />
-              <div className="btnContainer">
-                <div className="msg">{msg}</div>
-                <Button
-                  content="send"
-                  onclick={() => {
-                    !targetAddress &&
-                      setMsg("make sure to fill in the address");
-                    !amount &&
-                      setMsg("set the amount of your balance you want to send");
-                    amount > wallet?.credit[0]?.amount &&
-                      setMsg(
-                        "you have just " +
-                          wallet?.credit[0]?.amount +
-                          " USD in your wallet"
-                      );
-                  }}
-                  noLoading={true}
+        ) : (
+          <div className="transactionBody">
+            <Label title="share your wallet address" />
+            <div className="url">
+              <div className="urlInput">
+                <Input
+                  value={wallet?._id}
+                  onchange={() => {}}
+                  font={"1.2rem"}
                 />
+              </div>{" "}
+              <div
+                className="share"
+                onClick={() =>
+                  navigator.share({
+                    title: "url",
+                    text: wallet?._id
+                  })
+                }
+              >
+                <FaShareAlt />
               </div>
             </div>
-          ) : (
-            <div className="transactionBody">
-              <Label title="share your wallet address" />
-              <div className="url">
-                <div className="urlInput">
-                  <Input
-                    value={wallet?._id}
-                    onchange={() => {}}
-                    font={"1.2rem"}
-                  />
-                </div>{" "}
-                <div
-                  className="share"
-                  onClick={() =>
-                    navigator.share({
-                      title: "url",
-                      text: wallet?._id
-                    })
-                  }
-                >
-                  <FaShareAlt />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </ModalContainer>
 
       <style jsx>{`
         .transactionModal {

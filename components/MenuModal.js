@@ -60,6 +60,7 @@ export default function MenuModal({ openModal, setOpenModal }) {
             openModal={openModal}
             auth={auth}
             credit={user?.credit}
+            businessOwner={user?.permissions?.includes("EnterBusinessPage")}
           />
         )}
         {selected === "Profile" && (

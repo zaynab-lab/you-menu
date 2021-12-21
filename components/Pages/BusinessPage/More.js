@@ -12,7 +12,7 @@ const more = [
   { name: "business info", icon: <FaStore />, selected: "BusinessInfo" },
   { name: "qr generator", icon: <FaQrcode />, selected: "Qr" },
   {
-    name: "time - schadual",
+    name: "time & orders",
     icon: <FaRegClock />,
     selected: "Time"
   },

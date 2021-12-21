@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { styles } from "@/public/js/styles";
 import { useEffect, useState } from "react";
+import ModalContainer from "@/components/ModalContainer";
 
 export const fixHourView = (h, m, AM) => {
   return h + ":" + (m > 9 ? m : m + "0") + " " + (AM ? "AM" : "PM");
@@ -82,7 +83,6 @@ export default function SelectTime({ defaultIntervals, setDefaultIntervals }) {
       </div>
 
       <TimeModal
-        interval={defaultIntervals[selectedInterval]}
         timeModal={timeModal}
         setTimeModal={setTimeModal}
         setFrom={setFrom}
@@ -125,18 +125,20 @@ export function TimeModal({
   setTimeModal,
   setFrom,
   from,
-  interval,
   setDefaultIntervals,
   defaultIntervals,
   selectedInterval
 }) {
   const [msg, setMsg] = useState("");
   const [hidebtn, setHidebtn] = useState(false);
-  const [currentInterval, setCurrentInterval] = useState(interval);
+  const [currentInterval, setCurrentInterval] = useState(
+    defaultIntervals[selectedInterval]
+  );
 
   useEffect(() => {
-    !!interval && setCurrentInterval(interval);
-  }, [interval]);
+    !!defaultIntervals &&
+      setCurrentInterval(defaultIntervals[selectedInterval]);
+  }, [defaultIntervals, selectedInterval]);
 
   const handelIntervalChange = (qty, type) => {
     const newInterval = {
@@ -153,7 +155,6 @@ export function TimeModal({
 
     if (end - start <= 0) {
       setHidebtn(true);
-      setMsg("select correct interval");
     } else {
       let h = Math.floor((end - start) / 60);
       let m = (
@@ -170,89 +171,36 @@ export function TimeModal({
 
   return (
     <>
-      <div className={`timeModal ${timeModal && "showTimeModal"}`}>
-        <div className="timeContainer">
-          <div className="Xheader">
-            <div>Select {from ? "Open" : "Close"} Time</div>
-            <div
-              className="X"
-              onClick={() => {
-                setTimeModal(false);
-              }}
-            >
-              x
-            </div>
-          </div>
-          <div className="timeBody">
-            <Clock
-              interval={currentInterval}
-              handelIntervalChange={handelIntervalChange}
-              setFrom={setFrom}
-              from={from}
-            />
-          </div>
-          <div className="msg">{msg}</div>
-          {!hidebtn && (
-            <div className="timebtn">
-              <Button
-                noLoading={true}
-                content="done"
-                onclick={() => {
-                  var newIntervals = [...defaultIntervals];
-                  newIntervals[selectedInterval] = currentInterval;
-                  setDefaultIntervals(newIntervals);
-                  setTimeModal(false);
-                }}
-              />
-            </div>
-          )}
+      <ModalContainer
+        showModal={timeModal}
+        setShowModal={setTimeModal}
+        title={`Select ${from ? "Open" : "Close"} Time`}
+      >
+        <div className="timeBody">
+          <Clock
+            interval={currentInterval}
+            handelIntervalChange={handelIntervalChange}
+            setFrom={setFrom}
+            from={from}
+          />
         </div>
-      </div>
+        <div className="msg">{hidebtn ? "select correct interval" : msg}</div>
+
+        <div className="timebtn">
+          <Button
+            noLoading={true}
+            content="done"
+            onclick={() => {
+              var newIntervals = [...defaultIntervals];
+              newIntervals[selectedInterval] = currentInterval;
+              !hidebtn && setDefaultIntervals(newIntervals);
+              !hidebtn && setTimeModal(false);
+            }}
+          />
+        </div>
+      </ModalContainer>
 
       <style jsx>{`
-        .timeModal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          z-index: -1;
-          opacity: 0;
-          ${styles.flexBothcenter}
-          ${styles.flexColumn}
-          -webkit-transition: all 0.5s ease-in-out;
-          -o-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-          ${styles.userSelect}
-        }
-
-        .showTimeModal {
-          opacity: 100;
-          z-index: 100;
-          -webkit-transition: all 0.5s ease-in-out;
-          -o-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-          background: #8888;
-        }
-
-        .Xheader {
-          text-align: right;
-          min-width: 22rem;
-          background: white;
-          font-size: 1.2rem;
-          ${styles.flexAligncenter};
-          ${styles.justifyBetween};
-          padding: 0.4rem 0.6rem;
-          border-radius: 0.7rem 0.7rem 0 0;
-        }
-
-        .X {
-          font-size: 1.6rem;
-          line-height: 0;
-          padding-bottom: 0.4rem;
-          cursor: pointer;
-        }
-
         .timeContainer {
           border: 1px solid ${styles.secondaryColor};
           border-radius: 0.7rem;
@@ -292,7 +240,9 @@ export function Clock({ interval, handelIntervalChange, from, setFrom }) {
             >
               <div
                 className={`hour ${
-                  hour === interval[from ? "from" : "to"]?.h && "active"
+                  interval &&
+                  hour === interval[from ? "from" : "to"]?.h &&
+                  "active"
                 }`}
               >
                 {hour}
@@ -313,7 +263,9 @@ export function Clock({ interval, handelIntervalChange, from, setFrom }) {
             >
               <div
                 className={`min ${
-                  min === interval[from ? "from" : "to"]?.m && "active"
+                  interval &&
+                  min === interval[from ? "from" : "to"]?.m &&
+                  "active"
                 }`}
               >
                 {min}
@@ -325,13 +277,13 @@ export function Clock({ interval, handelIntervalChange, from, setFrom }) {
             className="ampm"
             onClick={() =>
               handelIntervalChange(
-                !interval[from ? "from" : "to"]?.AM,
+                interval && !interval[from ? "from" : "to"]?.AM,
                 "AM",
                 from
               )
             }
           >
-            {interval[from ? "from" : "to"]?.AM ? "AM" : "PM"}
+            {interval && interval[from ? "from" : "to"]?.AM ? "AM" : "PM"}
           </div>
         </div>
       </div>
