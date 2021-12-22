@@ -1,7 +1,131 @@
 import { styles } from "@/public/js/styles";
 import Link from "next/link";
-import { useState } from "react";
-import { FaArrowLeft, FaPaperPlane, FaPhoneAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+  FaArrowLeft,
+  FaPaperPlane,
+  FaPhone,
+  FaPhoneAlt,
+  FaUserAlt
+} from "react-icons/fa";
+
+export default function Chat() {
+  const [callActive, setCallActive] = useState(false);
+  const [hangout, setHangout] = useState(false);
+  useEffect(() => {
+    const clearMessage = setTimeout(() => {
+      setHangout(false);
+      setCallActive(false);
+    }, 500);
+    return () => clearTimeout(clearMessage);
+  }, [hangout]);
+
+  return (
+    <>
+      <ChatPage setCallActive={setCallActive} />
+      <CallPage
+        setHangout={setHangout}
+        hangout={hangout}
+        callActive={callActive}
+      />
+    </>
+  );
+}
+
+export function CallPage({ hangout, setHangout, callActive }) {
+  return (
+    <>
+      <div
+        className={`callpage ${callActive && "inner"} ${
+          hangout && "hangoutActive"
+        }`}
+      >
+        <div className="callHead">
+          <div className="callProfileImg">
+            <FaUserAlt />
+          </div>
+          <div>Ringing...</div>
+        </div>
+        <div className="hangout" onClick={() => setHangout(true)}>
+          <FaPhone />
+        </div>
+      </div>
+      <style jsx>{`
+        .callpage {
+          width: 100vw;
+          height: 100vh;
+          padding: 2rem;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: ${styles.lineargradeint};
+          color: white;
+          -webkit-clip-path: circle(5% at 95% 5%);
+          clip-path: circle(5% at 95% 5%);
+          -webkit-transition: -webkit-clip-path 0.5s ease-in-out;
+          transition: -webkit-clip-path 0.5s ease-in-out;
+          -o-transition: clip-path 0.5s ease-in-out;
+          transition: clip-path 0.5s ease-in-out;
+          transition: clip-path 0.5s ease-in-out,
+            -webkit-clip-path 0.5s ease-in-out;
+          z-index: 1;
+          ${styles.flexAligncenter};
+          ${styles.justifyBetween};
+          ${styles.flexColumn}
+        }
+
+        .inner {
+          -webkit-clip-path: circle(100%);
+          clip-path: circle(100%);
+          z-index: 14;
+        }
+
+        .callHead {
+          ${styles.flexAligncenter}
+          ${styles.flexColumn};
+          gap: 2rem;
+        }
+        .callProfileImg {
+          width: 7rem;
+          height: 7rem;
+          border: 4px solid white;
+          background: #ddd;
+          font-size: 7rem;
+          padding-top: 1rem;
+          line-height: 0rem;
+          border-radius: 50%;
+          overflow: hidden;
+          ${styles.flexAligncenter}
+          ${styles.flexJustifycenter};
+          cursor: pointer;
+        }
+        .hangout {
+          width: 3.6rem;
+          height: 3.6rem;
+          font-size: 4rem;
+          border: 1px solid white;
+          border-radius: 50%;
+          padding: 0.8rem;
+          background: red;
+          transform: rotate(-135deg);
+          ${styles.flexAligncenter}
+          ${styles.flexJustifycenter};
+          cursor: pointer;
+        }
+        .hangoutActive {
+          -webkit-clip-path: circle(0% at 50% 87%);
+          clip-path: circle(0% at 50% 87%);
+          -webkit-transition: -webkit-clip-path 0.5s ease-in-out;
+          transition: -webkit-clip-path 0.5s ease-in-out;
+          -o-transition: clip-path 0.5s ease-in-out;
+          transition: clip-path 0.5s ease-in-out;
+          transition: clip-path 0.5s ease-in-out,
+            -webkit-clip-path 0.5s ease-in-out;
+        }
+      `}</style>
+    </>
+  );
+}
 
 const defaultmsgs = [
   { content: "hello world", owner: "1", targerUser: "2" },
@@ -9,9 +133,10 @@ const defaultmsgs = [
   { content: "how are you??", owner: "2", targerUser: "1" }
 ];
 
-export default function Chat({ targetUser }) {
+export function ChatPage({ targetUser, setCallActive }) {
   const [msgs, setMsgs] = useState(defaultmsgs);
   const [userMsg, setUserMsg] = useState("");
+  const [textareaRows, setTextareaRows] = useState(1);
 
   return (
     <>
@@ -23,10 +148,12 @@ export default function Chat({ targetUser }) {
                 <FaArrowLeft />
               </div>
             </Link>
-            <div className="profileImg">Img</div>
+            <div className="profileImg">
+              <FaUserAlt />
+            </div>
             <div>{targetUser || "Name"}</div>
           </div>
-          <div className="chatCall">
+          <div className="chatCall" onClick={() => setCallActive(true)}>
             <FaPhoneAlt />
           </div>
         </div>
@@ -44,9 +171,15 @@ export default function Chat({ targetUser }) {
 
         <div className="chatInputContainer">
           <div className="chatInput">
-            <input
+            <textarea
+              rows={textareaRows}
               value={userMsg}
-              onChange={(e) => setUserMsg(e.target.value)}
+              onChange={(e) => {
+                e.target.scrollHeight < 33
+                  ? setTextareaRows(1)
+                  : setTextareaRows(2);
+                setUserMsg(e.target.value);
+              }}
               className="chatinput"
               placeholder="Message"
             />
@@ -85,7 +218,7 @@ export default function Chat({ targetUser }) {
         .chatBody {
           flex: 1 1;
           overflow: auto;
-          padding: 0 0.6rem;
+          padding: 0.4rem 0.6rem;
           gap: 0.5rem;
           ${styles.flexColumn};
         }
@@ -113,14 +246,22 @@ export default function Chat({ targetUser }) {
           font-size: 1.4rem;
           line-height: 0;
           cursor: pointer;
+          z-index: 2;
         }
 
         .profileImg {
           width: 2.6rem;
           height: 2.6rem;
-          background: white;
+          background: #ddd;
+          font-size: 2.5rem;
+          border: 1px solid white;
+          padding-top: 0.4rem;
+          line-height: 0rem;
           border-radius: 50%;
           overflow: hidden;
+          ${styles.flexAligncenter}
+          ${styles.flexJustifycenter};
+          cursor: pointer;
         }
         .chatInputContainer {
           ${styles.flexAligncenter}
@@ -129,7 +270,7 @@ export default function Chat({ targetUser }) {
           ${styles.userSelect}
         }
         .chatInput {
-          padding: 0.2rem 0.8rem;
+          padding: 0rem 0.8rem;
           border-radius: 0.6rem;
           border: 1px solid gray;
           flex: 1 1 100%;
@@ -137,7 +278,11 @@ export default function Chat({ targetUser }) {
         .chatinput {
           min-width: 100%;
           border: none;
+          padding-top: 0.2rem;
           font-size: 1.2rem;
+          resize: none;
+          overflow: auto;
+          height: auto;
         }
         .chatSendbtn {
           min-width: 2.6rem;

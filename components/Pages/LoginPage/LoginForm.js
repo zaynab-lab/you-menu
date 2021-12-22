@@ -107,7 +107,7 @@ export default function LoginForm({
         <div className="msg">{alertMsg && alertMsg}</div>
         {Loginfrom && (
           <div className="img">
-            <Image height="800" width="800" src="/img/ptrn.png" alt="pattern" />
+            <Image height="800" width="800" src="/img/pattern.svg" alt="" />
           </div>
         )}
         <Phone
