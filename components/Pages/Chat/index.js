@@ -60,8 +60,8 @@ export function CallPage({ hangout, setHangout, callActive }) {
           left: 0;
           background: ${styles.lineargradeint};
           color: white;
-          -webkit-clip-path: circle(5% at 95% 5%);
-          clip-path: circle(5% at 95% 5%);
+          -webkit-clip-path: circle(0% at 95% 5%);
+          clip-path: circle(0% at 95% 5%);
           -webkit-transition: -webkit-clip-path 0.5s ease-in-out;
           transition: -webkit-clip-path 0.5s ease-in-out;
           -o-transition: clip-path 0.5s ease-in-out;
