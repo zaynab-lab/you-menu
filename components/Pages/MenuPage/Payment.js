@@ -15,11 +15,14 @@ export default function Payment({
 }) {
   const [exchangeList, setExchangeList] = useState([]);
   const [usdTotal, setUSDTotal] = useState(0);
+
   useEffect(() => {
-    axios
-      .get("/api/management/exchange")
-      .then((res) => Array.isArray(res.data) && setExchangeList(res.data));
-  }, []);
+    !!business &&
+      axios
+        .get("/api/management/exchange")
+        .then((res) => Array.isArray(res.data) && setExchangeList(res.data));
+  }, [business]);
+
   useEffect(() => {
     exchangeList.length > 0 &&
       total &&
@@ -49,7 +52,7 @@ export default function Payment({
               ? Number((user?.credit - usdTotal).toFixed(2)) < 0
                 ? "0"
                 : Number((user?.credit - usdTotal).toFixed(2))
-              : Number((user?.credit).toFixed(2))) +
+              : Number(user?.credit?.toFixed(2))) +
               " " +
               "USD"}
           </div>
@@ -65,7 +68,7 @@ export default function Payment({
               ? Number((total * business?.exRate).toFixed(2)) +
                 " " +
                 business?.currency
-              : Number(total.toFixed(2)) + " " + business?.defaultCurrency}
+              : Number(total?.toFixed(2)) + " " + business?.defaultCurrency}
           </div>
         </div>
         {
@@ -110,18 +113,23 @@ export default function Payment({
         }
         .exchangenote {
           opacity: 0;
-          font-size: 0.6rem;
+          font-size: 0.8rem;
           color: ${styles.secondaryColor};
           border: 1px solid ${styles.secondaryColor};
           padding: 0.2rem 0.4rem;
           border-radius: 0.3rem;
           background: #f9646510;
+          -webkit-transition: all 1s ease-in-out;
+          -o-transition: all 1s ease-in-out;
+          transition: all 1s ease-in-out;
         }
 
         .show {
           width: 100%;
           display: block;
           opacity: 1;
+          -webkit-transition: all 1s ease-in-out;
+          -o-transition: all 1s ease-in-out;
           transition: all 1s ease-in-out;
         }
       `}</style>

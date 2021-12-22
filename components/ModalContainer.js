@@ -56,7 +56,7 @@ export default function TransactionModal({
           background: white;
           font-size: 1.2rem;
           ${styles.flexAligncenter};
-          justify-content: space-between;
+          ${styles.justifyBetween}
           padding: 0.8rem;
           padding-bottom: 0.2rem;
           border-radius: 0.7rem 0.7rem 0 0;

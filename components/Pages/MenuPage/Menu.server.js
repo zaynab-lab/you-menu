@@ -1,18 +1,18 @@
-import TopBar from "./TopBar";
 import { useEffect, useRef, useState } from "react";
 import Line from "@/components/Line";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import dynamic from "next/dynamic";
-import Alert from "@/components/Alert";
-import FadeAlert from "./FadeAlert";
 import BrandBar from "./BrandBar";
-import CurrencySelector from "./CurrencySelector";
 import CategoryList from "./CategoryList";
 import { firebaseLink } from "@/util/links";
 
+const TopBar = dynamic(() => import("./TopBar"));
 const Cart = dynamic(() => import("./Cart"));
 const OrderShower = dynamic(() => import("./OrderShower"));
+const Alert = dynamic(() => import("@/components/Alert"));
+const CurrencySelector = dynamic(() => import("./CurrencySelector"));
+const FadeAlert = dynamic(() => import("./FadeAlert"));
 
 export default function Menu({ businessCode }) {
   const [currentCat, setCurrentCat] = useState("");
@@ -31,7 +31,7 @@ export default function Menu({ businessCode }) {
   const [refreshOrder, setRefreshOrder] = useState(false);
 
   const action = (id, add, reset) => {
-    if (business?.acceptOrders) {
+    if (business?.acceptOrders || business?.acceptDelivery) {
       add && setAlert("item has been added");
       const alter = { ...cartItems };
       !add && cartItems[id] === 1 && delete alter[id];
@@ -44,7 +44,7 @@ export default function Menu({ businessCode }) {
         ? setCartItems(alter)
         : setCartItems({ ...cartItems, [id]: cartItems[id] - 1 });
     } else {
-      setAlert("online orders not accepted right now");
+      setAlert("orders not accepted right now");
     }
 
     reset && setCartItems({});

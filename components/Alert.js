@@ -5,17 +5,17 @@ export default function Alert({ alert, setAlert }) {
   useEffect(() => {
     const clearMessage = setTimeout(() => {
       setAlert("");
-    }, 2000);
+    }, 2500);
     return () => clearTimeout(clearMessage);
   }, [alert, setAlert]);
 
   return (
     <>
-      {alert !== "" && (
-        <div className="alertContainer">
+      {
+        <div className={`alertContainer ${!alert && "hide"}        `}>
           <div className="alert">{alert}</div>
         </div>
-      )}
+      }
       <style jsx>{`
         .alertContainer {
           width: 100%;
@@ -30,9 +30,20 @@ export default function Alert({ alert, setAlert }) {
           margin: auto;
           border-radius: 10rem;
           color: #fff;
-          z-index: 100;
+          z-index: 300;
+          opacity: 1;
           background: ${styles.lineargradeint};
           font-size: 1.2rem;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+        }
+        .hide {
+          opacity: 0;
+          z-index: -1;
+          -webkit-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
         }
       `}</style>
     </>

@@ -5,6 +5,7 @@ export default function Input({ value, onblur, onchange, font }) {
     <>
       <div className="textAreaContainer">
         <textarea
+          rows={2}
           className="textArea"
           value={value}
           onKeyPress={(e) => {
@@ -29,7 +30,7 @@ export default function Input({ value, onblur, onchange, font }) {
           .textArea {
             border: none;
             border-radius: 0.5rem;
-            font-size: ${font ? font : "1.8rem"};
+            font-size: ${font || "1.8rem"};
             max-width: 22rem;
             width: 100%;
             padding: 0 0.5rem;

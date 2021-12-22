@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Button from "@/components/Button";
 import axios from "axios";
 import { useState } from "react";
-import Alert from "@/components/Alert";
 const Address = dynamic(() => import("./Address"));
 const Payment = dynamic(() => import("./Payment"));
 
@@ -23,7 +22,7 @@ export default function OrderProceed({
   setRefreshUser
 }) {
   const [useCredit, setUseCredit] = useState(false);
-  const [alert, setAlert] = useState("");
+  const [msg, setMsg] = useState("");
   const [orderAddress, setOrderAddress] = useState({});
 
   return (
@@ -55,7 +54,7 @@ export default function OrderProceed({
       {orderType === "delivery" && (
         <Address
           user={user}
-          setAlert={setAlert}
+          setAlert={setMsg}
           setRefreshUser={setRefreshUser}
           setOrderAddress={setOrderAddress}
         />
@@ -70,14 +69,16 @@ export default function OrderProceed({
         useCredit={useCredit}
         selectedCurrency={selectedCurrency}
       />
-
+      <div className={`msg ${!!msg && !orderAddress?.content && "show"}`}>
+        {msg}
+      </div>
       <div className="orderbtn">
         <Button
           content="order"
           color={styles.secondaryColor}
           onclick={() =>
             orderType === "delivery" && !orderAddress?.content
-              ? setAlert("choose address")
+              ? setMsg("choose address")
               : axios
                   .post(
                     "/api/order",
@@ -98,7 +99,6 @@ export default function OrderProceed({
           }
         />
       </div>
-      <Alert setAlert={setAlert} alert={alert} />
 
       <style jsx>{`
         .invoiceAddon {
@@ -112,8 +112,26 @@ export default function OrderProceed({
           justify-content: space-between;
         }
         .orderbtn {
-          padding-top: 1.2rem;
+          padding-top: 0.2rem;
           text-align: center;
+        }
+        .msg {
+          opacity: 0;
+          font-size: 0rem;
+          color: ${styles.secondaryColor};
+          border: 1px solid ${styles.secondaryColor};
+          padding: 0.2rem 0.4rem;
+          border-radius: 0.3rem;
+          background: #f9646510;
+        }
+        .show {
+          width: 100%;
+          font-size: 1rem;
+          display: block;
+          opacity: 1;
+          -webkit-transition: all 1s ease-in-out;
+          -o-transition: all 1s ease-in-out;
+          transition: all 1s ease-in-out;
         }
       `}</style>
     </>

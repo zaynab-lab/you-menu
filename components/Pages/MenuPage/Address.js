@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import TextArea from "@/components/TextArea";
 import Label from "@/components/Label";
+import ModalContainer from "@/components/ModalContainer";
 import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -181,34 +182,27 @@ export function AddressModal({
   }, [addressId, addresses]);
   return (
     <>
-      <div className={addressModal ? "showAddressModal" : "addressModal"}>
-        <div className="modalAddressContainer">
-          <div className="Xheader">
-            <div>{edit ? "edit" : "add"} address</div>
-            <div
-              className="X"
-              onClick={() => {
-                setAddressModal(false);
-              }}
-            >
-              x
-            </div>
-          </div>
-          <div className="addressBody">
-            <Label title={"full address"} />
-            <div className="addressInput">
-              <TextArea
-                font={"1rem"}
-                value={address}
-                onchange={(e) => setAddress(e.target.value)}
-                onblur={() => {
-                  edit
+      <ModalContainer
+        showModal={addressModal}
+        setShowModal={setAddressModal}
+        title={`${edit ? "edit" : "add"} address`}
+      >
+        <div>
+          <Label title={"full address"} />
+          <div className="addressInput">
+            <TextArea
+              font={"1rem"}
+              value={address}
+              onchange={(e) => setAddress(e.target.value)}
+              onblur={() => {
+                !!address &&
+                  (edit
                     ? address !== selectAddress?.content &&
                       setAlert("something is going to change")
-                    : setAlert("something is going to change");
-                  edit && !!addressId
-                    ? !!address &&
-                      address !== selectAddress?.content &&
+                    : setAlert("something is going to change"));
+                !!address &&
+                  (edit && !!addressId
+                    ? address !== selectAddress?.content &&
                       axios
                         .put(
                           "/api/users/editAddress",
@@ -223,8 +217,7 @@ export function AddressModal({
                             ? setAlert("change done")
                             : setAlert("something went wrong");
                         })
-                    : !!address &&
-                      axios
+                    : axios
                         .put(
                           "/api/users/addAddress",
                           { address },
@@ -237,87 +230,24 @@ export function AddressModal({
                           res.data === "done"
                             ? setAlert("change done")
                             : setAlert("something went wrong");
-                        });
-                }}
-              />
-            </div>
-            <div className="location">{/* <Location /> */}</div>
+                        }));
+              }}
+            />
+          </div>
+          <div className="location">{/* <Location /> */}</div>
 
-            <div className="btn">
-              <Button
-                content="done"
-                onclick={() => {
-                  setAddressModal(false);
-                }}
-              />
-            </div>
+          <div className="btn">
+            <Button
+              content="done"
+              onclick={() => {
+                setAddressModal(false);
+              }}
+            />
           </div>
         </div>
-      </div>
+      </ModalContainer>
 
       <style jsx>{`
-        .addressModal {
-          width: 100vw;
-          height: 100vh;
-          position: fixed;
-          top: 0;
-          right: 0;
-          z-index: -1;
-          opacity: 0;
-          ${styles.flexBothcenter};
-          ${styles.flexColumn};
-          -webkit-transition: all 0.5s ease-in-out;
-          -o-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-          background: #2222;
-        }
-
-        .showAddressModal {
-          width: 100vw;
-          height: 100vh;
-          position: fixed;
-          top: 0;
-          right: 0;
-          z-index: 100;
-          opacity: 1;
-          ${styles.flexBothcenter};
-          ${styles.flexColumn};
-          -webkit-transition: all 0.5s ease-in-out;
-          -o-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-          background: #2222;
-        }
-
-        .modalAddressContainer {
-          width: 22rem;
-          max-height: 90vh;
-          border: 1px solid ${styles.secondaryColor};
-          background: white;
-          border-radius: 0.7rem;
-          padding: 0.5rem;
-          ${styles.boxshadow}
-          overflow:auto;
-        }
-
-        .Xheader {
-          padding: 0 1rem;
-          text-align: right;
-          width: 100%;
-          font-size: 1.2rem;
-          ${styles.flexAligncenter};
-          -webkit-box-pack: space-between;
-          -ms-flex-pack: space-between;
-          justify-content: space-between;
-        }
-        .X {
-          cursor: pointer;
-          font-size: 1.6rem;
-          text-align: left;
-          ${styles.userSelect}
-        }
-        .addressBody {
-          padding: 1rem;
-        }
         .addressInput {
         }
         .location {

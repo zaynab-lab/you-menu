@@ -28,7 +28,9 @@ export default function Proceed({
 }) {
   const [camera, setCamera] = useState(true);
   const [userTable, setUserTable] = useState();
-  const [orderType, setOrderType] = useState();
+  const [orderType, setOrderType] = useState(
+    business?.acceptDelivery && !business?.acceptOrders ? "delivery" : undefined
+  );
   const [hasTable, setHasTable] = useState();
   const router = useRouter();
   const { table } = router.query;
@@ -38,12 +40,13 @@ export default function Proceed({
   const [refreshUser, setRefreshUser] = useState(false);
 
   useEffect(() => {
-    axios.get("/api/auth").then((res) => {
-      res?.data?.number ? setAuth(true) : setAuth(false);
-      res?.data?.number && setUser(res.data);
-      setLoading(false);
-    });
-  }, [refreshUser]);
+    !!business &&
+      axios.get("/api/auth").then((res) => {
+        res?.data?.number ? setAuth(true) : setAuth(false);
+        res?.data?.number && setUser(res.data);
+        setLoading(false);
+      });
+  }, [refreshUser, business]);
 
   useEffect(() => {
     hasTable && setUserTable(table);

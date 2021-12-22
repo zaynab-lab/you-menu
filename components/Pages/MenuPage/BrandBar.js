@@ -35,7 +35,7 @@ export default function BrandBar({ business }) {
         <div>
           <h1>{business?.brand?.name}</h1>
           <div className="bType">{business.businessType}</div>
-          {!business?.acceptOrders && !business?.deliveryOrders ? (
+          {!business?.acceptOrders && !business?.acceptDelivery ? (
             <></>
           ) : business?.acceptOrders ? (
             <div className="accept">
@@ -45,7 +45,7 @@ export default function BrandBar({ business }) {
               accept orders
             </div>
           ) : (
-            business?.deliveryOrders && (
+            business?.acceptDelivery && (
               <div className="accept">
                 <span className="dot">
                   <FaCircle />{" "}

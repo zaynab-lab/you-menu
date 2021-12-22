@@ -33,6 +33,7 @@ const Layout = ({ children }) => {
           scrollbar-width: none;
           font-family: "Reem Kufi";
           scroll-behavior: smooth;
+          font-family: "Times New Roman";
         }
         *::-webkit-scrollbar {
           display: none;
