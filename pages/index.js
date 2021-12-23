@@ -27,7 +27,7 @@ export default function Index() {
         />
         {/* <HorizontalScroll title={"new brands"} /> */}
         <VerticalScroll search={search} />
-        <MenuModal openModal={openModal} setOpenModal={setOpenModal} />
+        {/* <MenuModal openModal={openModal} setOpenModal={setOpenModal} /> */}
       </div>
       <style jsx>{`
         .pageContainer {
