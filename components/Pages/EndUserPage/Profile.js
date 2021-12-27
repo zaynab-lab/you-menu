@@ -3,7 +3,7 @@ import Input from "@/components/Input";
 import Label from "@/components/Label";
 import { styles } from "@/public/js/styles";
 import Link from "next/link";
-import { FaBook, FaSearchDollar, FaSignOutAlt, FaStore } from "react-icons/fa";
+import { FaBook, FaSearchDollar, FaSignOutAlt } from "react-icons/fa";
 import UPLayout from "@/components/Pages/EndUserPage/UPLayout";
 import axios from "axios";
 import { useState } from "react";

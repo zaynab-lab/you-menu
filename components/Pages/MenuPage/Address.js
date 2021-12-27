@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FaArrowCircleRight, FaTrashAlt } from "react-icons/fa";
 import dynamic from "next/dynamic";
 
-const Location = dynamic(() => import("@/components/Location"));
+const Location = dynamic(() => import("@/components/Location"), { ssr: false });
 
 export default function Address({
   user,

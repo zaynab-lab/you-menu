@@ -18,7 +18,7 @@ import dynamic from "next/dynamic";
 import TitleLine from "@/components/TitleLine";
 import Onoff from "@/components/Onoff";
 
-const Location = dynamic(() => import("@/components/Location"));
+const Location = dynamic(() => import("@/components/Location"), { ssr: false });
 
 const BusinessTypes = [
   "cafe",
