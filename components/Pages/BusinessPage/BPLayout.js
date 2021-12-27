@@ -1,5 +1,4 @@
 import { styles } from "@/public/js/styles";
-
 export default function BPLayout({ children }) {
   return (
     <>

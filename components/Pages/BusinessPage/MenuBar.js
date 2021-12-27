@@ -2,8 +2,10 @@ import { styles } from "@/public/js/styles";
 import Add from "@/components/icons/Add";
 import More from "@/components/icons/More";
 import Orders from "@/components/icons/Orders";
+import { useRouter } from "next/router";
 
-export default function MenuBar({ selected, setSelected }) {
+export default function MenuBar() {
+  const router = useRouter();
   return (
     <>
       <div className="menu-container">
@@ -12,19 +14,50 @@ export default function MenuBar({ selected, setSelected }) {
             <div></div>
           </div>
         </div>
-        <div onClick={() => setSelected("Orders")} className="icon">
+        <div
+          onClick={() => {
+            const href = `/business?selected=Orders`;
+            router.push(href, href, { shallow: true });
+          }}
+          className="icon"
+        >
           <Orders
-            color={selected === "Orders" ? styles.secondaryColor : styles.grey}
+            color={
+              router.query.selected === "Orders" ||
+              router.query.selected === undefined
+                ? styles.secondaryColor
+                : styles.grey
+            }
           />
         </div>
-        <div onClick={() => setSelected("Add")} className="icon add">
+        <div
+          onClick={() => {
+            const href = `/business?selected=Add`;
+            router.push(href, href, { shallow: true });
+          }}
+          className="icon add"
+        >
           <Add
-            color={selected === "Add" ? styles.secondaryColor : styles.grey}
+            color={
+              router.query.selected === "Add"
+                ? styles.secondaryColor
+                : styles.grey
+            }
           />
         </div>
-        <div onClick={() => setSelected("More")} className="icon">
+        <div
+          onClick={() => {
+            const href = `/business?selected=More`;
+            router.push(href, href, { shallow: true });
+          }}
+          className="icon"
+        >
           <More
-            color={selected === "More" ? styles.secondaryColor : styles.grey}
+            color={
+              router.query.selected === "More"
+                ? styles.secondaryColor
+                : styles.grey
+            }
           />
         </div>
       </div>

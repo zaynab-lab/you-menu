@@ -71,7 +71,7 @@ const Plans = [
   }
 ];
 
-export default function Subscribe({ setSelected, business }) {
+export default function Subscribe({ back, business }) {
   const [alert, setAlert] = useState("");
   const [count, setCount] = useState({});
   const [subPlan, setPlan] = useState("free plan");
@@ -115,7 +115,7 @@ export default function Subscribe({ setSelected, business }) {
 
   return (
     <>
-      <BackButton setSelected={setSelected} select={"More"} />
+      <BackButton back={back} />
       <BPLayout>
         {business?.subscribe[business?.subscribe?.length - 1] ? (
           days > 0 ? (

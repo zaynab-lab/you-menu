@@ -60,7 +60,7 @@ const time = [
 
 export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export default function Time({ business, setSelected, setRefreshBusiness }) {
+export default function Time({ business, back, setRefreshBusiness }) {
   const [twentyfour, setTwentyfour] = useState(business?.twentyfour);
   const [everyday, setEveryday] = useState(business?.everyday);
   const [activeSave, setActiveSave] = useState(false);
@@ -107,7 +107,7 @@ export default function Time({ business, setSelected, setRefreshBusiness }) {
 
   return (
     <>
-      <BackButton setSelected={setSelected} select="More" />
+      <BackButton back={back} />
       <BPLayout>
         <AcceptOrders
           business={business}

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import OrderCard from "./OrderCard";
 
-export default function History({ businessCode, setSelected }) {
+export default function History({ businessCode, back }) {
   const [orders, setOrders] = useState([0, 0]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function History({ businessCode, setSelected }) {
 
   return (
     <>
-      <BackButton setSelected={setSelected} select={"More"} />
+      <BackButton back={back} />
       <BPLayout>
         <div className="ordersContainer">
           <div className="orderList">

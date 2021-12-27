@@ -39,7 +39,7 @@ export default function Input({
             font-size: ${font || "1.8rem"};
             max-width: 22rem;
             width: 100%;
-            padding: 0 0.5rem;
+            padding: 0.3rem 0.6rem;
           }
           input[type="number"]::-webkit-inner-spin-button,
           input[type="number"]::-webkit-outer-spin-button {

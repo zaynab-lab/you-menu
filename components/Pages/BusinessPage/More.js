@@ -1,4 +1,5 @@
 import { styles } from "@/public/js/styles";
+import { useRouter } from "next/router";
 import {
   FaHistory,
   FaQrcode,
@@ -25,7 +26,8 @@ const more = [
   { name: "support", icon: <FaQuestion />, selected: "Support" }
 ];
 
-export default function More({ setSelected }) {
+export default function More() {
+  const router = useRouter();
   return (
     <>
       <div className="more">
@@ -37,7 +39,10 @@ export default function More({ setSelected }) {
                 i * 0.15
               }s all cubic-bezier(0.76, -0.48, 0.61, 1.5)`
             }}
-            onClick={() => setSelected(item.selected)}
+            onClick={() => {
+              const href = `/business?selected=${item.selected}`;
+              router.push(href, href, { shallow: true });
+            }}
             className="more-item"
           >
             <div className="more-icon">{item.icon}</div>

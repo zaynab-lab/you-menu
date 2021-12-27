@@ -64,30 +64,29 @@ export default function Add({ back, businessCode }) {
           />
         )}
       </div>
-      <style>{`
-        .addPage{
-          padding-top:.2rem;
-          padding-bottom:1rem;
+      <style jsx>{`
+        .addPage {
+          padding-top: 0.2rem;
+          padding-bottom: 1rem;
         }
-        .addCategory{
-          padding:1rem;
-          padding-left:${back ? "4.6rem" : "2rem"};
-          border-bottom:1px solid ${styles.secondaryColor}
+        .addCategory {
+          padding: 1rem;
+          padding-left: ${back ? "4.6rem" : "2rem"};
+          border-bottom: 1px solid ${styles.secondaryColor};
         }
-        .inputplus{
+        .inputplus {
           ${styles.flexBothcenter};
-          position:relative;
-          width:100%;
+          position: relative;
+          width: 100%;
         }
-        .plus{
-          width:2rem;
-          height:2rem;
-          font-size:2.6rem;
-          padding-bottom:.5rem;
-          transform:translateX(-2rem);
-          z-index:5;
-          cursor:pointer;
-          color:${styles.secondaryColor};
+        .plus {
+          width: 2rem;
+          height: 2.6rem;
+          font-size: 2.6rem;
+          transform: translateX(-2rem);
+          z-index: 5;
+          cursor: pointer;
+          color: ${styles.secondaryColor};
           ${styles.flexBothcenter}
         }
       `}</style>

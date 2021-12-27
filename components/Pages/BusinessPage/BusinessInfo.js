@@ -101,7 +101,7 @@ export default function BusinessInfo({
   return (
     <>
       <BackButton setSelected={setSelected} back={back} select={"More"} />
-      <BPLayout className="pageContainer">
+      <BPLayout setSelected={setSelected}>
         <div className="logoContainer">
           <Logo
             uploading={true}

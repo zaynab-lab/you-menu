@@ -2,10 +2,10 @@ import BackButton from "@/components/BackButton";
 import { styles } from "@/public/js/styles";
 import Link from "next/link";
 
-export default function Support({ setSelected, select }) {
+export default function Support({ back }) {
   return (
     <>
-      <BackButton setSelected={setSelected} select={select} />
+      <BackButton back={back} />
       <div className="supportContainer">
         <div className="dear">dear customer</div>
         <div className="p">

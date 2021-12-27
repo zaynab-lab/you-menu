@@ -4,6 +4,7 @@ import Line from "@/components/Line";
 import MenuBar from "./MenuBar";
 import Orders from "./Orders";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const Add = dynamic(() => import("./Add"));
 const More = dynamic(() => import("./More"));
@@ -15,16 +16,40 @@ const Subscribe = dynamic(() => import("./Subscribe"));
 const Support = dynamic(() => import("./Support"));
 
 export default function BusinessPage({ setAuth }) {
-  const [selected, setSelected] = useState("Orders");
+  const router = useRouter();
+
   const [toggleMenu, setToggleMenu] = useState(true);
   const [business, setBusiness] = useState({});
   const [refreshBusiness, setRefreshBusiness] = useState(false);
 
   useEffect(() => {
-    selected === "Orders" || selected === "Add" || selected === "More"
+    router.beforePopState(() => {
+      if (
+        router.query.selected === "Orders" ||
+        router.query.selected === undefined
+      ) {
+        const href = `/`;
+        router.replace(href, href, { shallow: true });
+      } else if (
+        router.query.selected === "Add" ||
+        router.query.selected === "More"
+      ) {
+        const href = `/business?selected=Orders`;
+        router.replace(href, href, { shallow: true });
+      }
+      return true;
+    });
+  }, [router]);
+
+  useEffect(() => {
+    router.query.selected === "Orders" ||
+    router.query.selected === "Add" ||
+    router.query.selected === "More" ||
+    router.query.selected === undefined
       ? setToggleMenu(true)
       : setToggleMenu(false);
-  }, [selected]);
+  }, [router]);
+
   useEffect(
     () =>
       axios.get("/api/business").then((res) => {
@@ -36,41 +61,44 @@ export default function BusinessPage({ setAuth }) {
   return (
     <>
       <Line />
-      {selected === "Orders" && (
+      {(router.query.selected === "Orders" ||
+        router.query.selected === undefined) && (
         <Orders businessCode={business?.businessCode} />
       )}
-      {selected === "Add" && <Add businessCode={business?.businessCode} />}
-      {selected === "More" && <More setSelected={setSelected} />}
-      {toggleMenu && <MenuBar selected={selected} setSelected={setSelected} />}
-      {selected === "BusinessInfo" && (
+      {router.query.selected === "Add" && (
+        <Add businessCode={business?.businessCode} />
+      )}
+      {router.query.selected === "More" && <More />}
+      {toggleMenu && <MenuBar selected={router.query.selected} />}
+      {router.query.selected === "BusinessInfo" && (
         <BusinessInfo
           setAuth={setAuth}
-          setSelected={setSelected}
           business={business}
+          back={"/business?selected=More"}
           setRefreshBusiness={setRefreshBusiness}
         />
       )}
-      {selected === "Qr" && (
-        <Qr setSelected={setSelected} business={business} />
+      {router.query.selected === "Qr" && (
+        <Qr business={business} back={"/business?selected=More"} />
       )}
-      {selected === "Time" && (
+      {router.query.selected === "Time" && (
         <Time
-          setSelected={setSelected}
           business={business}
           setRefreshBusiness={setRefreshBusiness}
+          back={"/business?selected=More"}
         />
       )}
-      {selected === "History" && (
+      {router.query.selected === "History" && (
         <History
-          setSelected={setSelected}
           businessCode={business?.businessCode}
+          back={"/business?selected=More"}
         />
       )}
-      {selected === "Subscribe" && (
-        <Subscribe setSelected={setSelected} business={business} />
+      {router.query.selected === "Subscribe" && (
+        <Subscribe business={business} back={"/business?selected=More"} />
       )}
-      {selected === "Support" && (
-        <Support select={"More"} setSelected={setSelected} />
+      {router.query.selected === "Support" && (
+        <Support select={"More"} back={"/business?selected=More"} />
       )}
     </>
   );

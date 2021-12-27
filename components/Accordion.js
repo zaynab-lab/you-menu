@@ -18,6 +18,7 @@ export default function Accordion({ title, children }) {
 
       <style jsx>{`
         .accordionContainer {
+          padding: 0 0.4rem;
           overflow: hidden;
           background: white;
         }

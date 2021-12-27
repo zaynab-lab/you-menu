@@ -2,11 +2,14 @@ import { styles } from "@/public/js/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaEyeSlash, FaStore, FaTrashAlt } from "react-icons/fa";
+import Accordion from "./Accordion";
 import ActionModal from "./ActionModal";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
 import ProductImage from "./ProductImage";
+import ColorListSelecting from "./ColorListSelecting";
+import ProductsAdditionalOptions from "./ProductsAdditionalOptions";
 
 export default function ProductModal({
   openModal,
@@ -92,6 +95,7 @@ export default function ProductModal({
             </div>
           </div>
         </div>
+        <ProductsAdditionalOptions state={state} setState={setState} />
         <div className="btnCont">
           <Button
             content={"save changes"}
@@ -118,7 +122,6 @@ export default function ProductModal({
             color={styles.secondaryColor}
           />
         </div>
-
         <div className="remove" onClick={() => setRemoveModal(true)}>
           <div className="trash">
             <FaTrashAlt />
