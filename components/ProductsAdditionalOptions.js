@@ -8,89 +8,97 @@ import Label from "./Label";
 
 const optionList = [
   { name: "unit", hasValue: true },
+  { name: "without", hasValue: false },
+  { name: "extra", hasValue: false },
   { name: "quantity", hasValue: true },
   { name: "color", hasValue: false },
-  { name: "size", hasValue: false },
-  { name: "without", hasValue: false },
-  { name: "extra", hasValue: false }
+  { name: "size", hasValue: false }
 ];
 
 export default function ProductsAdditionalOptions({ state, setState }) {
-  const [options, setOptions] = useState(["unit"]);
+  const [options, setOptions] = useState([]);
   return (
     <>
-      <Accordion title="additional options">
-        <div className="optionList">
-          {optionList?.map((option, i) => (
-            <div
-              key={i}
-              className={`option ${
-                options.includes(option.name) && "activeOption"
-              }`}
-              onClick={() => setOptions([...options, option.name])}
-            >
-              {option.name}
+      <div className="additionalContainer">
+        <Accordion title="additional options">
+          <div className="optionList">
+            {optionList?.map((option, i) => (
+              <div
+                key={i}
+                className={`option ${
+                  options.includes(option.name) && "activeOption"
+                }`}
+                onClick={() =>
+                  options.includes(option.name)
+                    ? setOptions((options) =>
+                        options.filter((op) => op !== option.name)
+                      )
+                    : setOptions([...options, option.name])
+                }
+              >
+                {option.name}
+              </div>
+            ))}
+          </div>
+          {options?.includes("without") && (
+            <div>
+              <Label title={"without"} />
+              <OptionListSelecting />
             </div>
-          ))}
-        </div>
-        {options?.includes("without") && (
-          <div>
-            <Label title={"without"} />
+          )}
 
-            <OptionListSelecting />
-          </div>
-        )}
+          {options?.includes("extra") && (
+            <div>
+              <Label title={"extra"} />
+              <OptionListSelecting withPrice={true} />
+            </div>
+          )}
 
-        {options?.includes("extra") && (
-          <div>
-            <Label title={"extra"} />
-            <Input
-              value={state?.extra}
-              placeholder={""}
-              onchange={(e) => setState({ ...state, extra: e.target.value })}
-              font={"1.2rem"}
-            />
-          </div>
-        )}
+          {options?.includes("unit") && (
+            <div>
+              <Label title={"unit"} />
+              <Input
+                value={state?.unit}
+                placeholder={"kg,liter,..."}
+                onchange={(e) => setState({ ...state, unit: e.target.value })}
+                font={"1.2rem"}
+              />
+            </div>
+          )}
 
-        {options?.includes("unit") && (
-          <div>
-            <Label title={"unit"} />
-            <Input
-              value={state?.unit}
-              placeholder={"kg,liter,..."}
-              onchange={(e) => setState({ ...state, unit: e.target.value })}
-              font={"1.2rem"}
-            />
-          </div>
-        )}
-
-        {options?.includes("quantity") && (
-          <div>
-            <Label title={"quantity"} />
-            <Input
-              value={state?.quantity}
-              placeholder={"10,11,..."}
-              onchange={(e) => setState({ ...state, quantity: e.target.value })}
-              font={"1.2rem"}
-            />
-          </div>
-        )}
-        {options?.includes("color") && (
-          <div>
-            <Label title={"color"} />
-            <ColorListSelecting />
-          </div>
-        )}
-        {options?.includes("size") && (
-          <div>
-            <Label title={"size"} />
-            <OptionListSelecting />
-          </div>
-        )}
-        <div className="pdng"></div>
-      </Accordion>
+          {options?.includes("quantity") && (
+            <div>
+              <Label title={"quantity"} />
+              <Input
+                value={state?.quantity}
+                placeholder={"10,11,..."}
+                onchange={(e) =>
+                  setState({ ...state, quantity: e.target.value })
+                }
+                font={"1.2rem"}
+              />
+            </div>
+          )}
+          {options?.includes("color") && (
+            <div>
+              <Label title={"color"} />
+              <ColorListSelecting />
+            </div>
+          )}
+          {options?.includes("size") && (
+            <div>
+              <Label title={"size"} />
+              <OptionListSelecting withPrice={true} />
+            </div>
+          )}
+          <div className="pdng"></div>
+        </Accordion>
+      </div>
       <style jsx>{`
+        .additionalContainer {
+          padding-top: 1rem;
+        }
+
         .optionList {
           padding: 0.6rem 0.3rem;
           ${styles.flexAligncenter}

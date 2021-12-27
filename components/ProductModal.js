@@ -66,6 +66,7 @@ export default function ProductModal({
             font={"1.2rem"}
           />
         </div>
+
         <div>
           <Label title={"price"} />
           <Input
@@ -75,6 +76,8 @@ export default function ProductModal({
             font={"1.2rem"}
           />
         </div>
+        <ProductsAdditionalOptions state={state} setState={setState} />
+
         <div className="appearExist">
           <div
             className="appear"
@@ -95,7 +98,6 @@ export default function ProductModal({
             </div>
           </div>
         </div>
-        <ProductsAdditionalOptions state={state} setState={setState} />
         <div className="btnCont">
           <Button
             content={"save changes"}

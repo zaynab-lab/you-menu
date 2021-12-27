@@ -1,29 +1,64 @@
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
-export default function OptionListSelecting() {
+export default function OptionListSelecting({ withPrice }) {
   const [optionList, setOptionList] = useState([]);
 
-  const changeText = (selectedText, index) => {
+  const changeText = (name, selectedText, index) => {
     let text = [...optionList];
-    text[index] = selectedText;
+    if (name) {
+      text[index] = { ...text[index], name: selectedText };
+    } else {
+      text[index] = { ...text[index], price: selectedText };
+    }
     setOptionList([...text]);
   };
   return (
     <>
       <div className="optionListContainer">
         {optionList.map((optionItem, k) => (
-          <div key={k} className="optionItem" style={{ width: "fit-content" }}>
+          <div key={k} className="optionItem">
             <input
-              value={optionItem}
-              onChange={(e) => changeText(e.target.value, k)}
-              style={{ maxWidth: "100%", border: "none", textAlign: "center" }}
+              value={optionItem.name}
+              placeholder="name"
+              autoComplete="none"
+              onChange={(e) => changeText(true, e.target.value, k)}
+              style={{
+                maxWidth: withPrice ? "30%" : "70%",
+                textAlign: "center",
+                border: "none"
+              }}
             />
+            {withPrice && (
+              <input
+                value={optionItem.price}
+                placeholder="price"
+                type="number"
+                autoComplete="none"
+                onChange={(e) => changeText(false, e.target.value, k)}
+                style={{
+                  maxWidth: "30%",
+                  textAlign: "center",
+                  border: "none"
+                }}
+              />
+            )}
+            <div
+              className="removeIcon"
+              onClick={() => {
+                setOptionList((optionList) =>
+                  optionList.filter((a, i) => i !== k)
+                );
+              }}
+            >
+              <FaTrashAlt />
+            </div>
           </div>
         ))}
         <div
           className="addOption"
-          onClick={() => setOptionList([...optionList, " "])}
+          onClick={() => setOptionList([...optionList, ""])}
         >
           +
         </div>
@@ -41,16 +76,26 @@ export default function OptionListSelecting() {
           ${styles.flexBothcenter}
           border: 1px dashed gray;
           border-radius: 0.3rem;
+          ${styles.userSelect}
           cursor: pointer;
         }
         .optionItem {
-          width: 2.4rem;
+          min-width: 2.4rem;
           height: 1.8rem;
+          flex: 1 1 ${withPrice ? "10rem" : "6rem"};
           font-size: 1.6rem;
-          ${styles.flexBothcenter}
+          ${styles.flexAligncenter}
+          ${styles.justifyBetween}
           border: 1px solid gray;
           border-radius: 0.3rem;
           cursor: pointer;
+          overflow: hidden;
+        }
+        .removeIcon {
+          font-size: 1rem;
+          line-height: 0;
+          padding: 0.6rem;
+          color: ${styles.secondaryColor};
         }
       `}</style>
     </>

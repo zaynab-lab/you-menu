@@ -1,13 +1,14 @@
 import { styles } from "@/public/js/styles";
 import { useState } from "react";
 import { ColorPicker, useColor } from "react-color-palette";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTrashAlt } from "react-icons/fa";
 
 export default function ColorListSelecting() {
   const [colorModal, setColorModal] = useState(false);
   const [colorList, setColorList] = useState([]);
   const [selected, setSelected] = useState("#fff");
   const [index, setIndex] = useState(0);
+  const [remove, setRemove] = useState(false);
 
   const changeColor = (selectedColor, index) => {
     console.log(selectedColor);
@@ -17,23 +18,44 @@ export default function ColorListSelecting() {
   };
   return (
     <>
-      <div className="colorListContainer">
-        {colorList.map((color, i) => (
+      <div className="colorsContainer">
+        <div className="colorListContainer">
+          {colorList.map((color, i) => (
+            <div key={i} className="colorItem">
+              {remove && (
+                <div
+                  className="removeItem"
+                  onClick={() =>
+                    setColorList((colorList) =>
+                      colorList.filter((a, k) => k !== i)
+                    )
+                  }
+                >
+                  <FaTrashAlt />
+                </div>
+              )}
+              <div
+                className="colorCircle"
+                style={{ background: color }}
+                onClick={() => {
+                  setIndex(i);
+                  setColorModal(true);
+                }}
+              ></div>
+            </div>
+          ))}
           <div
-            key={i}
-            className="colorItem"
-            style={{ background: color }}
-            onClick={() => {
-              setIndex(i);
-              setColorModal(true);
-            }}
-          ></div>
-        ))}
+            className="addColor"
+            onClick={() => setColorList([...colorList, "#fff"])}
+          >
+            +
+          </div>
+        </div>
         <div
-          className="addColor"
-          onClick={() => setColorList([...colorList, "#fff"])}
+          className={`removeColors ${remove && "activeRemove"}`}
+          onClick={() => setRemove(!remove)}
         >
-          +
+          remove
         </div>
       </div>
       <ColorModal
@@ -44,10 +66,16 @@ export default function ColorListSelecting() {
         changeColor={changeColor}
       />
       <style jsx>{`
+        .colorsContainer {
+          ${styles.flexAligncenter};
+          ${styles.justifyBetween}
+          flex-wrap: wrap;
+        }
         .colorListContainer {
           ${styles.flexAligncenter};
           flex-wrap: wrap;
-          gap: 0.2rem;
+          gap: 0.6rem;
+          padding: 0.3rem;
         }
         .addColor {
           width: 1.8rem;
@@ -59,6 +87,16 @@ export default function ColorListSelecting() {
           cursor: pointer;
         }
         .colorItem {
+          ${styles.flexAligncenter}
+          gap:.3rem;
+        }
+        .removeItem {
+          line-height: 0;
+          cursor: pointer;
+          font-size: 0.9rem;
+          padding: 0.1rem;
+        }
+        .colorCircle {
           width: 1.8rem;
           height: 1.8rem;
           font-size: 1.6rem;
@@ -66,6 +104,19 @@ export default function ColorListSelecting() {
           border: 1px solid gray;
           border-radius: 50%;
           cursor: pointer;
+        }
+        .removeColors {
+          font-size: 0.8rem;
+          padding: 0.1rem 0.4rem;
+          color: ${styles.secondaryColor};
+          border: 1px dashed gray;
+          border-radius: 0.6rem;
+          cursor: pointer;
+        }
+        .activeRemove {
+          color: white;
+          background: ${styles.secondaryColor};
+          border: 1px solid ${styles.secondaryColor};
         }
       `}</style>
     </>
@@ -97,7 +148,6 @@ export function ColorModal({
             >
               <FaCheck />
             </div>
-
             <div
               className="X"
               onClick={() => {
